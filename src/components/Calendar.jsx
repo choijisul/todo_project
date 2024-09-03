@@ -1,7 +1,7 @@
-import {useState} from 'react';
+import { useState } from 'react';
 // prop-types 모듈 import
 import PropTypes from 'prop-types';
-import {Icon} from '@iconify/react';
+import { Icon } from '@iconify/react';
 import {
     format,
     addMonths,
@@ -15,9 +15,9 @@ import {
     addDays,
     parse
 } from 'date-fns';
-import '../styles/Calendar.css'
+import '../styles/Calendar.css';
 
-const RenderHeader = ({currentMonth, prevMonth, nextMonth}) => {
+const RenderHeader = ({ currentMonth, prevMonth, nextMonth }) => {
     return (
         <div className="header row">
             <span className="text">
@@ -29,8 +29,8 @@ const RenderHeader = ({currentMonth, prevMonth, nextMonth}) => {
                 </span>
             </span>
             <span className="button next_month">
-                <Icon icon="bi:arrow-left-circle-fill" onClick={prevMonth}/>
-                <Icon icon="bi:arrow-right-circle-fill" onClick={nextMonth}/>
+                <Icon icon="ooui:next-rtl" onClick={prevMonth} />
+                <Icon icon="ooui:next-ltr" onClick={nextMonth} />
             </span>
         </div>
     );
@@ -44,24 +44,24 @@ RenderHeader.propTypes = {
 
 const RenderDays = () => {
     const days = [];
-    const date = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const date = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
     for (let i = 0; i < 7; i++) {
         days.push(
             <div className="col" key={i}>
                 {date[i]}
-            </div>,
+            </div>
         );
     }
 
     return <div className="days row">{days}</div>;
 };
 
-const RenderCells = ({currentMonth, selectedDate, onDateClick}) => {
+const RenderCells = ({ currentMonth, selectedDate, onDateClick }) => {
     const monthStart = startOfMonth(currentMonth);
     const monthEnd = endOfMonth(monthStart);
-    const startDate = startOfWeek(monthStart);
-    const endDate = endOfWeek(monthEnd);
+    const startDate = startOfWeek(monthStart, { weekStartsOn: 1 }); // Monday as the start of the week
+    const endDate = endOfWeek(monthEnd, { weekStartsOn: 1 });
 
     const rows = [];
     let days = [];
@@ -76,38 +76,37 @@ const RenderCells = ({currentMonth, selectedDate, onDateClick}) => {
                 <div
                     className={`col cell ${
                         !isSameMonth(day, monthStart)
-                            ? 'disabled'
+                            ? 'empty'  // 현재 달이 아님. empty 클래스
                             : isSameDay(day, selectedDate)
                                 ? 'selected'
-                                : format(currentMonth, 'M') !== format(day, 'M')
-                                    ? 'not-valid'
-                                    : 'valid'
+                                : 'valid'
                     }`}
                     key={day}
-                    onClick={() => onDateClick(parse(cloneDay))}
+                    onClick={() => isSameMonth(day, monthStart) && onDateClick(parse(cloneDay))}
                 >
                     <span
                         className={
-                            format(currentMonth, 'M') !== format(day, 'M')
-                                ? 'text not-valid'
+                            !isSameMonth(day, monthStart)
+                                ? 'text empty' // 데이터 비어있음. 빈 문자열.
                                 : ''
                         }
                     >
-                        {formattedDate}
+                        {!isSameMonth(day, monthStart) ? '' : formattedDate}
                     </span>
-                </div>,
+                </div>
             );
             day = addDays(day, 1);
         }
         rows.push(
             <div className="row" key={day}>
                 {days}
-            </div>,
+            </div>
         );
         days = [];
     }
     return <div className="body">{rows}</div>;
 };
+
 
 RenderCells.propTypes = {
     currentMonth: PropTypes.instanceOf(Date).isRequired,
@@ -135,7 +134,7 @@ export const Calendar = () => {
                 prevMonth={prevMonth}
                 nextMonth={nextMonth}
             />
-            <RenderDays/>
+            <RenderDays />
             <RenderCells
                 currentMonth={currentMonth}
                 selectedDate={selectedDate}
