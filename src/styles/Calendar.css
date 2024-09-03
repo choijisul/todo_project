@@ -1,0 +1,30 @@
+.calendar{
+    width: 350px;
+    height: 450px;
+    background-color: #ffffff;
+}
+
+/*header*/
+.header.row{
+    display: flex;
+    justify-content: space-between;
+}
+/*년 월*/
+.text.year{
+    margin: 0 10px 0 0;
+}
+/*넘어가는 버튼*/
+.button.next_month{
+    display: flex;
+    justify-content: space-between;
+    width: 70px;
+    margin-right: 30px;
+}
+
+/*day*/
+.col{
+    display: inline-block;
+    padding: 25px 0;
+    width: 50px;
+}
+
