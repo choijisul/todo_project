@@ -6,9 +6,11 @@ const ToDoItemList = ({todoList, setTodoList, checkedList}) => {
     return (
         <div className="todoapp__list">
             <ul className="todoapp__list-ul">
-                {todoList && todoList.map((todoItem) => {
-                    // if (todoItem.delete) return null;
-                    if(checkedList !== todoItem.checked) return null;
+                {todoList &&
+                    todoList.map((todoItem) => {
+                        if (todoItem.deleted) return null;
+
+                        if (checkedList !== todoItem.checked) return null;
 
                     return (
                         <ToDoItem
