@@ -17,9 +17,11 @@ import {
 } from 'date-fns';
 import '../styles/Calendar.css';
 
+// header
 const RenderHeader = ({ currentMonth, prevMonth, nextMonth }) => {
     return (
         <div className="header row">
+            {/*년, 월*/}
             <span className="text">
                 <span className="text year">
                     {format(currentMonth, 'yyyy')}년
@@ -28,6 +30,7 @@ const RenderHeader = ({ currentMonth, prevMonth, nextMonth }) => {
                     {format(currentMonth, 'M')}월
                 </span>
             </span>
+            {/*달 이동*/}
             <span className="button next_month">
                 <Icon icon="ooui:next-rtl" onClick={prevMonth} />
                 <Icon icon="ooui:next-ltr" onClick={nextMonth} />
