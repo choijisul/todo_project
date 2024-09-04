@@ -2,7 +2,7 @@ import {useState} from "react";
 import InputBox from "../components/InputBox"
 import TodoItemList from "../components/TodoItemList";
 
-const Home = () => {
+const Todo = () => {
     const [todoList, setTodoList] = useState([]);  //todoItem 담을 list (나중에 localstorage)
 
     return (
@@ -24,4 +24,4 @@ const Home = () => {
     )
 }
 
-export default Home;
+export default Todo;
