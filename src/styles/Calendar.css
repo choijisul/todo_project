@@ -28,3 +28,6 @@
     width: 50px;
 }
 
+.col.cell.selected{
+    background-color: antiquewhite;
+}
