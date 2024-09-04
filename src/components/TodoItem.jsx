@@ -27,6 +27,7 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
             deleted: item.id === todoItem.id ? true : item.deleted,
         }));
         setTodoList(nextTodoList);
+        window.localStorage.setItem("todoList", JSON.stringify(nextTodoList));
     };
 
     // 수정
@@ -44,7 +45,7 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
             text: item.id === todoItem.id ? newText : item.text,
         }));
         setTodoList(nextTodoList);
-
+        window.localStorage.setItem("todoList", JSON.stringify(nextTodoList));
         setEdited(false);
     }
 

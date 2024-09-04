@@ -2,7 +2,7 @@ import {} from 'react';
 import PropTypes from 'prop-types';
 import ToDoItem from './ToDoItem';
 
-const ToDoItemList = ({todoList, setTodoList, checkedList}) => {
+const ToDoItemList = ({todoList, dateString, setTodoList, checkedList}) => {
     return (
         <div className="todoapp__list">
             <ul className="todoapp__list-ul">
@@ -11,6 +11,8 @@ const ToDoItemList = ({todoList, setTodoList, checkedList}) => {
                         if (todoItem.deleted) return null;
 
                         if (checkedList !== todoItem.checked) return null;
+
+                        if(dateString !== todoItem.day) return null;
 
                     return (
                         <ToDoItem
