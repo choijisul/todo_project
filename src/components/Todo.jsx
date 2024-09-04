@@ -5,26 +5,41 @@ import {format} from "date-fns";
 
 const Todo = ({selectedDate}) => {
     const [todoList, setTodoList] = useState([]);  //todoItem 담을 list (나중에 localstorage)
-    if(selectedDate === null){
+    if(selectedDate === null){  //선택한 날짜 없으면 안그림.
         return (
             <div></div>
         )
     }
-    // let day = format(selectedDate, 'd');
-    console.log(selectedDate);
+    const dateString = format(selectedDate, 'yyyyMMdd');
+    const onAddClick = (inputData) => {
+        // console.log(inputData.text);
+        const nextTodoList = todoList.concat({
+            id: todoList.length,
+            day: dateString,
+            text : inputData.text,
+            memo : '',  //나중에 받음
+            checked: false,
+            delete: false,
+        });
+        setTodoList(nextTodoList);
+    }
+
+    // const result = words.filter((word) => word.length > 6);
+    console.log(format(selectedDate, 'yyyymmdd'));
+    const filterd = todoList.filter((todo) => dateString === todo.day);
+
     return (
         <div className="hompage_container">
-            {/*<div>{day}</div>*/}
-            <InputBox todoList={todoList} setTodoList={setTodoList}/>
+            <InputBox onAddClick={onAddClick}/>
             {/*진행중 일*/}
             <TodoItemList
-                todoList={todoList}
+                todoList={filterd}
                 setTodoList={setTodoList}
                 checkedList={false}  //체크 안된
             />
             {/*완료한 일*/}
             <TodoItemList
-                todoList={todoList}
+                todoList={filterd}
                 setTodoList={setTodoList}
                 checkedList={true}  //체크 완료
             />

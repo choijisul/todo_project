@@ -1,10 +1,9 @@
 import {useRef, useState} from 'react';
-import PropTypes from "prop-types";
 
-const InputBox = ({todoList, setTodoList}) => {
+const InputBox = ({onAddClick}) => {
     const [text, setText] = useState("");
     const [inputVisible, setInputVisible] = useState(false);  // input 보임 여부
-    const inputRef = useRef(null);
+    // const inputRef = useRef();
 
     const onChangeInput = (e) => {  //e.target에 있는 <input.../>으로부터 value값 가져옴
         setText(e.target.value);
@@ -13,18 +12,13 @@ const InputBox = ({todoList, setTodoList}) => {
     const onClickAddButton = () => {   //클릭 이벤트(input 보임 여부)
         if (!inputVisible) {
             setInputVisible(true);
-            inputRef.current.focus();
+            // inputRef.current.focus();
             return;
         }
 
-        const nextTodoList = todoList.concat({
-            id: todoList.length,
-            text,
-            checked: false,
-            delete: false,
-        });
-        setTodoList(nextTodoList);
-        console.log(todoList);  //todoList에 들어가나 확인
+        onAddClick({
+            text: text
+        })
 
         setText('');
         setInputVisible(false);
@@ -46,24 +40,13 @@ const InputBox = ({todoList, setTodoList}) => {
                     type="text"
                     name="todoItem"
                     value={text}
-                    ref={inputRef}
+                    // ref={inputRef}
                     className="todoapp_inputbox-inp"
                     onChange={onChangeInput}  //input 변하면 onChangeInput() 메소드 실행
                 />
             )}
         </div>
     )
-}
-
-//props값 검증
-InputBox.propTypes = {
-    todoList: PropTypes.arrayOf(
-        PropTypes.shape({
-            id: PropTypes.number.isRequired,
-            text: PropTypes.string.isRequired,
-        }).isRequired
-    ),
-    setTodoList: PropTypes.func.isRequired,
 }
 
 export default InputBox;

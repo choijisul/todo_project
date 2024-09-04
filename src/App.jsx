@@ -4,11 +4,10 @@ import './App.css'
 import {useState} from "react";
 
 function App() {
-    const [selectedDate, setSelectedDate] = useState(null);
-    const onSelectedDateChange = (day) => {
+    const [selectedDate, setSelectedDate] = useState(null);  //calendar -> todo 위해
+    const onSelectedDateChange = (day) => {  //calendar 바뀐 날짜 받기 위함.
         setSelectedDate(day);
     };
-
     return (
         <div className='app'>
             <Calendar onSelectedDateChange={onSelectedDateChange}/>

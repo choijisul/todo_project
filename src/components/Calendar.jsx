@@ -122,7 +122,7 @@ export const Calendar = ({onSelectedDateChange}) => {
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(new Date());
 
-    useEffect(() => {
+    useEffect(() => {  //selectedDate가 ㅂ바뀌었을 때 호출
         onSelectedDateChange(selectedDate);
     }, [selectedDate]);
 
