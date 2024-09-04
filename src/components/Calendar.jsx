@@ -1,5 +1,5 @@
 //test
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 // prop-types 모듈 import
 import PropTypes from 'prop-types';
 import { Icon } from '@iconify/react';
@@ -14,7 +14,6 @@ import {
     isSameMonth,
     isSameDay,
     addDays,
-    parse
 } from 'date-fns';
 import '../styles/Calendar.css';
 
@@ -46,9 +45,10 @@ RenderHeader.propTypes = {
     nextMonth: PropTypes.func.isRequired,
 };
 
+// 요일 지정
 const RenderDays = () => {
     const days = [];
-    const date = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    const date = ['월', '화', '수', '목', '금', '토', '일'];
 
     for (let i = 0; i < 7; i++) {
         days.push(
@@ -64,7 +64,7 @@ const RenderDays = () => {
 const RenderCells = ({ currentMonth, selectedDate, onDateClick }) => {
     const monthStart = startOfMonth(currentMonth);
     const monthEnd = endOfMonth(monthStart);
-    const startDate = startOfWeek(monthStart, { weekStartsOn: 1 }); // Monday as the start of the week
+    const startDate = startOfWeek(monthStart, { weekStartsOn: 1 });
     const endDate = endOfWeek(monthEnd, { weekStartsOn: 1 });
 
     const rows = [];
@@ -86,7 +86,7 @@ const RenderCells = ({ currentMonth, selectedDate, onDateClick }) => {
                                 : 'valid'
                     }`}
                     key={day}
-                    onClick={() => isSameMonth(day, monthStart) && onDateClick(parse(cloneDay))}
+                    onClick={() => onDateClick(cloneDay)}
                 >
                     <span
                         className={
@@ -118,9 +118,13 @@ RenderCells.propTypes = {
     onDateClick: PropTypes.func.isRequired,
 };
 
-export const Calendar = () => {
+export const Calendar = ({onSelectedDateChange}) => {
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(new Date());
+
+    useEffect(() => {
+        onSelectedDateChange(selectedDate);
+    }, [selectedDate]);
 
     const prevMonth = () => {
         setCurrentMonth(subMonths(currentMonth, 1));
@@ -131,8 +135,10 @@ export const Calendar = () => {
     const onDateClick = (day) => {
         setSelectedDate(day);
     };
+    // let dayString = format(selectedDate, 'd')
     return (
         <div className="calendar">
+            {/*<div>{dayString}</div>*/}
             <RenderHeader
                 currentMonth={currentMonth}
                 prevMonth={prevMonth}
