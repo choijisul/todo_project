@@ -1,0 +1,6 @@
+.app{
+    /*background-color: antiquewhite;*/
+    width: 100%;
+    display: flex;
+    justify-content: space-between
+}
