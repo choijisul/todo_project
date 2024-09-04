@@ -10,13 +10,16 @@ const Home = () => {
             <InputBox todoList={todoList} setTodoList={setTodoList}/>
             {/*진행중 일*/}
             <TodoItemList
-                title={'할 일'}
                 todoList={todoList}
                 setTodoList={setTodoList}
+                checkedList={false}  //체크 안된
             />
             {/*완료한 일*/}
-            {/*<TodoItemList*/}
-            {/*    title={'할일'}/>*/}
+            <TodoItemList
+                todoList={todoList}
+                setTodoList={setTodoList}
+                checkedList={true}  //체크 완료
+            />
         </div>
     )
 }

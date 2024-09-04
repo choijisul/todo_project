@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from 'react';
+import {useRef, useState} from 'react';
 import PropTypes from "prop-types";
 
 const InputBox = ({todoList, setTodoList}) => {
@@ -13,7 +13,9 @@ const InputBox = ({todoList, setTodoList}) => {
         const nextTodoList = todoList.concat({
             id: todoList.length,
             text,
-        })
+            checked: false,
+            // delete: false,
+        });
         setTodoList(nextTodoList);
         console.log(todoList);  //todoList에 들어가나 확인
 
@@ -21,18 +23,8 @@ const InputBox = ({todoList, setTodoList}) => {
         inputRef.current.focus();
     }
 
-
-
     return (
         <div className="todoapp_inputbox">
-            <input
-                type="text"
-                name="todoItem"
-                value={text}
-                ref={inputRef}
-                className="todoapp_inputbox-inp"
-                onChange={onChangeInput}  //input 변하면 onChangeInput() 메소드 실행
-            />
             {/* 추가버튼 */}
             <button
                 type="submit"
@@ -41,6 +33,14 @@ const InputBox = ({todoList, setTodoList}) => {
             >
                 추가
             </button>
+            <input
+                type="text"
+                name="todoItem"
+                value={text}
+                ref={inputRef}
+                className="todoapp_inputbox-inp"
+                onChange={onChangeInput}  //input 변하면 onChangeInput() 메소드 실행
+            />
         </div>
     )
 }
