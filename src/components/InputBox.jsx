@@ -14,7 +14,7 @@ const InputBox = ({todoList, setTodoList}) => {
             id: todoList.length,
             text,
             checked: false,
-            // delete: false,
+            delete: false,
         });
         setTodoList(nextTodoList);
         console.log(todoList);  //todoList에 들어가나 확인

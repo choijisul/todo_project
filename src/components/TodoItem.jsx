@@ -1,7 +1,17 @@
-import {} from 'react';
+import {useState, useRef, useEffect} from 'react';
 import * as PropTypes from "prop-types";
 
 const ToDoItem = ({todoItem, todoList, setTodoList}) => {
+    const [edited, setEdited] = useState(false);
+    const [newText, setNewText] = useState(todoItem.text);  //새로운 item 내용
+    const editInputRef = useRef(null);
+
+    useEffect(() => {
+        if (edited) {
+            editInputRef.current.focus();
+        }
+    }, [edited]);
+
     const onChangeCheckbox = () => {
         const nextTodoList = todoList.map((item) => ({
             ...item,
@@ -10,15 +20,34 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
         setTodoList(nextTodoList);
     }
 
-    // const onClickDeleteButton = () => {
-    //     if (window.confirm('정말 지우나요?')) {
-    //         const nextTodoList = todoList.map((item) => ({
-    //             ...item,
-    //             deleted: item.id === todoItem.id ? true : item.deleted,
-    //         }));
-    //         setTodoList(nextTodoList);
-    //     }
-    // };
+    // 삭제
+    const onClickDeleteButton = () => {
+        const nextTodoList = todoList.map((item) => ({
+            ...item,
+            deleted: item.id === todoItem.id ? true : item.deleted,
+        }));
+        setTodoList(nextTodoList);
+    };
+
+    // 수정
+    const onClickEditButton = () => {
+        setEdited(true);
+    };
+
+    const onChangeEditInput = (e) => {
+        setNewText(e.target.value);
+    };
+
+    const onClickSubmitButton = () => {
+        const nextTodoList = todoList.map((item) => ({
+            ...item,
+            text: item.id === todoItem.id ? newText : item.text,
+        }));
+        setTodoList(nextTodoList);
+
+        setEdited(false);
+    }
+
     return (
         <li className="todoapp__item">
             {/* 아이템 완료 체크 / 체크 해제를 위한 체크박스 */}
@@ -29,24 +58,50 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
                 onChange={onChangeCheckbox}
             />
             {/* 아이템 내용 */}
-            <span className={`todoapp__item-ctx ${
-                todoItem.checked ? 'todoapp__item-ctx-checked' : ''
-            }`}
-            >{
-                todoItem.text}
-            </span>
+            {
+                edited ? (
+                    <input
+                        type="text"
+                        value={newText}
+                        ref={editInputRef}
+                        onChange={onChangeEditInput}
+                    />
+                ) : (
+                    <span className={`todoapp__item-ctx ${
+                        todoItem.checked ? 'todoapp__item-ctx-checked' : ''
+                    }`}
+                    >{
+                        todoItem.text}
+                </span>
+                )
+            }
             {/* 수정 버튼 */}
             {
                 !todoItem.checked ? ( //완료한 경우 안보이게
-                    <button type="button" className="todoapp__item-edit-btn">
-                        수정
-                    </button>  //나중에는 list 누르면 버튼이 나오게
+                    edited ? (
+                        <button
+                            type="button"
+                            className="todoapp_item-edit-btn"
+                            onClick={onClickSubmitButton}
+                        >
+                            ok
+                        </button>
+                    ) : (
+                        <button
+                            type="button"
+                            className="todoapp__item-edit-btn"
+                            onClick={onClickEditButton}
+                        >
+                            수정
+                        </button>  //나중에는 list 누르면 버튼이 나오게
+                    )
                 ) : null
             }
             {/* 삭제 버튼 */}
             <button
                 type="button"
                 className="todoapp__item-delete-btn"
+                onClick={onClickDeleteButton}
             > 삭제
             </button>
         </li>
