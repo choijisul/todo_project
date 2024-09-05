@@ -7,7 +7,6 @@ import '../styles/Todo.css'
 const Todo = ({selectedDate}) => {
     let todoListJson = window.localStorage.getItem("todoList");  //localstorage
     const [todoList, setTodoList] = useState(JSON.parse(todoListJson));
-    // console.log(JSON.parse(todoListJson));
     if(selectedDate === null){  //선택한 날짜 없으면 안그림.
         return (
             <div></div>
@@ -15,7 +14,6 @@ const Todo = ({selectedDate}) => {
     }
     const dateString = format(selectedDate, 'yyyyMMdd');
     const onAddClick = (inputData) => {
-        // console.log(inputData.text);
         const nextTodoList = todoList.concat({
             id: todoList.length,
             day: dateString,
@@ -27,10 +25,6 @@ const Todo = ({selectedDate}) => {
         setTodoList(nextTodoList);
         window.localStorage.setItem("todoList", JSON.stringify(nextTodoList));
     }
-
-    // const result = words.filter((word) => word.length > 6);
-    console.log(format(selectedDate, 'yyyymmdd'));
-    const filterd = todoList.filter((todo) => dateString === todo.day);
 
     return (
         <div className="hompage_container">

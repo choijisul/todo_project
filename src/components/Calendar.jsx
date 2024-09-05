@@ -138,10 +138,9 @@ export const Calendar = ({onSelectedDateChange}) => {
     const onDateClick = (day) => {
         setSelectedDate(day);
     };
-    // let dayString = format(selectedDate, 'd')
+
     return (
         <div className="calendar">
-            {/*<div>{dayString}</div>*/}
             <RenderHeader
                 currentMonth={currentMonth}
                 prevMonth={prevMonth}
