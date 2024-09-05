@@ -1,3 +1,12 @@
+/*캘린더 헤더*/
+.calendar-header{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    /*background-color: #d1d1d1;*/
+    height: 50px;
+}
+
 .calendar{
     width: 350px;
     height: 450px;
@@ -7,8 +16,8 @@
 /*header*/
 .header.row{
     display: flex;
-    justify-content: space-between;
 }
+
 /*년 월*/
 .text.year{
     margin: 0 10px 0 0;
@@ -17,17 +26,40 @@
 .button.next_month{
     display: flex;
     justify-content: space-between;
-    width: 70px;
-    margin-right: 30px;
+    margin-left: 210px;
+    width: 50px;
 }
 
 /*day*/
 .col{
     display: inline-block;
-    padding: 25px 0;
+    padding: 20px 0 0px 0;
     width: 50px;
+    text-align: center;
 }
 
-.col.cell.selected{
-    background-color: antiquewhite;
+.finishTodoListNum{
+    margin-left: 10px;
+    width: 30px;
+    height: 30px;
+    background-color: #D4D8DB;
+}
+
+.day{
+    margin-top: 10px;
+}
+
+.day.selected{  /*위 아래가 서로 margin 이 달라지는 현상...*/
+    color: white;
+    margin: 5px 9px;
+    padding: 5px 0;
+    border-radius: 20px;
+    background-color: black;
+}
+
+.finishTodoListNum{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
 }
