@@ -2,7 +2,7 @@ import {useState, useRef, useEffect} from 'react';
 import * as PropTypes from "prop-types";
 import '../styles/Todo.css';
 
-const ToDoItem = ({todoItem, todoList, setTodoList, onAddClick}) => {
+const ToDoItem = ({todoItem, todoList, setTodoList}) => {
     const [edited, setEdited] = useState(false);  //수정
     const [newText, setNewText] = useState(todoItem.text);  //
     const [memo, setMemo] = useState(todoItem.memo || ''); // memo 초기값 설정
@@ -60,6 +60,10 @@ const ToDoItem = ({todoItem, todoList, setTodoList, onAddClick}) => {
         setModalVisible1(false); // 메모 저장 후 모달 닫기
     };
 
+    const onChangeMemoInput = (e) => {
+        setMemo(e.target.value); // 메모 입력값을 상태로 저장
+    };
+
     // 제목 수정
     const onClickSubmitButton = () => {
         const nextTodoList = todoList.map((item) => ({
@@ -71,14 +75,16 @@ const ToDoItem = ({todoItem, todoList, setTodoList, onAddClick}) => {
         setEdited(false); // 수정 완료 후 수정 모드 해제
     };
 
-    const onChangeMemoInput = (e) => {
-        setMemo(e.target.value); // 메모 입력값을 상태로 저장
-    };
+    const onChangeEditInput = (e) => {
+        setNewText(e.target.value);
+    }
 
+    // 모달 true
     const onClickTitle = () => {
         setModalVisible1(true);
     };
 
+    // 모달 false
     const closeModal1 = () => {
         setModalVisible1(false);
     };
@@ -191,14 +197,14 @@ ToDoItem.propTypes = {
         id: PropTypes.number,
         text: PropTypes.string.isRequired,
         checked: PropTypes.bool.isRequired,
-        memo: PropTypes.string, // memo 프로퍼티 추가
+        memo: PropTypes.string,
     }),
     todoList: PropTypes.arrayOf(
         PropTypes.shape({
             id: PropTypes.number.isRequired,
             text: PropTypes.string.isRequired,
             checked: PropTypes.bool.isRequired,
-            memo: PropTypes.string, // memo 프로퍼티 추가
+            memo: PropTypes.string,
         })
     ),
     setTodoList: PropTypes.func.isRequired,
