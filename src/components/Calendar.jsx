@@ -21,6 +21,9 @@ import '../styles/Calendar.css';
 const RenderHeader = ({ currentMonth, prevMonth, nextMonth }) => {
     return (
         <div className="header row">
+            <span className="button write">
+            {/* 일기 추가 */}
+            </span>
             {/*년, 월*/}
             <span className="text">
                 <span className="text year">
