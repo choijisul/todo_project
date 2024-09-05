@@ -22,11 +22,24 @@
 .text.year{
     margin: 0 10px 0 0;
 }
+
+.todo_head_icon{
+    margin-right: 5px;
+    width: 20px;
+    height: 20px;
+    background-color: gray;
+}
+
+.month_finish_todo{
+    margin-left: 10px;
+    display: flex;
+}
+
 /*넘어가는 버튼*/
 .button.next_month{
     display: flex;
     justify-content: space-between;
-    margin-left: 210px;
+    margin-left: 150px;
     width: 50px;
 }
 
@@ -51,15 +64,22 @@
 
 .day.selected{  /*위 아래가 서로 margin 이 달라지는 현상...*/
     color: white;
-    margin: 5px 9px;
-    padding: 5px 0;
+    margin: 0px 12px;
+    padding: 3px 0;
     border-radius: 20px;
     background-color: black;
 }
 
 .finishTodoListNum{
+    margin-bottom: 7px;
     display: flex;
     justify-content: center;
     align-items: center;
     color: white;
+}
+
+.finishTodo{  /*완료된 todo 스타일*/
+    width: 27px;
+    height: 27px;
+    background-color: black;
 }

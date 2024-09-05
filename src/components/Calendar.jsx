@@ -20,12 +20,32 @@ import todoItem from "./TodoItem.jsx";
 
 // header
 const RenderHeader = ({currentMonth, prevMonth, nextMonth}) => {
+    const monthTodoRemainderCheck = () => {
+        const todoList = JSON.parse(localStorage.getItem('todoList')) || [];
+        let completedDaysCount = 0;
+
+        // 한 달 날짜별 비교
+        for (let day = startOfMonth(new Date(currentMonth)); day <= endOfMonth(new Date(currentMonth)); day = addDays(day, 1)) {
+            const formattedDay = format(day, 'yyyyMMdd');
+            //
+            const dayTodos = todoList.filter(item => item.day === formattedDay && item.deleted === false);
+            if (dayTodos.length === 0) continue;  //todo 목록 없음.
+            // 날짜 목록 check 확인
+            const allChecked = dayTodos.every(item => item.checked === true);
+            if (allChecked) {
+                completedDaysCount++;
+            }
+        }
+
+        return completedDaysCount;
+    }
+
     return (
         <div className="header row">
             <span className="button write">
             {/* 일기 추가 */}
             </span>
-            {/*년, 월*/}
+            {/* 년, 월 */}
             <span className="text">
                 <span className="text year">
                     {format(currentMonth, 'yyyy')}년
@@ -34,7 +54,12 @@ const RenderHeader = ({currentMonth, prevMonth, nextMonth}) => {
                     {format(currentMonth, 'M')}월
                 </span>
             </span>
-            {/*달 이동*/}
+            {/* 이번달 완벽한 todo */}
+            <span className="month_finish_todo">
+                <div className="todo_head_icon"> {/* 아이콘 */}</div>
+                {monthTodoRemainderCheck()}
+            </span>
+            {/* 달 이동 */}
             <span className="button next_month">
                 <Icon icon="ooui:next-rtl" onClick={prevMonth}/>
                 <Icon icon="ooui:next-ltr" onClick={nextMonth}/>
@@ -42,6 +67,7 @@ const RenderHeader = ({currentMonth, prevMonth, nextMonth}) => {
         </div>
     );
 };
+
 
 RenderHeader.propTypes = {
     currentMonth: PropTypes.instanceOf(Date).isRequired,
@@ -76,7 +102,7 @@ const RenderCells = ({currentMonth, selectedDate, onDateClick}) => {
     let day = startDate;
     let formattedDate = '';
 
-    // 날짜에 달별 list에서 같은 day에 있는 checked가 false인 개수 반환
+    // 날짜별 남은 todo, todo 다 한 경우
     const todoListRemainderCheck = (day) => {
         const todoList = JSON.parse(localStorage.getItem('todoList')) || [];
         const formattedDay = format(day, 'yyyyMMdd'); // 날짜를 YYYYMMDD 형식으로 변환
@@ -86,8 +112,19 @@ const RenderCells = ({currentMonth, selectedDate, onDateClick}) => {
             item.day === formattedDay && item.checked === false && item.deleted === false
         );
 
-        if(uncheckedTodos.length > 0){
+        // todo 다 한 경우
+        const todosLength = todoList.filter(item =>
+            item.day === formattedDay && item.checked === true && item.deleted === false
+        )
+
+        if(uncheckedTodos.length > 0) {
             return uncheckedTodos.length;
+        }else if( todosLength.length === todosLength.length - uncheckedTodos.length && todosLength.length !== 0){
+            return (
+                <div className="finishTodo">
+                    v
+                </div>
+            )
         }
 
     };
