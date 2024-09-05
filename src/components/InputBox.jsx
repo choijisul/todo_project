@@ -1,4 +1,5 @@
 import {useState} from 'react';
+import '../styles/Todo.css'
 
 const InputBox = ({onAddClick}) => {
     const [text, setText] = useState("");
@@ -32,14 +33,16 @@ const InputBox = ({onAddClick}) => {
             >
                 추가
             </button>
-            {inputVisible && (
-                <input
-                    type="text"
-                    name="todoItem"
-                    value={text}
-                    className="todoapp_inputbox-inp"
-                    onChange={onChangeInput}  //input 변하면 onChangeInput() 메소드 실행
-                />
+            {inputVisible && (  //enter치면 추가되게 수정.
+                <div>
+                    <input
+                        type="text"
+                        name="todoItem"
+                        value={text}
+                        className="todoapp_inputbox-input"
+                        onChange={onChangeInput}  //input 변하면 onChangeInput() 메소드 실행
+                    />
+                </div>
             )}
         </div>
     )

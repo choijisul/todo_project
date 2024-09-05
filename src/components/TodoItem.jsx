@@ -1,6 +1,7 @@
 import {useState, useRef, useEffect} from 'react';
 import * as PropTypes from "prop-types";
 import '../styles/Todo.css';
+import todo from "./Todo.jsx";
 
 const ToDoItem = ({todoItem, todoList, setTodoList}) => {
     const [edited, setEdited] = useState(false);  //수정
@@ -63,6 +64,11 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
     const onChangeMemoInput = (e) => {
         setMemo(e.target.value); // 메모 입력값을 상태로 저장
     };
+
+    const onChangeMemoDelete = () => {
+        // setMemo('');  //메모 지우는 부분
+        setModalVisible2( false);
+    }
 
     // 제목 수정
     const onClickSubmitButton = () => {
@@ -129,20 +135,16 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
                         <div className="modal-content">
                             {/* 수정 버튼 */}
                             <div className="modal-content-head">
-                                {newText}
-                                <button type="button" onClick={closeModal1}>닫기</button>
+                                <div className="modal-title1">{newText}</div>
+                                <button type="button" className="modal_close_button" onClick={closeModal1}>x</button>
                             </div>
-                            {
-                                !todoItem.checked && (
-                                    <button
-                                        type="button"
-                                        className="todoapp__item-edit-btn"
-                                        onClick={onClickEditButton}
-                                    >
-                                        수정
-                                    </button>
-                                )
-                            }
+                            <button
+                                type="button"
+                                className="todoapp__item-edit-btn"
+                                onClick={onClickEditButton}
+                            >
+                                수정
+                            </button>
                             {/* 삭제 버튼 */}
                             <button
                                 type="button"
@@ -160,18 +162,32 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
                                 >
                                     메모
                                 </button>
+                                <div className="memo_info" onClick={onClickMemoButton}>
+                                    {todoItem.memo}
+                                </div>
                             </div>
                         </div>
                     </div>
                 )}
                 {/*메모 작성 모달*/}
                 {modalVisible2 && (
-                    <div className="modal2">
-                        <div className="modal-content2">
-                            <div className="modal-content-header2">
+                    <div className="modal">
+                        <div className="modal-content">
+                            <div className="modal-content-head">
+                                <button
+                                    type="button"
+                                    onClick={onChangeMemoDelete}
+                                    className="modal_memo_delete_button"
+                                >
+                                    삭제
+                                </button>
                                 {newText}
-                                <button type="button" onClick={closeModal2}>
-                                    닫기
+                                <button
+                                    type="button"
+                                    onClick={closeModal2}
+                                    className="modal_close_button"
+                                >
+                                    완료
                                 </button>
                             </div>
                             <textarea
