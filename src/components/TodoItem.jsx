@@ -75,6 +75,10 @@ const ToDoItem = ({todoItem, todoList, setTodoList, onAddClick}) => {
         setMemo(e.target.value); // 메모 입력값을 상태로 저장
     };
 
+    const onChangeEditInput = (e) => {
+        setNewText(e.target.value);
+    }
+
     const onClickTitle = () => {
         setModalVisible1(true);
     };
