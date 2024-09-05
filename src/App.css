@@ -1,7 +1,6 @@
 .app{
-    /*background-color: antiquewhite;*/
     width: 100%;
     display: flex;
     justify-content: space-between;
-    padding: 0 50px;
+    padding: 0 30px;
 }
