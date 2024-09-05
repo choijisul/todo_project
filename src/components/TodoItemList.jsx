@@ -12,7 +12,7 @@ const ToDoItemList = ({todoList, dateString, setTodoList, checkedList}) => {
 
                         if (checkedList !== todoItem.checked) return null;
 
-                        if(dateString !== todoItem.day) return null;
+                        if(dateString !== todoItem.day) return null;  //삭제된거 안 보이게만.
 
                     return (
                         <ToDoItem

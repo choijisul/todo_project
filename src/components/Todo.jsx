@@ -2,10 +2,11 @@ import {useState} from "react";
 import InputBox from "../components/InputBox"
 import TodoItemList from "../components/TodoItemList";
 import {format} from "date-fns";
+import '../styles/Todo.css'
 
 const Todo = ({selectedDate}) => {
     let todoListJson = window.localStorage.getItem("todoList");  //localstorage
-    const [todoList, setTodoList] = useState(JSON.parse(todoListJson));  //todoItem 담을 list (나중에 localstorage)
+    const [todoList, setTodoList] = useState(JSON.parse(todoListJson));
     // console.log(JSON.parse(todoListJson));
     if(selectedDate === null){  //선택한 날짜 없으면 안그림.
         return (
