@@ -2,6 +2,7 @@ import {useState} from "react";
 import InputBox from "../components/InputBox"
 import TodoItemList from "../components/TodoItemList";
 import {format} from "date-fns";
+import '../styles/Todo.css'
 
 const Todo = ({selectedDate}) => {
     let todoListJson = window.localStorage.getItem("todoList");  //localstorage

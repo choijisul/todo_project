@@ -22,6 +22,7 @@ const ToDoItem = ({todoItem, todoList, setTodoList, onAddClick}) => {
             checked: item.id === todoItem.id ? !item.checked : item.checked,
         }));
         setTodoList(nextTodoList);
+        window.localStorage.setItem("todoList", JSON.stringify(nextTodoList));
     };
 
     // list 삭제

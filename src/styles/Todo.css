@@ -1,3 +1,31 @@
+.hompage_container{
+    width: 450px;
+}
+
+/*list 관련*/
+.todoapp__item{
+    list-style : none;
+}
+
+.todoapp__item-checkbox{
+    /*기본 스타일 x*/
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    border: none;
+    background-color: #d1d1d1;
+    cursor: pointer;
+}
+
+.todoapp__item-checkbox:checked {
+    background-color: black;
+}
+
+/*수정, 삭제, 추가 모달 관련*/
 .modal {
     position: fixed;
     top: 0;
