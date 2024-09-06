@@ -66,8 +66,8 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
     };
 
     const onChangeMemoDelete = () => {
-        // setMemo('');  //메모 지우는 부분
-        setModalVisible2( false);
+        setMemo('');  //메모 지우는 부분
+        setModalVisible2(false);
     }
 
     // 제목 수정
@@ -162,8 +162,10 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
                                 >
                                     메모
                                 </button>
-                                <div className="memo_info" onClick={onClickMemoButton}>
-                                    {todoItem.memo}
+                                <div>
+                                    {
+                                        memo !== '' ? <div className="memo_info" onClick={onClickMemoButton}>{memo}</div> : null
+                                    }
                                 </div>
                             </div>
                         </div>

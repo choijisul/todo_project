@@ -19,6 +19,12 @@
     border-bottom: 1px solid black;
 }
 
+.todoapp_inputbox-input:focus{
+    border: none;
+    outline: none;
+    border-bottom: 1px solid black;
+}
+
 /*list 관련*/
 .todoapp__item{
     list-style : none;
