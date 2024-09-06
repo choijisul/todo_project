@@ -1,5 +1,6 @@
 import {Calendar} from './components/Calendar.jsx';
 import Todo from './components/Todo.jsx'
+import Diary from "./components/Diary.jsx";
 import './App.css'
 import {useState} from "react";
 
@@ -10,8 +11,13 @@ function App() {
     };
     return (
         <div className='app'>
-            <Calendar onSelectedDateChange={onSelectedDateChange}/>
-            <Todo selectedDate={selectedDate}/>
+            <div className="calendar">
+                <Diary selectedDate={selectedDate}/>
+                <Calendar onSelectedDateChange={onSelectedDateChange}/>
+            </div>
+            <div className="todo">
+                <Todo selectedDate={selectedDate}/>
+            </div>
         </div>
     )
 }
