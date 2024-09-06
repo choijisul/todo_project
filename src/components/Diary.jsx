@@ -1,5 +1,6 @@
 import React, {useCallback, useState} from "react";
 import '../styles/Diary.css'
+// import {format} from "date-fns";
 
 const Diary = ({ selectedDate }) => {  // selectedDate를 객체
     const [diaryModalVisible, setDiaryModalVisible] = useState(false);
@@ -22,12 +23,20 @@ const Diary = ({ selectedDate }) => {  // selectedDate를 객체
         setEmojiModalVisible(false);
     }
 
+    // 날짜 형식 바꿈 (+ 요일추가 해야함)
+    const formaattedDate = new Date(selectedDate).toLocaleDateString("ko-KR", {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+    });
+
     return (
         <div className="calendar-header">
             프로필
             <button
                 type="button"
                 onClick={onClickDiaryButton}
+                className="diary_button"
             >
                 일기
             </button>
@@ -61,13 +70,15 @@ const Diary = ({ selectedDate }) => {  // selectedDate를 객체
                             </button>
                         </div>
                         {/*일기*/}
+                        <div
+                            className="diary_modal_day"
+                        >
+                            {formaattedDate}
+                        </div>
                         <div className="diary_modal_body">
-                            <div>
-                                {/*{selectedDate}   날짜 출력 에러*/}
-                            </div>
                             <textarea
                                 type="text"
-                                className="emoji_modal_input_diary"
+                                className="diary_modal_input_diary"
                                 placeholder={"OO님의 오늘은 어떤 하루였나요?"}
                             />
                         </div>
@@ -75,8 +86,7 @@ const Diary = ({ selectedDate }) => {  // selectedDate를 객체
                         <div className="diary_modal_floot">
                             <button
                                 className="get_img_button"
-                                // onClick={onUploadImg}
-                            ></button>
+                            >사진</button>
                         </div>
                     </div>
                 </div>
@@ -84,39 +94,25 @@ const Diary = ({ selectedDate }) => {  // selectedDate를 객체
             {/* 이모지 모달 */}
             {emojiModalVisible && (
                 <div className="emoji_modal" onClick={closeEmojiModal}>
-                    <div className="emoji_modal-content">
+                <div className="emoji_modal-content">
                         <div className="emoji_modal_content-head">
                             <h5 className="emoji_modal_title">이모지</h5>
                         </div>
                         <div className="emoji_modal_container">
+                            <div className="emoji_collct">️</div>
                             <div className="emoji_collct"></div>
                             <div className="emoji_collct"></div>
                             <div className="emoji_collct"></div>
                             <div className="emoji_collct"></div>
                             <div className="emoji_collct"></div>
                             <div className="emoji_collct"></div>
-                            <div className="emoji_collct"></div>
-                            <div className="emoji_collct"></div>
-                            <div className="emoji_collct"></div>
-                            <div className="emoji_collct"></div>
-                            <div className="emoji_collct"></div>
-                            <div className="emoji_collct"></div>
-                            <div className="emoji_collct"></div>
-                            <div className="emoji_collct"></div>
-                            <div className="emoji_collct"></div>
-                            <div className="emoji_collct"></div>
-                            <div className="emoji_collct"></div>
-                            <div className="emoji_collct"></div>
-                            <div className="emoji_collct"></div>
-                            <div className="emoji_collct"></div>
-                            <div className="emoji_collct"></div>
+
                         </div>
                         <div className="emoji_modal_footer">
                             <button className="emoji_button">oo</button>
-                            <button className="emoji_button">oo</button>
-                            <button className="emoji_button">oo</button>
-                            <button className="emoji_button">oo</button>
-                            <button className="emoji_button">oo</button>
+                            <button className="emoji_button">😀</button>
+                            <button className="emoji_button">🤗</button>
+                            <button className="emoji_button">👋</button>
                             <button className="emoji_button">oo</button>
                             <button className="emoji_button">oo</button>
                             <button className="emoji_button">oo</button>
