@@ -1,12 +1,3 @@
-/*캘린더 헤더*/
-.calendar-header{
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 30px;
-    /*background-color: #d1d1d1;*/
-    height: 60px;
-}
-
 /*calendar*/
 .calendar{
     width: 470px;
@@ -70,6 +61,10 @@
     border-radius: 20px;
     background-color: black;
 }
+
+/*.day.valid{*/
+/*    background-color: gray;*/
+/*}*/
 
 .finishTodoListNum{
     margin-bottom: 7px;

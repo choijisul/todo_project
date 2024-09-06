@@ -7,8 +7,8 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
     const [edited, setEdited] = useState(false);  //수정
     const [newText, setNewText] = useState(todoItem.text);  //
     const [memo, setMemo] = useState(todoItem.memo || ''); // memo 초기값 설정
-    const [modalVisible1, setModalVisible1] = useState(false);  //삭제, 수정, 메모 버튼 모달
-    const [modalVisible2, setModalVisible2] = useState(false);  //메모 작성 모달
+    const [InventoryModalVisible, setInventoryModalVisible] = useState(false);  //삭제, 수정, 메모 버튼 모달
+    const [MemoModalVisible, setMemoModalVisible] = useState(false);  //메모 작성 모달
 
     const editInputRef = useRef(null);
 
@@ -36,19 +36,19 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
         }));
         setTodoList(nextTodoList);
         window.localStorage.setItem("todoList", JSON.stringify(nextTodoList));
-        setModalVisible1(false);
+        setInventoryModalVisible(false);
     };
 
     // 수정
     const onClickEditButton = () => {
         setEdited(true); // 제목 수정 모드
-        setModalVisible1(false); // 모달 닫기
+        setInventoryModalVisible(false); // 모달 닫기
     };
 
     // 메모
     const onClickMemoButton = () => {
-        setModalVisible1(false);
-        setModalVisible2(true);
+        setInventoryModalVisible(false);
+        setMemoModalVisible(true);
     }
 
     const memoInput = () => {
@@ -58,7 +58,7 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
         }));
         setTodoList(nextTodoList);
         window.localStorage.setItem("todoList", JSON.stringify(nextTodoList)); // 메모 저장
-        setModalVisible1(false); // 메모 저장 후 모달 닫기
+        setInventoryModalVisible(false); // 메모 저장 후 모달 닫기
     };
 
     const onChangeMemoInput = (e) => {
@@ -67,7 +67,7 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
 
     const onChangeMemoDelete = () => {
         setMemo('');  //메모 지우는 부분
-        setModalVisible2(false);
+        setMemoModalVisible(false);
     }
 
     // 제목 수정
@@ -87,21 +87,21 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
 
     // 모달 true
     const onClickTitle = () => {
-        setModalVisible1(true);
+        setInventoryModalVisible(true);
     };
 
     // 모달 false
     const closeModal1 = () => {
-        setModalVisible1(false);
+        setInventoryModalVisible(false);
     };
 
     const closeModal2 = () => {
-        setModalVisible2(false);
+        setMemoModalVisible(false);
     };
 
     return (
         <div>
-            <li className="todoapp__item">
+            <li className="todoapp__item" >
                 {/* checkbox */}
                 <input
                     type="checkbox"
@@ -128,9 +128,10 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
                     {todoItem.text}
                 </span>
                 )}
+                <button className="todoListinventory" onClick={onClickTitle}>...</button>
 
                 {/* 모달(삭제, 수정, 메모 버튼) */}
-                {modalVisible1 && (
+                {InventoryModalVisible && (
                     <div className="modal">
                         <div className="modal-content">
                             {/* 수정 버튼 */}
@@ -172,7 +173,7 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
                     </div>
                 )}
                 {/*메모 작성 모달*/}
-                {modalVisible2 && (
+                {MemoModalVisible && (
                     <div className="modal">
                         <div className="modal-content">
                             <div className="modal-content-head">

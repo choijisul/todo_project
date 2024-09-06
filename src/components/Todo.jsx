@@ -5,7 +5,7 @@ import {format} from "date-fns";
 import '../styles/Todo.css'
 
 const Todo = ({selectedDate}) => {
-    let todoListJson = window.localStorage.getItem("todoList");  //localstorage
+    let todoListJson = window.localStorage.getItem("todoList");
     const [todoList, setTodoList] = useState(JSON.parse(todoListJson));
     if(selectedDate === null){  //선택한 날짜 없으면 안그림.
         return (
@@ -18,7 +18,7 @@ const Todo = ({selectedDate}) => {
             id: todoList.length,
             day: dateString,
             text : inputData.text,
-            memo : '',  //나중에 받음
+            memo : '',
             checked: false,
             deleted: false,
         });

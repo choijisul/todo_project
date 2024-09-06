@@ -67,7 +67,11 @@ const InputBox = ({onAddClick}) => {
                 추가
             </button>
             {inputVisible && (
-                <div>
+                <div className="todoapp__item_input">
+                    <input
+                        type="checkbox"
+                        className="todoapp__item-checkbox"
+                    />
                     <input
                         type="text"
                         name="todoItem"
@@ -77,6 +81,7 @@ const InputBox = ({onAddClick}) => {
                         onKeyDown={onKeyDownInput}  // 엔터키
                         ref={inputRef}
                     />
+                    <button className="todoListinventory">...</button>
                 </div>
             )}
         </div>
