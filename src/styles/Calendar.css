@@ -71,6 +71,10 @@
     background-color: black;
 }
 
+/*.day.valid{*/
+/*    background-color: gray;*/
+/*}*/
+
 .finishTodoListNum{
     margin-bottom: 7px;
     display: flex;

@@ -101,7 +101,7 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
 
     return (
         <div>
-            <li className="todoapp__item">
+            <li className="todoapp__item" >
                 {/* checkbox */}
                 <input
                     type="checkbox"
@@ -128,6 +128,7 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
                     {todoItem.text}
                 </span>
                 )}
+                <button className="todoListinventory" onClick={onClickTitle}>...</button>
 
                 {/* 모달(삭제, 수정, 메모 버튼) */}
                 {modalVisible1 && (

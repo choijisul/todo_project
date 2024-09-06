@@ -139,9 +139,7 @@ const RenderCells = ({currentMonth, selectedDate, onDateClick}) => {
                     className={`col cell ${
                         !isSameMonth(day, monthStart)
                             ? 'empty'  // 현재 달이 아님. empty 클래스
-                            : isSameDay(day, selectedDate)
-                                ? 'selected'
-                                : 'valid'
+                            : isSameDay(day, selectedDate) ? 'selected' : 'valid'
                     }`}
                     key={day}
                     onClick={() => onDateClick(cloneDay)}
