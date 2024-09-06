@@ -1,10 +1,10 @@
-import {useState} from "react";
+import React, {useCallback, useState} from "react";
 import '../styles/Diary.css'
-
 
 const Diary = ({ selectedDate }) => {  // selectedDate를 객체
     const [diaryModalVisible, setDiaryModalVisible] = useState(false);
     const [emojiModalVisible, setEmojiModalVisible] = useState(false);
+
 
     const onClickDiaryButton = () => {
         setDiaryModalVisible(true);
@@ -73,7 +73,10 @@ const Diary = ({ selectedDate }) => {  // selectedDate를 객체
                         </div>
                         {/*부가적인..*/}
                         <div className="diary_modal_floot">
-                            {/*    사진 추가 등..*/}
+                            <button
+                                className="get_img_button"
+                                // onClick={onUploadImg}
+                            ></button>
                         </div>
                     </div>
                 </div>
@@ -84,6 +87,44 @@ const Diary = ({ selectedDate }) => {  // selectedDate를 객체
                     <div className="emoji_modal-content">
                         <div className="emoji_modal_content-head">
                             <h5 className="emoji_modal_title">이모지</h5>
+                        </div>
+                        <div className="emoji_modal_container">
+                            <div className="emoji_collct"></div>
+                            <div className="emoji_collct"></div>
+                            <div className="emoji_collct"></div>
+                            <div className="emoji_collct"></div>
+                            <div className="emoji_collct"></div>
+                            <div className="emoji_collct"></div>
+                            <div className="emoji_collct"></div>
+                            <div className="emoji_collct"></div>
+                            <div className="emoji_collct"></div>
+                            <div className="emoji_collct"></div>
+                            <div className="emoji_collct"></div>
+                            <div className="emoji_collct"></div>
+                            <div className="emoji_collct"></div>
+                            <div className="emoji_collct"></div>
+                            <div className="emoji_collct"></div>
+                            <div className="emoji_collct"></div>
+                            <div className="emoji_collct"></div>
+                            <div className="emoji_collct"></div>
+                            <div className="emoji_collct"></div>
+                            <div className="emoji_collct"></div>
+                            <div className="emoji_collct"></div>
+                        </div>
+                        <div className="emoji_modal_footer">
+                            <button className="emoji_button">oo</button>
+                            <button className="emoji_button">oo</button>
+                            <button className="emoji_button">oo</button>
+                            <button className="emoji_button">oo</button>
+                            <button className="emoji_button">oo</button>
+                            <button className="emoji_button">oo</button>
+                            <button className="emoji_button">oo</button>
+                            <button className="emoji_button">oo</button>
+                            <button className="emoji_button">oo</button>
+                            <button className="emoji_button">oo</button>
+                            <button className="emoji_button">oo</button>
+                            <button className="emoji_button">oo</button>
+                            <button className="emoji_button">oo</button>
                         </div>
                     </div>
                 </div>

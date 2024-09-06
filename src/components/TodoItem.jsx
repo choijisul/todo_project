@@ -136,7 +136,7 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
 
                 {/* 모달(삭제, 수정, 메모 버튼) */}
                 {InventoryModalVisible && (
-                    <div className="modal">
+                    <div className="modal" onClick={closeModal1}>
                         <div className="modal-content">
                             {/* 수정 버튼 */}
                             <div className="modal-content-head">
