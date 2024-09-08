@@ -1,58 +1,64 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import '../styles/Diary.css';
 
-const getDiaryEntries = () => {
-    const diaryEntries = localStorage.getItem('diaryEntries');
-    return diaryEntries ? JSON.parse(diaryEntries) : [];
+// 날짜 형식 변환
+const formatDate = (date) => {
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}${month}${day}`;
 };
 
+//일기 가져옴.
+const getDiaryEntries = () => {
+    const diaryEntries = localStorage.getItem('diaryEntries');
+    return diaryEntries ? JSON.parse(diaryEntries) : {};  //JSON
+};
+
+// 일기 저장 (JSON)
 const saveDiaryEntries = (entries) => {
     localStorage.setItem('diaryEntries', JSON.stringify(entries));
 };
 
-const Diary = ({selectedDate}) => {
+const Diary = ({ selectedDate }) => {
     const [diaryModalVisible, setDiaryModalVisible] = useState(false);
     const [emojiModalVisible, setEmojiModalVisible] = useState(false);
     const [diaryContent, setDiaryContent] = useState('');
 
     useEffect(() => {
         const diaryEntries = getDiaryEntries();
-        const currentEntry = diaryEntries.find(entry => entry.day === selectedDate);
-        if (currentEntry) {
-            setDiaryContent(currentEntry.text);
-        } else {
-            setDiaryContent('');
-        }
+        const formattedDate = formatDate(selectedDate);
+        setDiaryContent(diaryEntries[formattedDate] || '');
     }, [selectedDate]);
 
     const onClickDiaryButton = () => {
         setDiaryModalVisible(true);
-    }
+    };
 
-    // 모달 관련
     const closeDiaryModal = () => {
         setDiaryModalVisible(false);
-    }
+    };
 
     const onClickEmojiButton = () => {
         setEmojiModalVisible(true);
-    }
+    };
 
     const closeEmojiModal = () => {
         setEmojiModalVisible(false);
-    }
+    };
 
     const handleDiaryContentChange = (e) => {
         setDiaryContent(e.target.value);
-    }
+    };
 
     const saveDiaryContent = () => {
         const diaryEntries = getDiaryEntries();
-        const updatedEntries = diaryEntries.filter(entry => entry.day !== selectedDate);
-        updatedEntries.push({day: selectedDate, text: diaryContent});
-        saveDiaryEntries(updatedEntries);
+        const formattedDate = formatDate(selectedDate);
+        diaryEntries[formattedDate] = diaryContent;
+        saveDiaryEntries(diaryEntries);
         closeDiaryModal();
-    }
+    };
 
     // 날짜 형식 바꿈 (+요일추가 해야함)
     const formattedDate = new Date(selectedDate).toLocaleDateString("ko-KR", {
@@ -72,7 +78,7 @@ const Diary = ({selectedDate}) => {
                 일기
             </button>
 
-            {/*일기보달*/}
+            {/*일기모달*/}
             {diaryModalVisible && (
                 <div className="diary_modal">
                     <div className="diary_modal-content">
@@ -143,7 +149,6 @@ const Diary = ({selectedDate}) => {
                             <div className="emoji_collct"></div>
                             <div className="emoji_collct"></div>
                             <div className="emoji_collct"></div>
-
                         </div>
                         <div className="emoji_modal_footer">
                             <button className="emoji_button">oo</button>
@@ -164,6 +169,6 @@ const Diary = ({selectedDate}) => {
             )}
         </div>
     );
-}
+};
 
 export default Diary;
