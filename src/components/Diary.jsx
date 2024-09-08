@@ -1,26 +1,71 @@
-import {useState} from "react";
-import '../styles/Diary.css'
+import React, { useEffect, useState } from "react";
+import '../styles/Diary.css';
 
+// 날짜 형식 변환
+const formatDate = (date) => {
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}${month}${day}`;
+};
 
-const Diary = ({ selectedDate }) => {  // selectedDate를 객체
+//일기 가져옴.
+const getDiaryEntries = () => {
+    const diaryEntries = localStorage.getItem('diaryEntries');
+    return diaryEntries ? JSON.parse(diaryEntries) : {};  //JSON
+};
+
+// 일기 저장 (JSON)
+const saveDiaryEntries = (entries) => {
+    localStorage.setItem('diaryEntries', JSON.stringify(entries));
+};
+
+const Diary = ({ selectedDate }) => {
     const [diaryModalVisible, setDiaryModalVisible] = useState(false);
     const [emojiModalVisible, setEmojiModalVisible] = useState(false);
+    const [diaryContent, setDiaryContent] = useState('');
+
+    useEffect(() => {
+        const diaryEntries = getDiaryEntries();
+        const formattedDate = formatDate(selectedDate);
+        setDiaryContent(diaryEntries[formattedDate] || '');
+    }, [selectedDate]);
 
     const onClickDiaryButton = () => {
         setDiaryModalVisible(true);
-    }
+    };
 
     const closeDiaryModal = () => {
         setDiaryModalVisible(false);
-    }
+    };
 
     const onClickEmojiButton = () => {
         setEmojiModalVisible(true);
-    }
+    };
 
     const closeEmojiModal = () => {
         setEmojiModalVisible(false);
-    }
+    };
+
+    const handleDiaryContentChange = (e) => {
+        setDiaryContent(e.target.value);
+    };
+
+    const saveDiaryContent = () => {
+        const diaryEntries = getDiaryEntries();
+        const formattedDate = formatDate(selectedDate);
+        diaryEntries[formattedDate] = diaryContent;
+        saveDiaryEntries(diaryEntries);
+        closeDiaryModal();
+    };
+
+    // 날짜 형식 바꿈 (+요일추가 해야함)
+    const formattedDate = new Date(selectedDate).toLocaleDateString("ko-KR", {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+    });
 
     return (
         <div className="calendar-header">
@@ -28,15 +73,17 @@ const Diary = ({ selectedDate }) => {  // selectedDate를 객체
             <button
                 type="button"
                 onClick={onClickDiaryButton}
+                className="diary_button"
             >
                 일기
             </button>
-            {/*일기 모달*/}
+
+            {/*일기모달*/}
             {diaryModalVisible && (
                 <div className="diary_modal">
                     <div className="diary_modal-content">
-                        {/*제목, 나가기, 완료*/}
                         <div className="diary_modal_content-head">
+                            {/*제목, 나가기, 완료*/}
                             <button
                                 type="button"
                                 onClick={closeDiaryModal}
@@ -47,7 +94,9 @@ const Diary = ({ selectedDate }) => {  // selectedDate를 객체
                             <h3 className="diary_modal_title">일기</h3>
                             <button
                                 type="button"
-                                className="diary_modal_finish_button">
+                                className="diary_modal_finish_button"
+                                onClick={saveDiaryContent}
+                            >
                                 완료
                             </button>
                         </div>
@@ -61,20 +110,27 @@ const Diary = ({ selectedDate }) => {  // selectedDate를 객체
                             </button>
                         </div>
                         {/*일기*/}
+                        <div className="diary_modal_day">
+                            {formattedDate}
+                        </div>
                         <div className="diary_modal_body">
-                            <div>
-                                {/*{selectedDate}   날짜 출력 에러*/}
-                            </div>
                             <textarea
                                 type="text"
-                                className="emoji_modal_input_diary"
+                                className="diary_modal_input_diary"
                                 placeholder={"OO님의 오늘은 어떤 하루였나요?"}
+                                value={diaryContent}
+                                onChange={handleDiaryContentChange}
                             />
                         </div>
                         {/*부가적인..*/}
-                        <div className="diary_modal_floot">
-                            {/*    사진 추가 등..*/}
+                        <div className="diary_modal_footer">
+                            <button
+                                className="get_img_button"
+                            >
+                                사진
+                            </button>
                         </div>
+
                     </div>
                 </div>
             )}
@@ -85,11 +141,34 @@ const Diary = ({ selectedDate }) => {  // selectedDate를 객체
                         <div className="emoji_modal_content-head">
                             <h5 className="emoji_modal_title">이모지</h5>
                         </div>
+                        <div className="emoji_modal_container">
+                            <div className="emoji_collct">️</div>
+                            <div className="emoji_collct"></div>
+                            <div className="emoji_collct"></div>
+                            <div className="emoji_collct"></div>
+                            <div className="emoji_collct"></div>
+                            <div className="emoji_collct"></div>
+                            <div className="emoji_collct"></div>
+                        </div>
+                        <div className="emoji_modal_footer">
+                            <button className="emoji_button">oo</button>
+                            <button className="emoji_button">😀</button>
+                            <button className="emoji_button">🤗</button>
+                            <button className="emoji_button">👋</button>
+                            <button className="emoji_button">oo</button>
+                            <button className="emoji_button">oo</button>
+                            <button className="emoji_button">oo</button>
+                            <button className="emoji_button">oo</button>
+                            <button className="emoji_button">oo</button>
+                            <button className="emoji_button">oo</button>
+                            <button className="emoji_button">oo</button>
+                            <button className="emoji_button">oo</button>
+                        </div>
                     </div>
                 </div>
             )}
         </div>
-    )
-}
+    );
+};
 
 export default Diary;

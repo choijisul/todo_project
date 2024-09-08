@@ -1,7 +1,6 @@
 import {useState, useRef, useEffect} from 'react';
 import * as PropTypes from "prop-types";
 import '../styles/Todo.css';
-import todo from "./Todo.jsx";
 
 const ToDoItem = ({todoItem, todoList, setTodoList}) => {
     const [edited, setEdited] = useState(false);  //수정
@@ -30,10 +29,7 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
 
     // list 삭제
     const onClickDeleteButton = () => {
-        const nextTodoList = todoList.map((item) => ({
-            ...item,
-            deleted: item.id === todoItem.id ? true : item.deleted,
-        }));
+        const nextTodoList = todoList.filter((item) => item.id !== todoItem.id);
         setTodoList(nextTodoList);
         window.localStorage.setItem("todoList", JSON.stringify(nextTodoList));
         setInventoryModalVisible(false);
@@ -45,7 +41,7 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
         setInventoryModalVisible(false); // 모달 닫기
     };
 
-    // 메모
+    // 메모 버튼 클릭
     const onClickMemoButton = () => {
         setInventoryModalVisible(false);
         setMemoModalVisible(true);
@@ -58,19 +54,26 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
         }));
         setTodoList(nextTodoList);
         window.localStorage.setItem("todoList", JSON.stringify(nextTodoList)); // 메모 저장
-        setInventoryModalVisible(false); // 메모 저장 후 모달 닫기
+        setMemoModalVisible(false); // 메모 저장 후 모달 닫기
     };
 
+    // 메모 입력 상태 업데이트
     const onChangeMemoInput = (e) => {
-        setMemo(e.target.value); // 메모 입력값을 상태로 저장
+        setMemo(e.target.value);
     };
 
+    // 메모 삭제
     const onChangeMemoDelete = () => {
-        setMemo('');  //메모 지우는 부분
-        setMemoModalVisible(false);
+        const nextTodoList = todoList.map((item) => ({
+            ...item,
+            memo: item.id === todoItem.id ? '' : item.memo,
+        }));
+        setTodoList(nextTodoList);
+        window.localStorage.setItem("todoList", JSON.stringify(nextTodoList)); // 메모 저장
+        setMemoModalVisible(false); // 메모 저장 후 모달 닫기
     }
 
-    // 제목 수정
+    // 제목 수정 완료
     const onClickSubmitButton = () => {
         const nextTodoList = todoList.map((item) => ({
             ...item,
@@ -81,6 +84,7 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
         setEdited(false); // 수정 완료 후 수정 모드 해제
     };
 
+    // 제목 수정 중 상태 관리
     const onChangeEditInput = (e) => {
         setNewText(e.target.value);
     }
@@ -96,7 +100,7 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
     };
 
     const closeModal2 = () => {
-        setMemoModalVisible(false);
+        memoInput(); // 메모 모달을 닫을 때 메모 저장
     };
 
     return (
@@ -132,7 +136,7 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
 
                 {/* 모달(삭제, 수정, 메모 버튼) */}
                 {InventoryModalVisible && (
-                    <div className="modal">
+                    <div className="modal" onClick={closeModal1}>
                         <div className="modal-content">
                             {/* 수정 버튼 */}
                             <div className="modal-content-head">
@@ -204,9 +208,6 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
                     </div>
                 )}
             </li>
-            {/*<button*/}
-            {/*    type="button"*/}
-            {/*>ㅇ</button>  /!*메모 존재 여부*!/*/}
         </div>
     );
 };
