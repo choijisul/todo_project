@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import '../styles/Diary.css';
 
 // 날짜 형식 변환
@@ -21,8 +21,10 @@ const saveDiaryEntries = (entries) => {
     localStorage.setItem('diaryEntries', JSON.stringify(entries));
 };
 
-const Diary = ({ selectedDate }) => {
+const Diary = ({selectedDate}) => {
     const [diaryModalVisible, setDiaryModalVisible] = useState(false);
+    const [diaryDetailModalVisible, setDiaryDetailModalVisible] = useState(false);
+    const [diaryDetailChangeModal, setDiaryDetailChangeModal] = useState(false);
     const [emojiModalVisible, setEmojiModalVisible] = useState(false);
     const [diaryContent, setDiaryContent] = useState('');
 
@@ -33,13 +35,43 @@ const Diary = ({ selectedDate }) => {
     }, [selectedDate]);
 
     const onClickDiaryButton = () => {
-        setDiaryModalVisible(true);
+        if (diaryContent === '') {
+            setDiaryModalVisible(true);
+        } else {
+            setDiaryDetailModalVisible(true);
+        }
     };
 
+    // 다이어리 모달 관련
     const closeDiaryModal = () => {
         setDiaryModalVisible(false);
     };
 
+    const closeDiaryDetailModal = () => {
+        setDiaryDetailModalVisible(false);
+    }
+
+    const onClickDiaryDetailButton = () => {
+        setDiaryDetailChangeModal(true);
+    }
+
+    const closeDiaryDetailChangeModal = () => {
+        setDiaryDetailChangeModal(false);
+    }
+
+    const onClickDiaryDetailChangeButton = () => {
+        setDiaryDetailModalVisible(false);
+        setDiaryDetailChangeModal(false);
+        setDiaryModalVisible(true);
+    }
+
+    const onClickDiaryDetailDeleteButton = () => {
+        setDiaryContent('');
+        setDiaryDetailModalVisible(false);
+        setDiaryDetailChangeModal(false);
+    }
+
+    // 다이어리 이모지 관련
     const onClickEmojiButton = () => {
         setEmojiModalVisible(true);
     };
@@ -48,6 +80,7 @@ const Diary = ({ selectedDate }) => {
         setEmojiModalVisible(false);
     };
 
+    // 다이어리 내용
     const handleDiaryContentChange = (e) => {
         setDiaryContent(e.target.value);
     };
@@ -78,7 +111,7 @@ const Diary = ({ selectedDate }) => {
                 일기
             </button>
 
-            {/*일기모달*/}
+            {/*일기 작성 모달*/}
             {diaryModalVisible && (
                 <div className="diary_modal">
                     <div className="diary_modal-content">
@@ -131,6 +164,49 @@ const Diary = ({ selectedDate }) => {
                             </button>
                         </div>
 
+                    </div>
+                </div>
+            )}
+            {/*일기 내용 모달*/}
+            {diaryDetailModalVisible && (
+                <div className="diary_detail_modal">
+                    <div className="diary_detail_modal-content">
+                        <div className="diary_detail_modal_content-head">
+                            <button
+                                type="button"
+                                onClick={closeDiaryDetailModal}
+                                className="diary_detail_close_button"
+                            >
+                                x
+                            </button>
+                            <h3 className="diary_modal_title">일기</h3>
+                            <button
+                                type="button"
+                                onClick={onClickDiaryDetailButton}
+                                className="diary_detail_change_button"
+                            >
+                                ...
+                            </button>
+                        </div>
+                        {/*이모지*/}
+                        <div className="diary_detail_modal_emoji">
+                            {/*    나중에 이모지 넣음*/}
+                        </div>
+                        <div className="diary_detail_modal_detail">
+                            <div className="diary_detail_date">{formattedDate}</div>
+                            <div className="diary_detail">{diaryContent}</div>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {/*일기 내용 수정 모달*/}
+            {diaryDetailChangeModal && (
+                <div className="diary_detail_change_modal">
+                    <div className="diary_detail_change_modal_content">
+                        <h3 className="detail_change_title">일기</h3>
+                        <button className="detail_change_button" onClick={onClickDiaryDetailChangeButton}>수정</button>
+                        <button className="detail_delete_button" onClick={onClickDiaryDetailDeleteButton}>삭제</button>
+                        <button className="diary_change_cancel_button" onClick={closeDiaryDetailChangeModal}>취소</button>
                     </div>
                 </div>
             )}
