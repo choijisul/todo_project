@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from "react";
 import '../styles/Diary.css';
 import {format} from "date-fns";
+// 이미지
+import imgUploadIcon from '../assets/input_img_icon.png'
 
 // 날짜 형식 변환
 const formatDate = (date) => {
@@ -33,7 +35,9 @@ const Diary = ({selectedDate}) => {
     useEffect(() => {
         const diaryEntries = getDiaryEntries();
         const formattedDate = formatDate(selectedDate);
-        setDiaryContent(diaryEntries[formattedDate] || '');
+        const diaryEntry = diaryEntries[formattedDate] || {content: '', imageUrl: ''};
+        setDiaryContent(diaryEntry.content);
+        setUploadImgUrl(diaryEntry.imageUrl);
     }, [selectedDate]);
 
     const onClickDiaryButton = () => {
@@ -108,6 +112,10 @@ const Diary = ({selectedDate}) => {
         }
     }
 
+    // const onClickImgDeletedButton = () => {
+    //
+    // }
+
     // 다이어리 내용
     const handleDiaryContentChange = (e) => {
         setDiaryContent(e.target.value);
@@ -116,7 +124,10 @@ const Diary = ({selectedDate}) => {
     const saveDiaryContent = () => {
         const diaryEntries = getDiaryEntries();
         const formattedDate = formatDate(selectedDate);
-        diaryEntries[formattedDate] = diaryContent;
+        diaryEntries[formattedDate] = {
+            content: diaryContent,
+            imageUrl: uploadImgUrl
+        };
         saveDiaryEntries(diaryEntries);
         setDiaryModalVisible(false);
     };
@@ -175,7 +186,11 @@ const Diary = ({selectedDate}) => {
                             {formattedDate}
                         </div>
                         <div className="diary_modal_body">
-                            <img src={uploadImgUrl} img="img"/>
+                            <div className="diary_modal_input_img">
+                                <img src={uploadImgUrl} img="img" className="upload_img"/>
+                                {/*이미지 추가되면 버튼도 추가되게 바꾸기.*/}
+                                {/*<button className="img_deleted_button" onClick={onClickImgDeletedButton}>-</button>*/}
+                            </div>
                             <textarea
                                 type="text"
                                 className="diary_modal_input_diary"
@@ -187,7 +202,7 @@ const Diary = ({selectedDate}) => {
                         {/*부가적인..*/}
                         <div className="diary_modal_footer">
                             <label for="file" className="diary_input_img_label">
-                                이미지
+                                <img src={imgUploadIcon} className="upload_img_icon"/>
                                 <input
                                     type="file"
                                     accept="image/*"
@@ -229,6 +244,11 @@ const Diary = ({selectedDate}) => {
                         </div>
                         <div className="diary_detail_modal_detail">
                             <div className="diary_detail_date">{formattedDate}</div>
+                            {uploadImgUrl &&(
+                                <div className="diary_detail_img">
+                                    <img src={uploadImgUrl} alt="Uploaded" className="uploaded_img"/>
+                                </div>
+                            )}
                             <div className="diary_detail">{diaryContent}</div>
                         </div>
                     </div>
