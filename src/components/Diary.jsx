@@ -3,6 +3,7 @@ import '../styles/Diary.css';
 import {format} from "date-fns";
 // 이미지
 import imgUploadIcon from '../assets/input_img_icon.png'
+import diaryIcon from '../assets/diary_icon.png'
 
 // 날짜 형식 변환
 const formatDate = (date) => {
@@ -171,7 +172,7 @@ const Diary = ({selectedDate}) => {
                 onClick={onClickDiaryButton}
                 className="diary_button"
             >
-                일기
+                <img src={diaryIcon} className="diary_button_icon"/>
             </button>
 
             {/*일기 작성 모달*/}
@@ -202,7 +203,7 @@ const Diary = ({selectedDate}) => {
                                 className="emogi_button"
                                 onClick={onClickEmojiButton}
                             >
-                                이모지
+                                <img src={diaryIcon} className="diary_button_icon"/>
                             </button>
                         </div>
                         {/*일기*/}

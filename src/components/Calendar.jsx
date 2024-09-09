@@ -18,7 +18,8 @@ import {
 import '../styles/Calendar.css';
 // 이미지
 import diaryCheckIcon from '../assets/diary_check_icon.png'
-import todoCheckIcon from '../assets/todo_mate_icon.png'
+import todoCheckIcon from '../assets/calendar_todo_check.png'  //회색 체크o, 한달 todo 체크 아이콘
+import calendarTodo from '../assets/calendar_todo.png'  //회색 체크x
 
 // header
 const RenderHeader = ({currentMonth, prevMonth, nextMonth}) => {
@@ -143,16 +144,16 @@ const RenderCells = ({currentMonth, selectedDate, onDateClick}) => {
         )
 
         if (uncheckedTodos.length > 0) {
-            return uncheckedTodos.length;
+            return (
+                <h1 className="unchecked_todo_num">{uncheckedTodos.length}</h1>
+            )
         } else if (todosLength.length === todosLength.length - uncheckedTodos.length && todosLength.length !== 0) {
             return (
                 <div className="finishTodo">
-                    {/*<img src={todoCheckIcon}/>*/}
-                    v
+                    <img src={todoCheckIcon} className="calendar_check_icon"/>
                 </div>
             )
         }
-
     };
 
     while (day <= endDate) {
@@ -182,6 +183,7 @@ const RenderCells = ({currentMonth, selectedDate, onDateClick}) => {
                                 {/*remain todo*/}
                                 <div className="finishTodoListNum">
                                     {todoListRemainderCheck(day)}
+                                    <img src={calendarTodo} className="calendar_todo_icon"/>
                                 </div>
                                 {/*date*/}
                                 <div className={`day ${
