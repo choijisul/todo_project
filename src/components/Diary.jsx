@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from "react";
 import '../styles/Diary.css';
 import {format} from "date-fns";
+// 이미지
+import imgUploadIcon from '../assets/input_img_icon.png'
 
 // 날짜 형식 변환
 const formatDate = (date) => {
@@ -28,11 +30,14 @@ const Diary = ({selectedDate}) => {
     const [diaryDetailChangeModal, setDiaryDetailChangeModal] = useState(false);
     const [emojiModalVisible, setEmojiModalVisible] = useState(false);
     const [diaryContent, setDiaryContent] = useState('');
+    const [uploadImgUrl, setUploadImgUrl] = useState("");
 
     useEffect(() => {
         const diaryEntries = getDiaryEntries();
         const formattedDate = formatDate(selectedDate);
-        setDiaryContent(diaryEntries[formattedDate] || '');
+        const diaryEntry = diaryEntries[formattedDate] || {content: '', imageUrl: ''};
+        setDiaryContent(diaryEntry.content);
+        setUploadImgUrl(diaryEntry.imageUrl);
     }, [selectedDate]);
 
     const onClickDiaryButton = () => {
@@ -45,7 +50,7 @@ const Diary = ({selectedDate}) => {
             } else {
                 setDiaryDetailModalVisible(true);
             }
-        }else{
+        } else {
             alert("미래의 일기는 작성할 수 없습니다")
         }
     };
@@ -53,6 +58,7 @@ const Diary = ({selectedDate}) => {
     // 다이어리 모달 관련
     const closeDiaryModal = () => {
         setDiaryModalVisible(false);
+        onClickDiaryDetailDeleteButton();
     };
 
     const closeDiaryDetailModal = () => {
@@ -95,6 +101,21 @@ const Diary = ({selectedDate}) => {
         setEmojiModalVisible(false);
     };
 
+    // 다이어리 사진
+    const onChangeImgUpload = (e) => {
+        const {files} = e.target;
+        const uploadFile = files[0];
+        const reader = new FileReader();
+        reader.readAsDataURL(uploadFile);
+        reader.onloadend = () => {
+            setUploadImgUrl(reader.result);
+        }
+    }
+
+    // const onClickImgDeletedButton = () => {
+    //
+    // }
+
     // 다이어리 내용
     const handleDiaryContentChange = (e) => {
         setDiaryContent(e.target.value);
@@ -103,9 +124,12 @@ const Diary = ({selectedDate}) => {
     const saveDiaryContent = () => {
         const diaryEntries = getDiaryEntries();
         const formattedDate = formatDate(selectedDate);
-        diaryEntries[formattedDate] = diaryContent;
+        diaryEntries[formattedDate] = {
+            content: diaryContent,
+            imageUrl: uploadImgUrl
+        };
         saveDiaryEntries(diaryEntries);
-        closeDiaryModal();
+        setDiaryModalVisible(false);
     };
 
     // 날짜 형식 바꿈 (+요일추가 해야함)
@@ -162,6 +186,11 @@ const Diary = ({selectedDate}) => {
                             {formattedDate}
                         </div>
                         <div className="diary_modal_body">
+                            <div className="diary_modal_input_img">
+                                <img src={uploadImgUrl} img="img" className="upload_img"/>
+                                {/*이미지 추가되면 버튼도 추가되게 바꾸기.*/}
+                                {/*<button className="img_deleted_button" onClick={onClickImgDeletedButton}>-</button>*/}
+                            </div>
                             <textarea
                                 type="text"
                                 className="diary_modal_input_diary"
@@ -172,11 +201,17 @@ const Diary = ({selectedDate}) => {
                         </div>
                         {/*부가적인..*/}
                         <div className="diary_modal_footer">
-                            <button
-                                className="get_img_button"
-                            >
-                                사진
-                            </button>
+                            <label for="file" className="diary_input_img_label">
+                                <img src={imgUploadIcon} className="upload_img_icon"/>
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    className="diary_input_img"
+                                    id="file"
+                                    onChange={onChangeImgUpload}
+                                >
+                                </input>
+                            </label>
                         </div>
 
                     </div>
@@ -209,6 +244,11 @@ const Diary = ({selectedDate}) => {
                         </div>
                         <div className="diary_detail_modal_detail">
                             <div className="diary_detail_date">{formattedDate}</div>
+                            {uploadImgUrl &&(
+                                <div className="diary_detail_img">
+                                    <img src={uploadImgUrl} alt="Uploaded" className="uploaded_img"/>
+                                </div>
+                            )}
                             <div className="diary_detail">{diaryContent}</div>
                         </div>
                     </div>
