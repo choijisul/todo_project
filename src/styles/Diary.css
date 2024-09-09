@@ -74,6 +74,7 @@
 .diary_modal_body{
     width: 100%;
     margin-top: 30px;
+    text-align: left;
     height: 430px;
 }
 
@@ -86,18 +87,30 @@
     outline: none;
 }
 
-.diary_modal_floot{
-    background-color: #f1f1f1;  /*구역 보여주기 위함*/
-    display: flex;
+.diary_modal_footer{
+    text-align: left;
     margin-top: 15px;
     width: 100%;
     height: 50px;
 }
 
+/*이미지 관련*/
 .get_img_button{
     height: 45px;
     width: 45px;
     border-radius: 30px;
+}
+
+.diary_input_img#file{
+    display: none;
+}
+
+.diary_input_img_label{
+    all: unset;
+    padding: 10px;
+    font-size: 0.9rem;
+    background-color: #f1f1f1;
+    border-radius: 20px;
 }
 
 /*일기 내용 모달 관련*/
