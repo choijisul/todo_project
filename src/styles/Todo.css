@@ -10,10 +10,11 @@
 .todoapp_inputbox-add-btn{
     margin-left: 0px;
     width: 140px;
-    padding: 10px 0;
+    padding: 8px 0;
     background-color: #F2F2F2;
     border: none;
     border-radius: 15px;
+    font-weight: bold;
 }
 
 .todoapp__item_input{
@@ -142,6 +143,14 @@
 }
 
 /*메모 모달 관련*/
+.modal_memo_delete_button,
+.modal_close_button{
+    border: none;
+    background-color: transparent;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
 .modal_memo_delete_button{
     margin-right: 360px;
     position: absolute;
@@ -157,3 +166,4 @@
     padding: 15px;
     display: flex;
 }
+

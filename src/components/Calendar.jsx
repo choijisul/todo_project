@@ -16,6 +16,9 @@ import {
     addDays,
 } from 'date-fns';
 import '../styles/Calendar.css';
+// 이미지
+import diaryCheckIcon from '../assets/diary_check_icon.png'
+import todoCheckIcon from '../assets/todo_mate_icon.png'
 
 // header
 const RenderHeader = ({currentMonth, prevMonth, nextMonth}) => {
@@ -74,11 +77,11 @@ const RenderHeader = ({currentMonth, prevMonth, nextMonth}) => {
             </span>
             {/* 이번달 완벽한 todo */}
             <span className="month_finish_todo">
-                <div className="todo_head_icon"> {/* 아이콘 */}</div>
+                <div className="todo_head_icon"><img src={todoCheckIcon} className="todo_check_icon"/></div>
                 {monthTodoFinishCheck()}
             </span>
             <span className="month_write_diary">
-                <div className="diary_head_icon"> {/*아이콘*/} </div>
+                <div className="diary_head_icon"><img src={diaryCheckIcon} className="diary_check_icon"/></div>
                 {monthDiaryWriteCheck()}
             </span>
             {/* 달 이동 */}
@@ -144,6 +147,7 @@ const RenderCells = ({currentMonth, selectedDate, onDateClick}) => {
         } else if (todosLength.length === todosLength.length - uncheckedTodos.length && todosLength.length !== 0) {
             return (
                 <div className="finishTodo">
+                    {/*<img src={todoCheckIcon}/>*/}
                     v
                 </div>
             )

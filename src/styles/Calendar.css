@@ -11,6 +11,10 @@
 }
 
 /*년 월*/
+.text{
+    font-weight: bold;
+}
+
 .text.year{
     margin: 0 10px 0 0;
 }
@@ -18,16 +22,23 @@
 .todo_head_icon,
 .diary_head_icon{
     margin-right: 3px;
-    margin-left: 10px;
+    margin-left: 5px;
     width: 20px;
     height: 20px;
-    background-color: gray;
+    /*margin-top: -2px;*/
+    background-color: transparent;
 }
 
 .month_finish_todo,
 .month_write_diary{
     margin-left: 10px;
     display: flex;
+}
+
+/*체크 관련*/
+.todo_check_icon,
+.diary_check_icon{
+    width: 85%;
 }
 
 /*넘어가는 버튼*/
@@ -44,6 +55,7 @@
     padding: 20px 17px 0 0;
     width: 50px;
     text-align: center;
+    font-size: 0.85rem;
 }
 
 .finishTodoListNum{
@@ -75,6 +87,8 @@
     justify-content: center;
     align-items: center;
     color: white;
+    font-size: 0.9rem;
+    font-weight: bold;
 }
 
 .finishTodo{  /*완료된 todo 스타일*/
