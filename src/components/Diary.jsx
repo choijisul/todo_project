@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import '../styles/Diary.css';
+import {format} from "date-fns";
 
 // 날짜 형식 변환
 const formatDate = (date) => {
@@ -35,10 +36,17 @@ const Diary = ({selectedDate}) => {
     }, [selectedDate]);
 
     const onClickDiaryButton = () => {
-        if (diaryContent === '') {
-            setDiaryModalVisible(true);
-        } else {
-            setDiaryDetailModalVisible(true);
+        let today = new Date();
+        const formattedToday = format(today, 'yyyyMMdd');
+        const formattedSelectDay = format(selectedDate, 'yyyyMMdd');
+        if (Number(formattedSelectDay) <= Number(formattedToday)) {
+            if (diaryContent === '') {
+                setDiaryModalVisible(true);
+            } else {
+                setDiaryDetailModalVisible(true);
+            }
+        }else{
+            alert("미래의 일기는 작성할 수 없습니다")
         }
     };
 
