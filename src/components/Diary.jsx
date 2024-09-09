@@ -88,6 +88,7 @@ const Diary = ({selectedDate}) => {
         saveDiaryEntries(diaryEntries);  //localstorage에 저장
 
         setDiaryContent('');
+        setUploadImgUrl("");
         setDiaryDetailModalVisible(false);
         setDiaryDetailChangeModal(false);
     }
@@ -112,9 +113,16 @@ const Diary = ({selectedDate}) => {
         }
     }
 
-    // const onClickImgDeletedButton = () => {
-    //
-    // }
+    const onClickImgDeletedButton = () => {
+        const diaryEntries = getDiaryEntries();
+        const formattedDate = formatDate(selectedDate);
+
+        delete diaryEntries[formattedDate.imageUrl];
+
+        saveDiaryEntries(diaryEntries);
+
+        setUploadImgUrl("");
+    }
 
     // 다이어리 내용
     const handleDiaryContentChange = (e) => {
@@ -188,8 +196,7 @@ const Diary = ({selectedDate}) => {
                         <div className="diary_modal_body">
                             <div className="diary_modal_input_img">
                                 <img src={uploadImgUrl} img="img" className="upload_img"/>
-                                {/*이미지 추가되면 버튼도 추가되게 바꾸기.*/}
-                                {/*<button className="img_deleted_button" onClick={onClickImgDeletedButton}>-</button>*/}
+                                <button className="img_deleted_button" onClick={onClickImgDeletedButton}>-</button>
                             </div>
                             <textarea
                                 type="text"
