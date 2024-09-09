@@ -66,6 +66,13 @@ const Diary = ({selectedDate}) => {
     }
 
     const onClickDiaryDetailDeleteButton = () => {
+        const diaryEntries = getDiaryEntries();
+        const formattedDate = formatDate(selectedDate);
+
+        delete diaryEntries[formattedDate];  //일기 삭제
+
+        saveDiaryEntries(diaryEntries);  //localstorage에 저장
+
         setDiaryContent('');
         setDiaryDetailModalVisible(false);
         setDiaryDetailChangeModal(false);

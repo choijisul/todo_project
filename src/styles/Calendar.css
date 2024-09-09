@@ -15,14 +15,17 @@
     margin: 0 10px 0 0;
 }
 
-.todo_head_icon{
-    margin-right: 5px;
+.todo_head_icon,
+.diary_head_icon{
+    margin-right: 3px;
+    margin-left: 10px;
     width: 20px;
     height: 20px;
     background-color: gray;
 }
 
-.month_finish_todo{
+.month_finish_todo,
+.month_write_diary{
     margin-left: 10px;
     display: flex;
 }
@@ -31,7 +34,7 @@
 .button.next_month{
     display: flex;
     justify-content: space-between;
-    margin-left: 270px;
+    margin-left: 220px;
     width: 50px;
 }
 

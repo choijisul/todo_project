@@ -19,7 +19,7 @@ import '../styles/Calendar.css';
 
 // header
 const RenderHeader = ({currentMonth, prevMonth, nextMonth}) => {
-    const monthTodoRemainderCheck = () => {
+    const monthTodoFinishCheck = () => {
         const todoList = JSON.parse(localStorage.getItem('todoList')) || [];
         let completedDaysCount = 0;
 
@@ -35,6 +35,27 @@ const RenderHeader = ({currentMonth, prevMonth, nextMonth}) => {
         }
 
         return completedDaysCount;
+    }
+
+    const monthDiaryWriteCheck = () => {
+        const diaryEntries = JSON.parse(localStorage.getItem('diaryEntries')) || {};
+        let diaryCount = 0;
+
+        const start = startOfMonth(new Date(currentMonth));
+        const end = endOfMonth(new Date(currentMonth));
+
+        for (const date in diaryEntries) {
+            const entryDate = new Date(
+                parseInt(date.slice(0, 4)),
+                parseInt(date.slice(4, 6)) - 1,
+                parseInt(date.slice(6, 8))
+            );
+
+            if(entryDate >= start && entryDate <= end){
+                diaryCount++;
+            }
+        }
+        return diaryCount;
     }
 
     return (
@@ -54,7 +75,11 @@ const RenderHeader = ({currentMonth, prevMonth, nextMonth}) => {
             {/* 이번달 완벽한 todo */}
             <span className="month_finish_todo">
                 <div className="todo_head_icon"> {/* 아이콘 */}</div>
-                {monthTodoRemainderCheck()}
+                {monthTodoFinishCheck()}
+            </span>
+            <span className="month_write_diary">
+                <div className="diary_head_icon"> {/*아이콘*/} </div>
+                {monthDiaryWriteCheck()}
             </span>
             {/* 달 이동 */}
             <span className="button next_month">
@@ -114,9 +139,9 @@ const RenderCells = ({currentMonth, selectedDate, onDateClick}) => {
             item.day === formattedDay && item.checked === true && item.deleted === false
         )
 
-        if(uncheckedTodos.length > 0) {
+        if (uncheckedTodos.length > 0) {
             return uncheckedTodos.length;
-        }else if( todosLength.length === todosLength.length - uncheckedTodos.length && todosLength.length !== 0){
+        } else if (todosLength.length === todosLength.length - uncheckedTodos.length && todosLength.length !== 0) {
             return (
                 <div className="finishTodo">
                     v
