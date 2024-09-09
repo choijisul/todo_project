@@ -51,13 +51,13 @@
     width: 25px;
     height: 25px;
     border: none;
-    background-color: #D4D8DB;
+    background-image: url("../assets/calendar_todo.png");
     cursor: pointer;
     margin-right: 10px;
 }
 
 .todoapp__item-checkbox:checked {
-    background-color: black;
+    background-image: url("../assets/todo_list_check.png");
 }
 
 .todoapp__item-ctx{
@@ -71,6 +71,7 @@
 
 /*수정, 삭제, 추가 모달 관련*/
 .modal {   /*배경*/
+    z-index: 4;
     position: fixed;
     top: 0;
     left: 0;

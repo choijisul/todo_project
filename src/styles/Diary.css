@@ -10,6 +10,7 @@
 
 /*다이어리 작성 모달 관련*/
 .diary_modal {   /*배경*/
+    z-index: 4;
     position: fixed;
     top: 0;
     left: 0;
@@ -138,6 +139,7 @@
 
 /*일기 내용 모달 관련*/
 .diary_detail_modal {
+    z-index: 4;
     position: fixed;
     top: 0;
     left: 0;
@@ -196,6 +198,7 @@
 
 /* 일기 수정 모달 관련 */
 .diary_detail_change_modal{
+    z-index: 5;
     position: fixed;
     top: 0;
     left: 0;
@@ -235,6 +238,7 @@
 
 /*일기 임시 저장 모달 관련*/
 .diary_detail_exit_modal{
+    z-index: 5;
     position: fixed;
     top: 0;
     left: 0;
@@ -274,6 +278,7 @@
 
 /* 이모지 모달 관련 */
 .emoji_modal {   /*배경*/
+    z-index: 5;
     position: fixed;
     top: 0;
     left: 0;

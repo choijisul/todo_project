@@ -62,7 +62,6 @@
     margin-left: 10px;
     width: 30px;
     height: 30px;
-    background-color: #D4D8DB;
 }
 
 .day{
@@ -77,22 +76,27 @@
     background-color: black;
 }
 
-/*.day.valid{*/
-/*    background-color: gray;*/
-/*}*/
-
 .finishTodoListNum{
     margin-bottom: 7px;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.calendar_todo_icon{
+    position: absolute;
+    z-index: 1;
+}
+
+.calendar_check_icon{
+    position: relative;
+    z-index: 2;
+}
+
+.unchecked_todo_num{
     color: white;
     font-size: 0.9rem;
     font-weight: bold;
+    z-index: 3;
 }
 
-.finishTodo{  /*완료된 todo 스타일*/
-    width: 27px;
-    height: 27px;
-    background-color: black;
-}
