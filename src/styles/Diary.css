@@ -6,7 +6,7 @@
     height: 60px;
 }
 
-/*다이어리 모달 관련*/
+/*다이어리 작성 모달 관련*/
 .diary_modal {   /*배경*/
     position: fixed;
     top: 0;
@@ -45,6 +45,8 @@
 
 .diary_modal_title{
     margin: 0px;
+    padding-top: 10px;
+    font-size: 1.2rem;
 }
 
 .diary_modal_emoji{
@@ -94,6 +96,102 @@
     height: 45px;
     width: 45px;
     border-radius: 30px;
+}
+
+/*일기 내용 모달 관련*/
+.diary_detail_modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 1000px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.diary_detail_modal-content {
+    font-size: 1.2rem;
+    width: 400px;
+    height: 320px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.diary_detail_modal_content-head{
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0px 30px 0px;
+}
+
+.diary_detail_close_button,
+.diary_detail_change_button{
+    padding: 5px;
+    font-size: 1.2rem;
+    background-color: transparent;
+    border: none;
+}
+
+.diary_detail_modal_emoji{
+    height: 50px;
+}
+
+.diary_detail_modal_detail{
+    height: 52%;
+    margin-top: 20px;
+    text-align: left;
+}
+
+.diary_detail_date{
+    font-size: 0.8rem;
+    margin-left: 20px;
+}
+
+.diary_detail{  /* +내용 길어지면 스크롤 */
+    margin-top: 10px;
+    font-size: 1.2rem;
+}
+
+/* 일기 수정 모달 관련 */
+.diary_detail_change_modal{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 1000px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.diary_detail_change_modal_content{
+    width: 200px;
+    height: 160px;
+    background-color: white;
+    padding: 10px;
+    border-radius: 8px;
+    flex-direction: column;
+    display: flex;
+    text-align: center;
+}
+
+.detail_change_title{
+    font-size: 0.9rem;
+    margin: 5px 0;
+}
+
+.detail_change_button,
+.detail_delete_button,
+.diary_change_cancel_button{
+    margin:5px;
+    height: 35px;
+    border-radius: 5px;
+    border: none;
+    background-color: #F5F5F5;
 }
 
 /* 이모지 모달 관련 */
