@@ -27,6 +27,7 @@ const saveDiaryEntries = (entries) => {
 const Diary = ({selectedDate}) => {
     const [diaryModalVisible, setDiaryModalVisible] = useState(false);
     const [diaryDetailModalVisible, setDiaryDetailModalVisible] = useState(false);
+    const [diaryExitModalVisible, setDiaryExitModalVisible] = useState(false);
     const [diaryDetailChangeModal, setDiaryDetailChangeModal] = useState(false);
     const [emojiModalVisible, setEmojiModalVisible] = useState(false);
     const [diaryContent, setDiaryContent] = useState('');
@@ -56,10 +57,25 @@ const Diary = ({selectedDate}) => {
     };
 
     // 다이어리 모달 관련
-    const closeDiaryModal = () => {
-        setDiaryModalVisible(false);
-        onClickDiaryDetailDeleteButton();
+    const onClickCloseDiaryModal = () => {
+        setDiaryExitModalVisible(true);
     };
+
+    const closeDiaryExitModal = () => {
+        setDiaryExitModalVisible(false);
+    }
+
+    const onClickDiaryExitButton = () => {
+        setDiaryModalVisible(false);
+        setDiaryExitModalVisible(false);
+        onClickDiaryDetailDeleteButton();
+    }
+
+    const onClickTemporaryStorageButton = () => {
+    //     나중에 이모지 흐리게 하는 효과 추가해야 함.
+        saveDiaryContent();
+        setDiaryExitModalVisible(false);
+    }
 
     const closeDiaryDetailModal = () => {
         setDiaryDetailModalVisible(false);
@@ -88,6 +104,7 @@ const Diary = ({selectedDate}) => {
         saveDiaryEntries(diaryEntries);  //localstorage에 저장
 
         setDiaryContent('');
+        setUploadImgUrl("");
         setDiaryDetailModalVisible(false);
         setDiaryDetailChangeModal(false);
     }
@@ -112,9 +129,16 @@ const Diary = ({selectedDate}) => {
         }
     }
 
-    // const onClickImgDeletedButton = () => {
-    //
-    // }
+    const onClickImgDeletedButton = () => {
+        const diaryEntries = getDiaryEntries();
+        const formattedDate = formatDate(selectedDate);
+
+        delete diaryEntries[formattedDate.imageUrl];
+
+        saveDiaryEntries(diaryEntries);
+
+        setUploadImgUrl("");
+    }
 
     // 다이어리 내용
     const handleDiaryContentChange = (e) => {
@@ -158,7 +182,7 @@ const Diary = ({selectedDate}) => {
                             {/*제목, 나가기, 완료*/}
                             <button
                                 type="button"
-                                onClick={closeDiaryModal}
+                                onClick={onClickCloseDiaryModal}
                                 className="diary_modal_close_button"
                             >
                                 x
@@ -188,8 +212,7 @@ const Diary = ({selectedDate}) => {
                         <div className="diary_modal_body">
                             <div className="diary_modal_input_img">
                                 <img src={uploadImgUrl} img="img" className="upload_img"/>
-                                {/*이미지 추가되면 버튼도 추가되게 바꾸기.*/}
-                                {/*<button className="img_deleted_button" onClick={onClickImgDeletedButton}>-</button>*/}
+                                <button className="img_deleted_button" onClick={onClickImgDeletedButton}>-</button>
                             </div>
                             <textarea
                                 type="text"
@@ -244,7 +267,7 @@ const Diary = ({selectedDate}) => {
                         </div>
                         <div className="diary_detail_modal_detail">
                             <div className="diary_detail_date">{formattedDate}</div>
-                            {uploadImgUrl &&(
+                            {uploadImgUrl && (
                                 <div className="diary_detail_img">
                                     <img src={uploadImgUrl} alt="Uploaded" className="uploaded_img"/>
                                 </div>
@@ -262,6 +285,17 @@ const Diary = ({selectedDate}) => {
                         <button className="detail_change_button" onClick={onClickDiaryDetailChangeButton}>수정</button>
                         <button className="detail_delete_button" onClick={onClickDiaryDetailDeleteButton}>삭제</button>
                         <button className="diary_change_cancel_button" onClick={closeDiaryDetailChangeModal}>취소</button>
+                    </div>
+                </div>
+            )}
+            {/*일기 임시저장 모달*/}
+            {diaryExitModalVisible && (
+                <div className="diary_detail_exit_modal">
+                    <div className="diary_detail_exit_modal_content">
+                        <h3 className="detail_exit_title">임시저장하시겠습니까?</h3>
+                        <button className="temporary_storage_button" onClick={onClickTemporaryStorageButton}>확인</button>
+                        <button className="detail_exit_button" onClick={onClickDiaryExitButton}>임시저장하지 않고 닫기</button>
+                        <button className="diary_exit_cancel_button" onClick={closeDiaryExitModal}>취소</button>
                     </div>
                 </div>
             )}

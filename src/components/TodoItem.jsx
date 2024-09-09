@@ -64,11 +64,13 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
 
     // 메모 삭제
     const onChangeMemoDelete = () => {
+        console.log('tkrwp');
         const nextTodoList = todoList.map((item) => ({
             ...item,
             memo: item.id === todoItem.id ? '' : item.memo,
         }));
         setTodoList(nextTodoList);
+        setMemo('');
         window.localStorage.setItem("todoList", JSON.stringify(nextTodoList)); // 메모 저장
         setMemoModalVisible(false); // 메모 저장 후 모달 닫기
     }
