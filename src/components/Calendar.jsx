@@ -29,11 +29,9 @@ const RenderHeader = ({currentMonth, prevMonth, nextMonth}) => {
             //
             const dayTodos = todoList.filter(item => item.day === formattedDay && item.deleted === false);
             if (dayTodos.length === 0) continue;  //todo 목록 없음.
-            // 날짜 목록 check 확인
-            const allChecked = dayTodos.every(item => item.checked === true);
-            if (allChecked) {
-                completedDaysCount++;
-            }
+            // 한 달에 완료된 todo count
+            const completedTodos = dayTodos.filter(item => item.checked === true).length;
+            completedDaysCount += completedTodos;
         }
 
         return completedDaysCount;
