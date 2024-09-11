@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from "react";
 import '../styles/Diary.css';
 import {format} from "date-fns";
+import emojiDate from '../data/emoji.json';  //json
 // 이미지
 import imgUploadIcon from '../assets/input_img_icon.png'
 import diaryIcon from '../assets/diary_icon.png'
+import recentlyUsedIcon from '../assets/recently_used_icon.png'
 
 // 날짜 형식 변환
 const formatDate = (date) => {
@@ -33,6 +35,7 @@ const Diary = ({selectedDate}) => {
     const [emojiModalVisible, setEmojiModalVisible] = useState(false);
     const [diaryContent, setDiaryContent] = useState('');
     const [uploadImgUrl, setUploadImgUrl] = useState("");
+    const [selectedEmojis, setSelectedEmojis] = useState([]);
 
     useEffect(() => {
         const diaryEntries = getDiaryEntries();
@@ -42,6 +45,7 @@ const Diary = ({selectedDate}) => {
         setUploadImgUrl(diaryEntry.imageUrl);
     }, [selectedDate]);
 
+    // 일기 작성
     const onClickDiaryButton = () => {
         let today = new Date();
         const formattedToday = format(today, 'yyyyMMdd');
@@ -163,6 +167,14 @@ const Diary = ({selectedDate}) => {
         month: "long",
         day: "numeric"
     });
+
+    // 이모지 관련
+    const onClickEmojiSelect = (e) => {
+        const emojiButtonId = e.target.id;
+        console.log(emojiButtonId);
+        const emojiList = emojiDate.find(item => item.id === emojiButtonId)?.emojis || [];
+        setSelectedEmojis(emojiList);
+    }
 
     return (
         <div className="calendar-header">
@@ -307,33 +319,32 @@ const Diary = ({selectedDate}) => {
             )}
             {/* 이모지 모달 */}
             {emojiModalVisible && (
-                <div className="emoji_modal" onClick={closeEmojiModal}>
+                <div className="emoji_modal">   {/*onClick={closeEmojiModal}*/}
                     <div className="emoji_modal-content">
                         <div className="emoji_modal_content-head">
                             <h5 className="emoji_modal_title">이모지</h5>
                         </div>
                         <div className="emoji_modal_container">
-                            <div className="emoji_collct">️</div>
-                            <div className="emoji_collct"></div>
-                            <div className="emoji_collct"></div>
-                            <div className="emoji_collct"></div>
-                            <div className="emoji_collct"></div>
-                            <div className="emoji_collct"></div>
-                            <div className="emoji_collct"></div>
+                            {/*map 이용해 JSON 이모지*/}
+                                {selectedEmojis.map((emoji, index) => (
+                                    <div key={index} className="emoji_collct">
+                                        {emoji}
+                                    </div>
+                                ))}️
                         </div>
                         <div className="emoji_modal_footer">
-                            <button className="emoji_button">oo</button>
-                            <button className="emoji_button">😀</button>
-                            <button className="emoji_button">🤗</button>
-                            <button className="emoji_button">👋</button>
-                            <button className="emoji_button">oo</button>
-                            <button className="emoji_button">oo</button>
-                            <button className="emoji_button">oo</button>
-                            <button className="emoji_button">oo</button>
-                            <button className="emoji_button">oo</button>
-                            <button className="emoji_button">oo</button>
-                            <button className="emoji_button">oo</button>
-                            <button className="emoji_button">oo</button>
+                            {/*<button className="emoji_button" id="recently_used"><img src={recentlyUsedIcon} className="recently_used_icon"/></button>*/}
+                            <button className="emoji_button" id="face1" onClick={onClickEmojiSelect}>😃</button>
+                            <button className="emoji_button" id="face2" onClick={onClickEmojiSelect}>🤗</button>
+                            <button className="emoji_button" id="hand" onClick={onClickEmojiSelect}>👋</button>
+                            <button className="emoji_button" id="weather" onClick={onClickEmojiSelect}>🌈</button>
+                            <button className="emoji_button" id="thing1" onClick={onClickEmojiSelect}>📚</button>
+                            <button className="emoji_button" id="active" onClick={onClickEmojiSelect}>⚽️</button>
+                            <button className="emoji_button" id="food" onClick={onClickEmojiSelect}>🍔</button>
+                            <button className="emoji_button" id="animal" onClick={onClickEmojiSelect}>🐶</button>
+                            <button className="emoji_button" id="thing2" onClick={onClickEmojiSelect}>🎉</button>
+                            <button className="emoji_button" id="vehicle" onClick={onClickEmojiSelect}>🚗</button>
+                            <button className="emoji_button" id="flag" onClick={onClickEmojiSelect}>🏁</button>
                         </div>
                     </div>
                 </div>
