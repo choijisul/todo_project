@@ -87,6 +87,8 @@
     margin-top: 30px;
     text-align: left;
     height: 430px;
+    overflow: auto;
+    overflow-x: hidden;
 }
 
 
@@ -128,7 +130,7 @@
     justify-content: space-between;
 }
 
-.uploaded_img{
+.upload_img{
     width: 100%;
 }
 
@@ -193,7 +195,8 @@
     height: 52%;
     margin-top: 20px;
     text-align: left;
-    overflow-y: auto;
+    overflow: auto;
+    overflow-x: hidden;
 }
 
 .diary_detail_date{
@@ -204,6 +207,10 @@
 .diary_detail{  /* +내용 길어지면 스크롤 */
     margin-top: 10px;
     font-size: 1.2rem;
+}
+
+.uploaded_img{
+    width: 100%;
 }
 
 /* 일기 수정 모달 관련 */

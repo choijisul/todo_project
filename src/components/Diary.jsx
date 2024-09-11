@@ -73,7 +73,7 @@ const Diary = ({selectedDate}) => {
     }
 
     const onClickTemporaryStorageButton = () => {
-    //     나중에 이모지 흐리게 하는 효과 추가해야 함.
+        //     나중에 이모지 흐리게 하는 효과 추가해야 함.
         saveDiaryContent();
         setDiaryExitModalVisible(false);
     }
@@ -212,8 +212,13 @@ const Diary = ({selectedDate}) => {
                         </div>
                         <div className="diary_modal_body">
                             <div className="diary_modal_input_img">
-                                <img src={uploadImgUrl} img="img" className="upload_img"/>
-                                <button className="img_deleted_button" onClick={onClickImgDeletedButton}>-</button>
+                                {uploadImgUrl && (
+                                    <>
+                                        <img src={uploadImgUrl} img="img" className="upload_img"/>
+                                        <button className="img_deleted_button" onClick={onClickImgDeletedButton}>-
+                                        </button>
+                                    </>
+                                )}
                             </div>
                             <textarea
                                 type="text"
