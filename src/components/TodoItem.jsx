@@ -128,6 +128,7 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
                 {edited ? (
                     <input
                         type="text"
+                        className="detail_change_input"
                         value={newText}
                         ref={editInputRef}
                         onChange={onChangeEditInput}

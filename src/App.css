@@ -3,4 +3,15 @@
     display: flex;
     justify-content: space-between;
     padding: 0 30px;
+    overflow: auto;
+}
+
+.todo{
+    height: 600px;
+    overflow: auto;
+    /*position: relative;*/
+}
+
+.todo::-webkit-scrollbar{
+    display: none;
 }

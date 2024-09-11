@@ -203,7 +203,8 @@ const Diary = ({selectedDate}) => {
     const formattedDate = new Date(selectedDate).toLocaleDateString("ko-KR", {
         year: "numeric",
         month: "long",
-        day: "numeric"
+        day: "numeric",
+        weekday: "long"
     });
 
     // 이모지 관련
