@@ -41,9 +41,19 @@ const Diary = ({selectedDate}) => {
     useEffect(() => {
         const diaryEntries = getDiaryEntries();
         const formattedDate = formatDate(selectedDate);
-        const diaryEntry = diaryEntries[formattedDate] || {content: '', imageUrl: ''};
+        const diaryEntry = diaryEntries[formattedDate] || {content: '', imageUrl: '', emoji: 0};
+
         setDiaryContent(diaryEntry.content);
         setUploadImgUrl(diaryEntry.imageUrl);
+
+        if (diaryEntry.emoji !== null) {
+            setDayEmoji(diaryEntry.emoji);
+        } else {
+            setDayEmoji(0);
+        }
+
+        const emojiList = emojiDate.find(item => item.id === "face1")?.emojis || [];
+        setSelectedEmojis(emojiList);
     }, [selectedDate]);
 
     // 일기 작성
@@ -52,7 +62,7 @@ const Diary = ({selectedDate}) => {
         const formattedToday = format(today, 'yyyyMMdd');
         const formattedSelectDay = format(selectedDate, 'yyyyMMdd');
         if (Number(formattedSelectDay) <= Number(formattedToday)) {
-            if (diaryContent === '') {
+            if (dayEmoji === 0) {
                 setDiaryModalVisible(true);
             } else {
                 setDiaryDetailModalVisible(true);
@@ -78,9 +88,22 @@ const Diary = ({selectedDate}) => {
     }
 
     const onClickTemporaryStorageButton = () => {
-        //     나중에 이모지 흐리게 하는 효과 추가해야 함.
-        saveDiaryContent();
-        setDiaryExitModalVisible(false);
+        if(dayEmoji === 0){
+            alert("이모지를 선택해 주세요")
+        }else{
+            const diaryEntries = getDiaryEntries();
+            const formattedDate = formatDate(selectedDate);
+
+            diaryEntries[formattedDate] = {
+                content: diaryContent,
+                imageUrl: uploadImgUrl,
+                emoji: dayEmoji,
+            };
+            saveDiaryEntries(diaryEntries);
+
+            setDiaryExitModalVisible(false);
+            setDiaryModalVisible(false);
+        }
     }
 
     const closeDiaryDetailModal = () => {
@@ -111,6 +134,8 @@ const Diary = ({selectedDate}) => {
 
         setDiaryContent('');
         setUploadImgUrl("");
+        setSelectedEmojis([]);
+        setDayEmoji(0);
         setDiaryDetailModalVisible(false);
         setDiaryDetailChangeModal(false);
     }
@@ -154,12 +179,24 @@ const Diary = ({selectedDate}) => {
     const saveDiaryContent = () => {
         const diaryEntries = getDiaryEntries();
         const formattedDate = formatDate(selectedDate);
+
         diaryEntries[formattedDate] = {
             content: diaryContent,
-            imageUrl: uploadImgUrl
+            imageUrl: uploadImgUrl,
+            emoji: dayEmoji,
         };
-        saveDiaryEntries(diaryEntries);
-        setDiaryModalVisible(false);
+
+        if(dayEmoji !== 0){
+            saveDiaryEntries(diaryEntries);
+            setDiaryModalVisible(false);
+        }else{
+            alert("이모지를 선택해 주세요")
+        }
+        if(diaryContent === ''){
+            alert("텍스트를 입력해 주세요")
+            setDiaryModalVisible(true);
+        }
+
     };
 
     // 날짜 형식 바꿈 (+요일추가 해야함)
@@ -180,8 +217,9 @@ const Diary = ({selectedDate}) => {
     const onClickDayEmoji = (e) => {
         const emojiId = e.target.id;
         setDayEmoji(emojiId);
-        closeEmojiModal(false);
+        closeEmojiModal();
     }
+
     return (
         <div className="calendar-header">
             프로필
@@ -190,7 +228,11 @@ const Diary = ({selectedDate}) => {
                 onClick={onClickDiaryButton}
                 className="diary_button"
             >
-                <img src={diaryIcon} className="diary_button_icon"/>
+                {dayEmoji === 0 ? (
+                    <img src={diaryIcon} className="diary_button_icon"/>
+                ) : (
+                    <div>{selectedEmojis[dayEmoji]}</div>
+                )}
             </button>
 
             {/*일기 작성 모달*/}
@@ -217,18 +259,18 @@ const Diary = ({selectedDate}) => {
                         </div>
                         {/*이모지*/}
                         <div className="diary_modal_emoji">
-                            {dayEmoji === 0 &&
+                            {dayEmoji === 0 ? (
                                 <button
                                     className="emoji_button"
                                     onClick={onClickEmojiButton}
                                 >
                                     <img src={diaryIcon} className="diary_button_icon"/>
                                 </button>
-                            }
-                            {dayEmoji !== 0 &&
-                                <button className="day_emoji_button"
-                                        onClick={onClickEmojiButton}>{selectedEmojis[dayEmoji]}</button>
-                            }
+                            ) : (
+                                <button className="day_emoji_button" onClick={onClickEmojiButton}>
+                                    {selectedEmojis[dayEmoji]}
+                                </button>
+                            )}
                         </div>
                         {/*일기*/}
                         <div className="diary_modal_day">
@@ -252,7 +294,7 @@ const Diary = ({selectedDate}) => {
                                 onChange={handleDiaryContentChange}
                             />
                         </div>
-                        {/*부가적인..*/}
+                        {/*이미지 관련*/}
                         <div className="diary_modal_footer">
                             <label for="file" className="diary_input_img_label">
                                 <img src={imgUploadIcon} className="upload_img_icon"/>
@@ -293,7 +335,7 @@ const Diary = ({selectedDate}) => {
                         </div>
                         {/*이모지*/}
                         <div className="diary_detail_modal_emoji">
-                            {/*    나중에 이모지 넣음*/}
+                            {selectedEmojis[dayEmoji]}
                         </div>
                         <div className="diary_detail_modal_detail">
                             <div className="diary_detail_date">{formattedDate}</div>

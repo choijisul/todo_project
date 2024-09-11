@@ -8,6 +8,7 @@
 /*header*/
 .header.row{
     display: flex;
+    margin-bottom: 15px;
 }
 
 /*년 월*/
