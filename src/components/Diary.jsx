@@ -291,6 +291,7 @@ const Diary = ({selectedDate}) => {
                                 placeholder={"OO님의 오늘은 어떤 하루였나요?"}
                                 value={diaryContent}
                                 onChange={handleDiaryContentChange}
+                                style={{whiteSpace: 'pre-wrap'}}
                             />
                         </div>
                         {/*이미지 관련*/}
@@ -344,7 +345,7 @@ const Diary = ({selectedDate}) => {
                                     <img src={uploadImgUrl} alt="Uploaded" className="uploaded_img"/>
                                 </div>
                             )}
-                            <div className="diary_detail">{diaryContent}</div>
+                            <div className="diary_detail" style={{whiteSpace: 'pre-wrap'}}>{diaryContent}</div>
                         </div>
                     </div>
                 </>

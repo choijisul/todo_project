@@ -186,7 +186,9 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
                                 <div>
                                     {
                                         memo !== '' ?
-                                            <div className="memo_info" onClick={onClickMemoButton}>{memo}</div> : null
+                                            <div className="memo_info" onClick={onClickMemoButton} style={{whiteSpace: 'pre-wrap'}}>
+                                                {memo}
+                                            </div> : null
                                     }
                                 </div>
                             </div>
@@ -221,6 +223,7 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
                                 className="todoapp__item-memo-textarea"
                                 onChange={onChangeMemoInput} // 입력 시 상태값 변경
                                 onBlur={memoInput} // 포커스 해제 시 저장
+                                style={{whiteSpace: 'pre-wrap'}}
                             />
                         </div>
                     </>
