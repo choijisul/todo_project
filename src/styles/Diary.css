@@ -66,13 +66,21 @@
     height: 70px;
     display: flex;
     justify-content: center;
+    background-color: transparent;
 }
 
-.emogi_button {
+.emoji_button {
     width: 60px;
     margin-right: 20px;
     border: none;
     background-color: transparent;
+}
+
+.day_emoji_button{
+    background-color: transparent;
+    border: none;
+    font-size: 3.2rem;
+    padding-right: 25px;
 }
 
 .diary_modal_day {
@@ -353,7 +361,7 @@
     scrollbar-width: none;
 }
 
-.emoji_button {
+.emoji_select_button {
     width: 57px;
     margin: 3px;
     border-radius: 20px;
@@ -362,7 +370,7 @@
     border: none;
 }
 
-.emoji_button:focus,
+.emoji_select_button:focus,
 .emoji_button.active-color {
     background-color: #3B3B3B;
 }
