@@ -1,6 +1,8 @@
 import {useState, useRef, useEffect} from 'react';
 import * as PropTypes from "prop-types";
 import '../styles/Todo.css';
+// 이미지
+import memoIcon from '../assets/memo_icon.png';
 
 const ToDoItem = ({todoItem, todoList, setTodoList}) => {
     const [edited, setEdited] = useState(false);  //수정
@@ -140,6 +142,9 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
                         onClick={onClickTitle} // 제목 클릭 이벤트
                     >
                     {todoItem.text}
+                        {memo !== "" && (
+                            <div className="check_memo"><img src={memoIcon} className="memo_icon"/>메모</div>
+                        )}
                 </span>
                 )}
                 <button className="todoListinventory" onClick={onClickTitle}>...</button>

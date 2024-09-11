@@ -209,7 +209,6 @@ const Diary = ({selectedDate}) => {
     // 이모지 관련
     const onClickEmojiSelect = (e) => {
         const emojiButtonId = e.target.id;
-        console.log(emojiButtonId);
         const emojiList = emojiDate.find(item => item.id === emojiButtonId)?.emojis || [];
         setSelectedEmojis(emojiList);
     }
