@@ -175,6 +175,9 @@
 }
 
 .diary_detail_modal-content {
+    z-index: 5;
+    position: absolute;
+    margin-left: 250px;
     font-size: 1.2rem;
     width: 400px;
     height: 320px;
@@ -233,12 +236,14 @@
     width: 1000px;
     height: 100%;
     display: flex;
-    align-items: center;
-    justify-content: center;
     background-color: rgba(0, 0, 0, 0.5);
 }
 
 .diary_detail_change_modal_content {
+    z-index: 6;
+    position: absolute;
+    margin-left: 350px;
+    margin-top: 120px;
     width: 200px;
     height: 160px;
     background-color: white;
@@ -284,6 +289,10 @@
 }
 
 .diary_detail_exit_modal_content {
+    z-index: 6;
+    position: absolute;
+    margin-left: 340px;
+    margin-top: 120px;
     width: 200px;
     height: 160px;
     background-color: white;
@@ -318,12 +327,13 @@
     width: 1000px;
     height: 100%;
     display: flex;
-    align-items: center;
-    justify-content: center;
     background-color: rgba(0, 0, 0, 0.5);
 }
 
 .emoji_modal-content { /*content*/
+    position: absolute;
+    margin-left: 190px;
+    z-index: 6;
     font-size: 1.2rem;
     width: 500px;
     height: 350px;

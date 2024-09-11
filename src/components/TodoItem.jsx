@@ -91,6 +91,13 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
         setNewText(e.target.value);
     }
 
+    // 엔터 키
+    const onKeyDownInput = (e) => {
+        if (e.key === 'Enter') {
+            onClickSubmitButton();
+        }
+    };
+
     // 모달 true
     const onClickTitle = () => {
         setInventoryModalVisible(true);
@@ -107,7 +114,7 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
 
     return (
         <div>
-            <li className="todoapp__item" >
+            <li className="todoapp__item">
                 {/* checkbox */}
                 <input
                     type="checkbox"
@@ -123,6 +130,7 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
                         ref={editInputRef}
                         onChange={onChangeEditInput}
                         onBlur={onClickSubmitButton} // 입력이 완료되면 저장
+                        onKeyDown={onKeyDownInput}
                     />
                 ) : (
                     <span
@@ -138,7 +146,8 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
 
                 {/* 모달(삭제, 수정, 메모 버튼) */}
                 {InventoryModalVisible && (
-                    <div className="modal" onClick={closeModal1}>
+                    <>
+                        <div className="modal" onClick={closeModal1}></div>
                         <div className="modal-content">
                             {/* 수정 버튼 */}
                             <div className="modal-content-head">
@@ -171,16 +180,18 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
                                 </button>
                                 <div>
                                     {
-                                        memo !== '' ? <div className="memo_info" onClick={onClickMemoButton}>{memo}</div> : null
+                                        memo !== '' ?
+                                            <div className="memo_info" onClick={onClickMemoButton}>{memo}</div> : null
                                     }
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </>
                 )}
                 {/*메모 작성 모달*/}
                 {MemoModalVisible && (
-                    <div className="modal">
+                    <>
+                        <div className="modal" onClick={onChangeMemoDelete}></div>
                         <div className="modal-content">
                             <div className="modal-content-head">
                                 <button
@@ -207,7 +218,7 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
                                 onBlur={memoInput} // 포커스 해제 시 저장
                             />
                         </div>
-                    </div>
+                    </>
                 )}
             </li>
         </div>

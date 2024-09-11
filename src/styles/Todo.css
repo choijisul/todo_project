@@ -78,12 +78,15 @@
     width: 1000px;
     height: 100%;
     display: flex;
-    align-items: center;
-    justify-content: center;
     background-color: rgba(0, 0, 0, 0.5);
 }
 
 .modal-content {   /*content*/
+    z-index: 5;
+    position: absolute;
+    top: 450px;
+    left: 270px;
+    margin-right: 250px;
     font-size: 1.2rem;
     width: 400px;
     background-color: white;

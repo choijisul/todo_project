@@ -88,9 +88,9 @@ const Diary = ({selectedDate}) => {
     }
 
     const onClickTemporaryStorageButton = () => {
-        if(dayEmoji === 0){
+        if (dayEmoji === 0) {
             alert("이모지를 선택해 주세요")
-        }else{
+        } else {
             const diaryEntries = getDiaryEntries();
             const formattedDate = formatDate(selectedDate);
 
@@ -141,12 +141,12 @@ const Diary = ({selectedDate}) => {
     }
 
     // 다이어리 이모지 관련
-    const onClickEmojiButton = () => {
-        setEmojiModalVisible(true);
-    };
-
     const closeEmojiModal = () => {
         setEmojiModalVisible(false);
+    };
+
+    const onClickEmojiButton = () => {
+        setEmojiModalVisible(true);
     };
 
     // 다이어리 사진
@@ -186,13 +186,13 @@ const Diary = ({selectedDate}) => {
             emoji: dayEmoji,
         };
 
-        if(dayEmoji !== 0){
+        if (dayEmoji !== 0) {
             saveDiaryEntries(diaryEntries);
             setDiaryModalVisible(false);
-        }else{
+        } else {
             alert("이모지를 선택해 주세요")
         }
-        if(diaryContent === ''){
+        if (diaryContent === '') {
             alert("텍스트를 입력해 주세요")
             setDiaryModalVisible(true);
         }
@@ -314,7 +314,8 @@ const Diary = ({selectedDate}) => {
             )}
             {/*일기 내용 모달*/}
             {diaryDetailModalVisible && (
-                <div className="diary_detail_modal">
+                <>
+                    <div className="diary_detail_modal" onClick={closeDiaryDetailModal}></div>
                     <div className="diary_detail_modal-content">
                         <div className="diary_detail_modal_content-head">
                             <button
@@ -347,33 +348,36 @@ const Diary = ({selectedDate}) => {
                             <div className="diary_detail">{diaryContent}</div>
                         </div>
                     </div>
-                </div>
+                </>
             )}
             {/*일기 내용 수정 모달*/}
             {diaryDetailChangeModal && (
-                <div className="diary_detail_change_modal">
+                <>
+                    <div className="diary_detail_change_modal" onClick={closeDiaryDetailChangeModal}></div>
                     <div className="diary_detail_change_modal_content">
                         <h3 className="detail_change_title">일기</h3>
                         <button className="detail_change_button" onClick={onClickDiaryDetailChangeButton}>수정</button>
                         <button className="detail_delete_button" onClick={onClickDiaryDetailDeleteButton}>삭제</button>
                         <button className="diary_change_cancel_button" onClick={closeDiaryDetailChangeModal}>취소</button>
                     </div>
-                </div>
+                </>
             )}
             {/*일기 임시저장 모달*/}
             {diaryExitModalVisible && (
-                <div className="diary_detail_exit_modal">
+                <>
+                    <div className="diary_detail_exit_modal" onClick={closeDiaryExitModal}></div>
                     <div className="diary_detail_exit_modal_content">
                         <h3 className="detail_exit_title">임시저장하시겠습니까?</h3>
                         <button className="temporary_storage_button" onClick={onClickTemporaryStorageButton}>확인</button>
                         <button className="detail_exit_button" onClick={onClickDiaryExitButton}>임시저장하지 않고 닫기</button>
                         <button className="diary_exit_cancel_button" onClick={closeDiaryExitModal}>취소</button>
                     </div>
-                </div>
+                </>
             )}
             {/* 이모지 모달 */}
             {emojiModalVisible && (
-                <div className="emoji_modal">   {/*onClick={closeEmojiModal}*/}
+                <>
+                    <div className="emoji_modal" onClick={closeEmojiModal}></div>
                     <div className="emoji_modal-content">
                         <div className="emoji_modal_content-head">
                             <h5 className="emoji_modal_title">이모지</h5>
@@ -387,7 +391,8 @@ const Diary = ({selectedDate}) => {
                             ))}️
                         </div>
                         <div className="emoji_modal_footer">
-                            {/*<button className="emoji_button" id="recently_used"><img src={recentlyUsedIcon} className="recently_used_icon"/></button>*/}
+                            {/*<button className="emoji_select_button" id="recently_used" onClick={onClickEmojiSelect}><img*/}
+                            {/*    src={recentlyUsedIcon} className="recently_used_icon"/></button>*/}
                             <button className="emoji_select_button" id="face1" onClick={onClickEmojiSelect}>😃</button>
                             <button className="emoji_select_button" id="face2" onClick={onClickEmojiSelect}>🤗</button>
                             <button className="emoji_select_button" id="hand" onClick={onClickEmojiSelect}>👋</button>
@@ -401,7 +406,8 @@ const Diary = ({selectedDate}) => {
                             <button className="emoji_select_button" id="flag" onClick={onClickEmojiSelect}>🏁</button>
                         </div>
                     </div>
-                </div>
+                </>
+
             )}
         </div>
     );
