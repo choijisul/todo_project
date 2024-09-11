@@ -77,6 +77,10 @@
     background-color: black;
 }
 
+.day.valid{
+    padding-bottom: 3px;
+}
+
 .finishTodoListNum{
     margin-bottom: 7px;
     display: flex;
