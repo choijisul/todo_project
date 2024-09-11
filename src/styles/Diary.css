@@ -1,4 +1,4 @@
-.calendar-header{
+.calendar-header {
     display: flex;
     justify-content: space-between;
     margin-bottom: 30px;
@@ -6,19 +6,21 @@
     height: 60px;
 }
 
-.diary_button{
+.diary_button {
+    margin-right: 10px;
     width: 50px;
     height: 50px;
     border: none;
     background-color: transparent;
+    font-size: 2.3rem;
 }
 
-.diary_button_icon{
+.diary_button_icon {
     width: 100%;
 }
 
 /*다이어리 작성 모달 관련*/
-.diary_modal {   /*배경*/
+.diary_modal { /*배경*/
     z-index: 4;
     position: fixed;
     top: 0;
@@ -31,7 +33,7 @@
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-.diary_modal-content {   /*content*/
+.diary_modal-content { /*content*/
     font-size: 1.2rem;
     width: 800px;
     height: 700px;
@@ -41,52 +43,63 @@
     text-align: center;
 }
 
-.diary_modal_content-head{
+.diary_modal_content-head {
     display: flex;
     justify-content: space-between;
     margin: 10px 0px 30px 0px;
 }
 
 .diary_modal_close_button,
-.diary_modal_finish_button{
+.diary_modal_finish_button {
     padding: 5px;
     font-size: 1.1rem;
     background-color: transparent;
     border: none;
 }
 
-.diary_modal_title{
+.diary_modal_title {
     margin: 0px;
     padding-top: 10px;
     font-size: 1.2rem;
 }
 
-.diary_modal_emoji{
+.diary_modal_emoji {
     width: 100%;
     height: 70px;
     display: flex;
     justify-content: center;
+    background-color: transparent;
 }
 
-.emogi_button{
+.emoji_button {
     width: 60px;
     margin-right: 20px;
     border: none;
     background-color: transparent;
+    position: absolute;
 }
 
-.diary_modal_day{
+.day_emoji_button{
+    background-color: transparent;
+    border: none;
+    font-size: 3.2rem;
+    padding-right: 25px;
+}
+
+.diary_modal_day {
     display: flex;
     margin-left: 20px;
     margin-top: 30px;
     font-size: 0.9rem;
 }
 
-.diary_modal_body{
+.diary_modal_body {
     width: 100%;
     margin-top: 30px;
     text-align: left;
     height: 430px;
+    overflow: auto;
+    overflow-x: hidden;
 }
 
 
@@ -98,7 +111,7 @@
     outline: none;
 }
 
-.diary_modal_footer{
+.diary_modal_footer {
     text-align: left;
     margin-top: 15px;
     width: 100%;
@@ -106,38 +119,38 @@
 }
 
 /*이미지 관련*/
-.get_img_button{
+.get_img_button {
     height: 45px;
     width: 45px;
     border-radius: 30px;
 }
 
-.diary_input_img#file{
+.diary_input_img#file {
     display: none;
 }
 
-.diary_input_img_label{
+.diary_input_img_label {
     all: unset;
     padding: 10px 3px;
     background-color: #EAE8E7;
     border-radius: 20px;
 }
 
-.diary_modal_input_img{
+.diary_modal_input_img {
     display: flex;
     justify-content: space-between;
 }
 
-.uploaded_img{
+.upload_img {
     width: 100%;
 }
 
-.upload_img_icon{
+.upload_img_icon {
     margin-bottom: -13px;
     width: 35px;
 }
 
-.img_deleted_button{
+.img_deleted_button {
     height: 30px;
     width: 30px;
     color: white;
@@ -162,6 +175,9 @@
 }
 
 .diary_detail_modal-content {
+    z-index: 5;
+    position: absolute;
+    margin-left: 250px;
     font-size: 1.2rem;
     width: 400px;
     height: 320px;
@@ -171,43 +187,48 @@
     text-align: center;
 }
 
-.diary_detail_modal_content-head{
+.diary_detail_modal_content-head {
     display: flex;
     justify-content: space-between;
     margin: 10px 0px 30px 0px;
 }
 
 .diary_detail_close_button,
-.diary_detail_change_button{
+.diary_detail_change_button {
     padding: 5px;
     font-size: 1.2rem;
     background-color: transparent;
     border: none;
 }
 
-.diary_detail_modal_emoji{
+.diary_detail_modal_emoji {
     height: 50px;
 }
 
-.diary_detail_modal_detail{
+.diary_detail_modal_detail {
     height: 52%;
     margin-top: 20px;
     text-align: left;
-    overflow-y: auto;
+    overflow: auto;
+    overflow-x: hidden;
 }
 
-.diary_detail_date{
-    font-size: 0.8rem;
+.diary_detail_date {
+    font-size: 0.9rem;
     margin-left: 20px;
 }
 
-.diary_detail{  /* +내용 길어지면 스크롤 */
+.diary_detail { /* +내용 길어지면 스크롤 */
     margin-top: 10px;
     font-size: 1.2rem;
 }
 
+.uploaded_img {
+    width: 100%;
+}
+
 /* 일기 수정 모달 관련 */
-.diary_detail_change_modal{
+.diary_detail_change_modal {
     z-index: 5;
     position: fixed;
     top: 0;
@@ -215,12 +236,14 @@
     width: 1000px;
     height: 100%;
     display: flex;
-    align-items: center;
-    justify-content: center;
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-.diary_detail_change_modal_content{
+.diary_detail_change_modal_content {
+    z-index: 6;
+    position: absolute;
+    margin-left: 350px;
+    margin-top: 120px;
     width: 200px;
     height: 160px;
     background-color: white;
@@ -231,23 +254,28 @@
     text-align: center;
 }
 
-.detail_change_title{
+.detail_change_title {
     font-size: 0.9rem;
     margin: 5px 0;
 }
 
 .detail_change_button,
 .detail_delete_button,
-.diary_change_cancel_button{
-    margin:5px;
+.diary_change_cancel_button {
+    margin: 5px;
     height: 35px;
     border-radius: 5px;
     border: none;
     background-color: #F5F5F5;
 }
 
+.diary_detail_modal_emoji{
+    font-size: 2.8rem;
+    padding-right: 7px;
+}
+
 /*일기 임시 저장 모달 관련*/
-.diary_detail_exit_modal{
+.diary_detail_exit_modal {
     z-index: 5;
     position: fixed;
     top: 0;
@@ -260,7 +288,11 @@
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-.diary_detail_exit_modal_content{
+.diary_detail_exit_modal_content {
+    z-index: 6;
+    position: absolute;
+    margin-left: 340px;
+    margin-top: 120px;
     width: 200px;
     height: 160px;
     background-color: white;
@@ -271,15 +303,15 @@
     text-align: center;
 }
 
-.detail_exit_title{
+.detail_exit_title {
     font-size: 0.9rem;
     margin: 5px 0;
 }
 
 .temporary_storage_button,
 .detail_exit_button,
-.diary_exit_cancel_button{
-    margin:5px;
+.diary_exit_cancel_button {
+    margin: 5px;
     height: 35px;
     border-radius: 5px;
     border: none;
@@ -287,7 +319,7 @@
 }
 
 /* 이모지 모달 관련 */
-.emoji_modal {   /*배경*/
+.emoji_modal { /*배경*/
     z-index: 5;
     position: fixed;
     top: 0;
@@ -295,12 +327,13 @@
     width: 1000px;
     height: 100%;
     display: flex;
-    align-items: center;
-    justify-content: center;
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-.emoji_modal-content {   /*content*/
+.emoji_modal-content { /*content*/
+    position: absolute;
+    margin-left: 190px;
+    z-index: 6;
     font-size: 1.2rem;
     width: 500px;
     height: 350px;
@@ -310,18 +343,18 @@
 }
 
 /*head*/
-.emoji_modal_content-head{
+.emoji_modal_content-head {
     height: 50px;
     display: flex;
     justify-content: center;
 }
 
-.emoji_modal_title{
+.emoji_modal_title {
     margin-top: 10px;
 }
 
 /*body*/
-.emoji_modal_container{
+.emoji_modal_container {
     height: 250px;
     display: inline-flex;
     flex-wrap: wrap;
@@ -330,16 +363,15 @@
     scrollbar-width: none;
 }
 
-.emoji_collct{
-    width: 50px;
+.emoji_collct {
+    width: 40px;
     height: 50px;
-    margin: 15px;
-    font-size: 3rem;
-    background-color: #cdcdcd;
+    margin: 21px;
+    font-size: 2.5rem;
 }
 
 /*footer*/
-.emoji_modal_footer{
+.emoji_modal_footer {
     width: 100%;
     height: 50px;
     overflow: auto;
@@ -347,10 +379,21 @@
     scrollbar-width: none;
 }
 
-.emoji_button{
+.emoji_select_button {
     width: 57px;
     margin: 3px;
     border-radius: 20px;
-    font-size: 1.5em;
+    font-size: 1.4em;
+    background-color: #F0F0F0;
     border: none;
+}
+
+.emoji_select_button:focus,
+.emoji_button.active-color {
+    background-color: #3B3B3B;
+}
+
+.recently_used_icon {
+    margin-top: 5px;
+    width: 50%;
 }

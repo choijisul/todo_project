@@ -81,7 +81,7 @@ const InputBox = ({onAddClick}) => {
                         onKeyDown={onKeyDownInput}  // 엔터키
                         ref={inputRef}
                     />
-                    <button className="todoListinventory">...</button>
+                    <button className="todoListinventory-input">...</button>
                 </div>
             )}
         </div>

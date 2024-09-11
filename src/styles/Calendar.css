@@ -8,6 +8,7 @@
 /*header*/
 .header.row{
     display: flex;
+    margin-bottom: 15px;
 }
 
 /*년 월*/
@@ -74,6 +75,10 @@
     padding: 3px 0;
     border-radius: 20px;
     background-color: black;
+}
+
+.day.valid{
+    padding-bottom: 3px;
 }
 
 .finishTodoListNum{
