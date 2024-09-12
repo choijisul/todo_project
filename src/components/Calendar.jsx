@@ -23,13 +23,13 @@ import calendarTodo from '../assets/calendar_todo.png'
 const RenderHeader = ({currentMonth, prevMonth, nextMonth}) => {
     // 한 달 완료된 todo
     const monthTodoFinishCheck = () => {
-        const todoList = JSON.parse(localStorage.getItem('todoList')) || [];
+        const todoMap = JSON.parse(localStorage.getItem('todoMap')) || {};
         let completedDaysCount = 0;
 
         // 한 달 날짜별 비교
         for (let day = startOfMonth(new Date(currentMonth)); day <= endOfMonth(new Date(currentMonth)); day = addDays(day, 1)) {
             const formattedDay = format(day, 'yyyyMMdd');
-            const dayTodos = todoList.filter(item => item.day === formattedDay && item.deleted === false);
+            const dayTodos = todoMap[formattedDay] || [];
             if (dayTodos.length === 0) continue;
 
             // 한 달에 완료된 todo count
@@ -131,8 +131,9 @@ const RenderCells = ({currentMonth, selectedDate, onDateClick}) => {
 
     // 날짜별 남은 todo
     const todoListRemainderCheck = (day) => {
-        const todoList = JSON.parse(localStorage.getItem('todoList')) || [];
+        const todoMap = JSON.parse(localStorage.getItem('todoMap')) || {};
         const formattedDay = format(day, 'yyyyMMdd');
+        const todoList = todoMap[formattedDay] || [];
 
         // 'checked'가 false인 항목의 개수 계산
         const uncheckedTodos = todoList.filter(item =>

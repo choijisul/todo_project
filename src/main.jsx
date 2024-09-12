@@ -3,9 +3,9 @@ import {createRoot} from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
 
-let todoList = window.localStorage.getItem("todoList");
-if (todoList === null) {
-    window.localStorage.setItem("todoList", "[]");
+let todoMap = window.localStorage.getItem("todoMap");
+if(todoMap === null){
+    window.localStorage.setItem("todoMap", "{}");
 }
 
 createRoot(document.getElementById('root')).render(

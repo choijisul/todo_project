@@ -5,8 +5,9 @@ import {format} from "date-fns";
 import '../styles/Todo.css'
 
 const Todo = ({selectedDate}) => {
-    let todoListJson = window.localStorage.getItem("todoList");
-    const [todoList, setTodoList] = useState(JSON.parse(todoListJson));
+    let todoMapJson = window.localStorage.getItem("todoMap");
+    const [todoMap, setTodoMap] = useState(JSON.parse(todoMapJson));
+
     if(selectedDate === null){  //선택한 날짜 없으면 안그림.
         return (
             <div></div>
@@ -14,6 +15,12 @@ const Todo = ({selectedDate}) => {
     }
 
     const dateString = format(selectedDate, 'yyyyMMdd');
+    let todoList = todoMap[dateString];
+
+    if(todoList === undefined){
+        todoList = [];
+    }
+
     const onAddClick = (inputData) => {
         const nextTodoList = todoList.concat({
             id: todoList.length,
@@ -23,8 +30,21 @@ const Todo = ({selectedDate}) => {
             checked: false,
             deleted: false,
         });
-        setTodoList(nextTodoList);
-        window.localStorage.setItem("todoList", JSON.stringify(nextTodoList));
+        setTodoMap((prev) => {
+            const newMap = {...prev};
+            newMap[dateString] = nextTodoList;
+            window.localStorage.setItem("todoMap", JSON.stringify(newMap));
+            return newMap;
+        });
+    }
+
+    const setTodoList = (nextTodoList) => {
+        setTodoMap((prev) => {
+            const newMap = {...prev};
+            newMap[dateString] = nextTodoList;
+            window.localStorage.setItem("todoMap", JSON.stringify(newMap));
+            return newMap;
+        });
     }
 
     return (
