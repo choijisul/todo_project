@@ -3,8 +3,8 @@ import '../styles/Todo.css';
 
 const InputBox = ({onAddClick}) => {
     const [text, setText] = useState("");
-    const [inputVisible, setInputVisible] = useState(false);  // input 보임 여부
-    const inputRef = useRef(null);  // input 참조
+    const [inputVisible, setInputVisible] = useState(false);
+    const inputRef = useRef(null);  //input 참조
 
     const onChangeInput = (e) => {
         setText(e.target.value);
@@ -16,8 +16,9 @@ const InputBox = ({onAddClick}) => {
             return;
         }
 
-        if (text.trim() === "") {  // 입력x
-            setInputVisible(false);  // input 숨김
+        // 입력 x
+        if (text.trim() === "") {
+            setInputVisible(false);
             return;
         }
 
@@ -78,7 +79,7 @@ const InputBox = ({onAddClick}) => {
                         value={text}
                         className="todoapp_inputbox-input"
                         onChange={onChangeInput}  // input 변하면 onChangeInput() 메소드 실행
-                        onKeyDown={onKeyDownInput}  // 엔터키
+                        onKeyDown={onKeyDownInput}
                         ref={inputRef}
                     />
                     <button className="todoListinventory-input">...</button>

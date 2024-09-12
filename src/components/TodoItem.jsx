@@ -5,11 +5,12 @@ import '../styles/Todo.css';
 import memoIcon from '../assets/memo_icon.png';
 
 const ToDoItem = ({todoItem, todoList, setTodoList}) => {
-    const [edited, setEdited] = useState(false);  //수정
-    const [newText, setNewText] = useState(todoItem.text);  //
-    const [memo, setMemo] = useState(todoItem.memo || ''); // memo 초기값 설정
-    const [inventoryModalVisible, setInventoryModalVisible] = useState(false);  //삭제, 수정, 메모 버튼 모달
-    const [memoModalVisible, setMemoModalVisible] = useState(false);  //메모 작성 모달
+    const [inventoryModalVisible, setInventoryModalVisible] = useState(false);
+    const [memoModalVisible, setMemoModalVisible] = useState(false);
+
+    const [edited, setEdited] = useState(false);
+    const [newText, setNewText] = useState(todoItem.text);
+    const [memo, setMemo] = useState(todoItem.memo || '');
 
     const editInputRef = useRef(null);
 
@@ -37,13 +38,13 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
         setInventoryModalVisible(false);
     };
 
-    // 수정
+    // todo 수정
     const onClickEditButton = () => {
-        setEdited(true); // 제목 수정 모드
-        setInventoryModalVisible(false); // 모달 닫기
+        setEdited(true);
+        setInventoryModalVisible(false);
     };
 
-    // 메모 버튼 클릭
+    // 메모 관련
     const onClickMemoButton = () => {
         setInventoryModalVisible(false);
         setMemoModalVisible(true);
@@ -55,11 +56,11 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
             memo: item.id === todoItem.id ? memo : item.memo,
         }));
         setTodoList(nextTodoList);
-        window.localStorage.setItem("todoList", JSON.stringify(nextTodoList)); // 메모 저장
-        setMemoModalVisible(false); // 메모 저장 후 모달 닫기
+        window.localStorage.setItem("todoList", JSON.stringify(nextTodoList));
+        setMemoModalVisible(false);
     };
 
-    // 메모 입력 상태 업데이트
+    // 메모 입력 상태
     const onChangeMemoInput = (e) => {
         setMemo(e.target.value);
     };
@@ -73,8 +74,8 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
         }));
         setTodoList(nextTodoList);
         setMemo('');
-        window.localStorage.setItem("todoList", JSON.stringify(nextTodoList)); // 메모 저장
-        setMemoModalVisible(false); // 메모 저장 후 모달 닫기
+        window.localStorage.setItem("todoList", JSON.stringify(nextTodoList));
+        setMemoModalVisible(false);
     }
 
     // 제목 수정 완료
@@ -85,7 +86,7 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
         }));
         setTodoList(nextTodoList);
         window.localStorage.setItem("todoList", JSON.stringify(nextTodoList));
-        setEdited(false); // 수정 완료 후 수정 모드 해제
+        setEdited(false); //수정 모드 해제
     };
 
     // 제목 수정 중 상태 관리
@@ -100,18 +101,16 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
         }
     };
 
-    // 모달 true
     const onClickTitle = () => {
         setInventoryModalVisible(true);
     };
 
-    // 모달 false
-    const closeModal1 = () => {
+    const closeInventoryModal = () => {
         setInventoryModalVisible(false);
     };
 
-    const closeModal2 = () => {
-        memoInput(); // 메모 모달을 닫을 때 메모 저장
+    const closeMemoModal = () => {
+        memoInput();
     };
 
     return (
@@ -124,7 +123,7 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
                     checked={todoItem.checked}
                     onChange={onChangeCheckbox}
                 />
-                {/* 제목 수정 모드에 따른 input 처리 */}
+                {/* 제목 수정 모드에 따른 input */}
                 {edited ? (
                     <input
                         type="text"
@@ -142,7 +141,7 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
                         }`}
                         onClick={onClickTitle} // 제목 클릭 이벤트
                     >
-                    {todoItem.text}
+                        {todoItem.text}
                         {memo !== "" && (
                             <div className="check_memo"><img src={memoIcon} className="memo_icon"/>메모</div>
                         )}
@@ -150,15 +149,16 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
                 )}
                 <button className="todoListinventory" onClick={onClickTitle}>...</button>
 
-                {/* 모달(삭제, 수정, 메모 버튼) */}
+                {/* 삭제, 수정, 메모 모달 */}
                 {inventoryModalVisible && (
                     <>
-                        <div className="modal" onClick={closeModal1}></div>
+                        <div className="modal" onClick={closeInventoryModal}></div>
                         <div className="modal-content">
                             {/* 수정 버튼 */}
                             <div className="modal-content-head">
                                 <div className="modal-title1">{newText}</div>
-                                <button type="button" className="modal_close_button" onClick={closeModal1}>x</button>
+                                <button type="button" className="modal_close_button" onClick={closeInventoryModal}>x
+                                </button>
                             </div>
                             <button
                                 type="button"
@@ -175,8 +175,8 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
                             >
                                 삭제
                             </button>
+                            {/* 메모 입력 */}
                             <div className="modal-memo">
-                                {/* 메모 입력 */}
                                 <button
                                     type="button"
                                     className="todoapp__item-memo-btn"
@@ -187,7 +187,8 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
                                 <div>
                                     {
                                         memo !== '' ?
-                                            <div className="memo_info" onClick={onClickMemoButton} style={{whiteSpace: 'pre-wrap'}}>
+                                            <div className="memo_info" onClick={onClickMemoButton}
+                                                 style={{whiteSpace: 'pre-wrap'}}>
                                                 {memo}
                                             </div> : null
                                     }
@@ -212,7 +213,7 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
                                 {newText}
                                 <button
                                     type="button"
-                                    onClick={closeModal2}
+                                    onClick={closeMemoModal}
                                     className="modal_close_button"
                                 >
                                     완료
@@ -220,10 +221,10 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
                             </div>
                             <textarea
                                 type="text"
-                                value={memo} // 메모 상태값을 사용
+                                value={memo}
                                 className="todoapp__item-memo-textarea"
-                                onChange={onChangeMemoInput} // 입력 시 상태값 변경
-                                onBlur={memoInput} // 포커스 해제 시 저장
+                                onChange={onChangeMemoInput}
+                                onBlur={memoInput} // 포커스 해제 저장
                                 style={{whiteSpace: 'pre-wrap'}}
                             />
                         </div>

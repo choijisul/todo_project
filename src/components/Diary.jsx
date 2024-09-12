@@ -1,33 +1,29 @@
 import React, {useEffect, useState} from "react";
 import '../styles/Diary.css';
-import {format, isSameDay} from "date-fns";
+import {format} from "date-fns";
 import emojiDate from '../data/emoji.json';  //json
 // 이미지
 import imgUploadIcon from '../assets/input_img_icon.png'
 import diaryIcon from '../assets/diary_icon.png'
-import recentlyUsedIcon from '../assets/recently_used_icon.png'
 
 // 날짜 형식 변환
 const formatDate = (date) => {
     const d = new Date(date);
-    const year = d.getFullYear();
-    const month = String(d.getMonth() + 1).padStart(2, '0');
-    const day = String(d.getDate()).padStart(2, '0');
-    return `${year}${month}${day}`;
+    return format(d, 'yyyyMMdd');
 };
 
 //일기 가져옴.
 const getDiaryEntries = () => {
     const diaryEntries = localStorage.getItem('diaryEntries');
-    return diaryEntries ? JSON.parse(diaryEntries) : {};  //JSON
+    return diaryEntries ? JSON.parse(diaryEntries) : {};
 };
 
-// 일기 임시저장 여부
 const saveDiaryEntries = (entries, isTemporary = false) => {
     localStorage.setItem('diaryEntries', JSON.stringify(entries));
     localStorage.setItem('temporaryStorage', JSON.stringify(isTemporary));
 };
 
+// 일기 임시저장 여부
 const isTemporarySaved = (date) => {
     const temporaryStorage = JSON.parse(localStorage.getItem('temporaryStorage')) || {};
     return temporaryStorage[date] || false;
@@ -37,8 +33,9 @@ const Diary = ({selectedDate}) => {
     const [diaryModalVisible, setDiaryModalVisible] = useState(false);
     const [diaryDetailModalVisible, setDiaryDetailModalVisible] = useState(false);
     const [diaryExitModalVisible, setDiaryExitModalVisible] = useState(false);
-    const [diaryDetailChangeModal, setDiaryDetailChangeModal] = useState(false);
+    const [diaryDetailChangeModalVisible, setDiaryDetailChangeModalVisible] = useState(false);
     const [emojiModalVisible, setEmojiModalVisible] = useState(false);
+
     const [diaryContent, setDiaryContent] = useState('');
     const [uploadImgUrl, setUploadImgUrl] = useState("");
     const [selectedEmojis, setSelectedEmojis] = useState([]);
@@ -55,7 +52,7 @@ const Diary = ({selectedDate}) => {
         setDayEmoji(diaryEntry.emoji || 0);
         setTemporaryStorage(isTemporarySaved(formattedDate));
 
-        const emojiList = emojiDate.find(item => item.id === "face1")?.emojis || [];
+        const emojiList = emojiDate.find(item => item.id === "face1")?.emojis || [];  //옵셔널 체이닝
         setSelectedEmojis(emojiList);
     }, [selectedDate]);
 
@@ -75,7 +72,7 @@ const Diary = ({selectedDate}) => {
         }
     };
 
-    // 다이어리 모달 관련
+    // 일기 모달
     const onClickCloseDiaryModal = () => {
         setDiaryExitModalVisible(true);
     };
@@ -84,6 +81,7 @@ const Diary = ({selectedDate}) => {
         setDiaryExitModalVisible(false);
     }
 
+    // 다이어리 임시저장 모달
     const onClickDiaryExitButton = () => {
         setDiaryModalVisible(false);
         setDiaryExitModalVisible(false);
@@ -109,21 +107,23 @@ const Diary = ({selectedDate}) => {
         }
     }
 
+    // 일기 내용 모달
     const closeDiaryDetailModal = () => {
         setDiaryDetailModalVisible(false);
     }
 
+    // 일기 수정, 삭제
     const onClickDiaryDetailButton = () => {
-        setDiaryDetailChangeModal(true);
+        setDiaryDetailChangeModalVisible(true);
     }
 
     const closeDiaryDetailChangeModal = () => {
-        setDiaryDetailChangeModal(false);
+        setDiaryDetailChangeModalVisible(false);
     }
 
     const onClickDiaryDetailChangeButton = () => {
         setDiaryDetailModalVisible(false);
-        setDiaryDetailChangeModal(false);
+        setDiaryDetailChangeModalVisible(false);
         setDiaryModalVisible(true);
     }
 
@@ -133,17 +133,18 @@ const Diary = ({selectedDate}) => {
 
         delete diaryEntries[formattedDate];  //일기 삭제
 
-        saveDiaryEntries(diaryEntries);  //localstorage에 저장
+        saveDiaryEntries(diaryEntries);
 
         setDiaryContent('');
         setUploadImgUrl("");
         setSelectedEmojis([]);
         setDayEmoji(0);
+
         setDiaryDetailModalVisible(false);
-        setDiaryDetailChangeModal(false);
+        setDiaryDetailChangeModalVisible(false);
     }
 
-    // 다이어리 이모지 관련
+    // 다이어리 이모지 모달
     const closeEmojiModal = () => {
         setEmojiModalVisible(false);
     };
@@ -202,7 +203,7 @@ const Diary = ({selectedDate}) => {
 
     };
 
-    // 날짜 형식 바꿈 (+요일추가 해야함)
+    // 날짜 형식 바꿈
     const formattedDate = new Date(selectedDate).toLocaleDateString("ko-KR", {
         year: "numeric",
         month: "long",
@@ -286,7 +287,8 @@ const Diary = ({selectedDate}) => {
                                 {uploadImgUrl && (
                                     <>
                                         <img src={uploadImgUrl} img="img" className="upload_img"/>
-                                        <button className="img_deleted_button" onClick={onClickImgDeletedButton}>-
+                                        <button className="img_deleted_button" onClick={onClickImgDeletedButton}>
+                                            -
                                         </button>
                                     </>
                                 )}
@@ -357,7 +359,7 @@ const Diary = ({selectedDate}) => {
                 </>
             )}
             {/*일기 내용 수정 모달*/}
-            {diaryDetailChangeModal && (
+            {diaryDetailChangeModalVisible && (
                 <>
                     <div className="diary_detail_change_modal" onClick={closeDiaryDetailChangeModal}></div>
                     <div className="diary_detail_change_modal_content">
@@ -389,7 +391,6 @@ const Diary = ({selectedDate}) => {
                             <h5 className="emoji_modal_title">이모지</h5>
                         </div>
                         <div className="emoji_modal_container">
-                            {/*map 이용해 JSON 이모지*/}
                             {selectedEmojis.map((emoji, index) => (
                                 <div key={index} className="emoji_collct" onClick={onClickDayEmoji} id={index}>
                                     {emoji}
