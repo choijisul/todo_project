@@ -12,6 +12,7 @@ const Todo = ({selectedDate}) => {
             <div></div>
         )
     }
+
     const dateString = format(selectedDate, 'yyyyMMdd');
     const onAddClick = (inputData) => {
         const nextTodoList = todoList.concat({
@@ -34,14 +35,14 @@ const Todo = ({selectedDate}) => {
                 todoList={todoList}
                 dateString={dateString}
                 setTodoList={setTodoList}
-                checkedList={false}  //체크 안된
+                checkedList={false}
             />
             {/*완료한 일*/}
             <TodoItemList
                 todoList={todoList}
                 dateString={dateString}
                 setTodoList={setTodoList}
-                checkedList={true}  //체크 완료
+                checkedList={true}
             />
         </div>
     )

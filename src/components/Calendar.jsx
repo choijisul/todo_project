@@ -1,6 +1,4 @@
-//test
 import {useEffect, useState} from 'react';
-// prop-types 모듈 import
 import PropTypes from 'prop-types';
 import {Icon} from '@iconify/react';
 import {
@@ -18,11 +16,12 @@ import {
 import '../styles/Calendar.css';
 // 이미지
 import diaryCheckIcon from '../assets/diary_check_icon.png'
-import todoCheckIcon from '../assets/calendar_todo_check.png'  //회색 체크o, 한달 todo 체크 아이콘
-import calendarTodo from '../assets/calendar_todo.png'  //회색 체크x
+import todoCheckIcon from '../assets/calendar_todo_check.png'
+import calendarTodo from '../assets/calendar_todo.png'
 
 // header
 const RenderHeader = ({currentMonth, prevMonth, nextMonth}) => {
+    // 한 달 완료된 todo
     const monthTodoFinishCheck = () => {
         const todoList = JSON.parse(localStorage.getItem('todoList')) || [];
         let completedDaysCount = 0;
@@ -30,9 +29,9 @@ const RenderHeader = ({currentMonth, prevMonth, nextMonth}) => {
         // 한 달 날짜별 비교
         for (let day = startOfMonth(new Date(currentMonth)); day <= endOfMonth(new Date(currentMonth)); day = addDays(day, 1)) {
             const formattedDay = format(day, 'yyyyMMdd');
-            //
             const dayTodos = todoList.filter(item => item.day === formattedDay && item.deleted === false);
-            if (dayTodos.length === 0) continue;  //todo 목록 없음.
+            if (dayTodos.length === 0) continue;
+
             // 한 달에 완료된 todo count
             const completedTodos = dayTodos.filter(item => item.checked === true).length;
             completedDaysCount += completedTodos;
@@ -41,6 +40,7 @@ const RenderHeader = ({currentMonth, prevMonth, nextMonth}) => {
         return completedDaysCount;
     }
 
+    // 한 달 작성 다이어리
     const monthDiaryWriteCheck = () => {
         const diaryEntries = JSON.parse(localStorage.getItem('diaryEntries')) || {};
         let diaryCount = 0;
@@ -49,6 +49,7 @@ const RenderHeader = ({currentMonth, prevMonth, nextMonth}) => {
         const end = endOfMonth(new Date(currentMonth));
 
         for (const date in diaryEntries) {
+            // 연도, 월, 일 추출
             const entryDate = new Date(
                 parseInt(date.slice(0, 4)),
                 parseInt(date.slice(4, 6)) - 1,
@@ -76,7 +77,7 @@ const RenderHeader = ({currentMonth, prevMonth, nextMonth}) => {
                     {format(currentMonth, 'M')}월
                 </span>
             </span>
-            {/* 이번달 완벽한 todo */}
+            {/* 한 달 완료한 too, 일기 */}
             <span className="month_finish_todo">
                 <div className="todo_head_icon"><img src={todoCheckIcon} className="todo_check_icon"/></div>
                 {monthTodoFinishCheck()}
@@ -101,7 +102,7 @@ RenderHeader.propTypes = {
     nextMonth: PropTypes.func.isRequired,
 };
 
-// 요일 지정
+// 요일
 const RenderDays = () => {
     const days = [];
     const date = ['월', '화', '수', '목', '금', '토', '일'];
@@ -128,12 +129,12 @@ const RenderCells = ({currentMonth, selectedDate, onDateClick}) => {
     let day = startDate;
     let formattedDate = '';
 
-    // 날짜별 남은 todo, todo 다 한 경우
+    // 날짜별 남은 todo
     const todoListRemainderCheck = (day) => {
         const todoList = JSON.parse(localStorage.getItem('todoList')) || [];
-        const formattedDay = format(day, 'yyyyMMdd'); // 날짜를 YYYYMMDD 형식으로 변환
+        const formattedDay = format(day, 'yyyyMMdd');
 
-        // 해당 날짜의 'checked'가 false인 항목의 개수 계산
+        // 'checked'가 false인 항목의 개수 계산
         const uncheckedTodos = todoList.filter(item =>
             item.day === formattedDay && item.checked === false && item.deleted === false
         );
@@ -156,6 +157,7 @@ const RenderCells = ({currentMonth, selectedDate, onDateClick}) => {
         }
     };
 
+    // 일
     while (day <= endDate) {
         for (let i = 0; i < 7; i++) {
             formattedDate = format(day, 'd');
@@ -165,7 +167,7 @@ const RenderCells = ({currentMonth, selectedDate, onDateClick}) => {
                 <div
                     className={`col cell ${
                         !isSameMonth(day, monthStart)
-                            ? 'empty'  // 현재 달이 아님. empty 클래스
+                            ? 'empty'  // 현재 달이 아님
                             : isSameDay(day, selectedDate) ? 'selected' : 'valid'
                     }`}
                     key={day}
@@ -180,12 +182,12 @@ const RenderCells = ({currentMonth, selectedDate, onDateClick}) => {
                     >
                         {!isSameMonth(day, monthStart) ? '' : (
                             <>
-                                {/*remain todo*/}
+                                {/*남은 todo 수*/}
                                 <div className="finishTodoListNum">
                                     {todoListRemainderCheck(day)}
                                     <img src={calendarTodo} className="calendar_todo_icon"/>
                                 </div>
-                                {/*date*/}
+                                {/*날짜*/}
                                 <div className={`day ${
                                     isSameDay(day, selectedDate) ? 'selected' : 'valid'
                                 }`}>

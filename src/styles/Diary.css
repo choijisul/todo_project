@@ -19,8 +19,12 @@
     width: 100%;
 }
 
+.emoji.temporary_storage{
+    opacity: 0.5;
+}
+
 /*다이어리 작성 모달 관련*/
-.diary_modal { /*배경*/
+.diary_modal {
     z-index: 4;
     position: fixed;
     top: 0;
@@ -33,7 +37,7 @@
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-.diary_modal-content { /*content*/
+.diary_modal-content {
     font-size: 1.2rem;
     width: 800px;
     height: 700px;
@@ -142,7 +146,7 @@
 }
 
 .upload_img {
-    width: 100%;
+    width: 95%;
 }
 
 .upload_img_icon {

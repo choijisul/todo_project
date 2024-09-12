@@ -5,38 +5,61 @@ import emojiDate from '../data/emoji.json';  //json
 // 이미지
 import imgUploadIcon from '../assets/input_img_icon.png'
 import diaryIcon from '../assets/diary_icon.png'
-import recentlyUsedIcon from '../assets/recently_used_icon.png'
 
 // 날짜 형식 변환
 const formatDate = (date) => {
     const d = new Date(date);
-    const year = d.getFullYear();
-    const month = String(d.getMonth() + 1).padStart(2, '0');
-    const day = String(d.getDate()).padStart(2, '0');
-    return `${year}${month}${day}`;
+    return format(d, 'yyyyMMdd');
 };
 
 //일기 가져옴.
 const getDiaryEntries = () => {
     const diaryEntries = localStorage.getItem('diaryEntries');
-    return diaryEntries ? JSON.parse(diaryEntries) : {};  //JSON
+    return diaryEntries ? JSON.parse(diaryEntries) : {};
 };
 
-// 일기 저장 (JSON)
-const saveDiaryEntries = (entries) => {
+const saveDiaryEntries = (entries, isTemporary = false) => {
     localStorage.setItem('diaryEntries', JSON.stringify(entries));
+    localStorage.setItem('temporaryStorage', JSON.stringify(isTemporary));
+};
+
+// 최근 사용한 이모지
+const getRecentEmojis = () => {
+    const recentEmojis = localStorage.getItem('recentEmojis');
+    return recentEmojis ? JSON.parse(recentEmojis) : [];
+}
+
+const saveRecentEmoji = (emoji) => {
+    let recentEmojis = getRecentEmojis();
+
+    recentEmojis = recentEmojis.filter(e => e !== emoji);
+    recentEmojis.unshift(emoji);
+
+    if(recentEmojis.length > 18){
+        recentEmojis.pop();
+    }
+
+    localStorage.setItem('recentEmojis', JSON.stringify(recentEmojis));
+}
+
+// 일기 임시저장 여부
+const isTemporarySaved = (date) => {
+    const temporaryStorage = JSON.parse(localStorage.getItem('temporaryStorage')) || {};
+    return temporaryStorage[date] || false;
 };
 
 const Diary = ({selectedDate}) => {
     const [diaryModalVisible, setDiaryModalVisible] = useState(false);
     const [diaryDetailModalVisible, setDiaryDetailModalVisible] = useState(false);
     const [diaryExitModalVisible, setDiaryExitModalVisible] = useState(false);
-    const [diaryDetailChangeModal, setDiaryDetailChangeModal] = useState(false);
+    const [diaryDetailChangeModalVisible, setDiaryDetailChangeModalVisible] = useState(false);
     const [emojiModalVisible, setEmojiModalVisible] = useState(false);
+
     const [diaryContent, setDiaryContent] = useState('');
     const [uploadImgUrl, setUploadImgUrl] = useState("");
     const [selectedEmojis, setSelectedEmojis] = useState([]);
     const [dayEmoji, setDayEmoji] = useState(0);
+    const [temporaryStorage, setTemporaryStorage] = useState(false);
 
     useEffect(() => {
         const diaryEntries = getDiaryEntries();
@@ -45,14 +68,10 @@ const Diary = ({selectedDate}) => {
 
         setDiaryContent(diaryEntry.content);
         setUploadImgUrl(diaryEntry.imageUrl);
+        setDayEmoji(diaryEntry.emoji || 0);
+        setTemporaryStorage(isTemporarySaved(formattedDate));
 
-        if (diaryEntry.emoji !== null) {
-            setDayEmoji(diaryEntry.emoji);
-        } else {
-            setDayEmoji(0);
-        }
-
-        const emojiList = emojiDate.find(item => item.id === "face1")?.emojis || [];
+        const emojiList = emojiDate.find(item => item.id === "face1")?.emojis || [];  //옵셔널 체이닝
         setSelectedEmojis(emojiList);
     }, [selectedDate]);
 
@@ -72,7 +91,7 @@ const Diary = ({selectedDate}) => {
         }
     };
 
-    // 다이어리 모달 관련
+    // 일기 모달
     const onClickCloseDiaryModal = () => {
         setDiaryExitModalVisible(true);
     };
@@ -81,6 +100,7 @@ const Diary = ({selectedDate}) => {
         setDiaryExitModalVisible(false);
     }
 
+    // 다이어리 임시저장 모달
     const onClickDiaryExitButton = () => {
         setDiaryModalVisible(false);
         setDiaryExitModalVisible(false);
@@ -99,28 +119,30 @@ const Diary = ({selectedDate}) => {
                 imageUrl: uploadImgUrl,
                 emoji: dayEmoji,
             };
-            saveDiaryEntries(diaryEntries);
+            saveDiaryEntries(diaryEntries, {...temporaryStorage, [formattedDate] : true});
 
             setDiaryExitModalVisible(false);
             setDiaryModalVisible(false);
         }
     }
 
+    // 일기 내용 모달
     const closeDiaryDetailModal = () => {
         setDiaryDetailModalVisible(false);
     }
 
+    // 일기 수정, 삭제
     const onClickDiaryDetailButton = () => {
-        setDiaryDetailChangeModal(true);
+        setDiaryDetailChangeModalVisible(true);
     }
 
     const closeDiaryDetailChangeModal = () => {
-        setDiaryDetailChangeModal(false);
+        setDiaryDetailChangeModalVisible(false);
     }
 
     const onClickDiaryDetailChangeButton = () => {
         setDiaryDetailModalVisible(false);
-        setDiaryDetailChangeModal(false);
+        setDiaryDetailChangeModalVisible(false);
         setDiaryModalVisible(true);
     }
 
@@ -130,17 +152,18 @@ const Diary = ({selectedDate}) => {
 
         delete diaryEntries[formattedDate];  //일기 삭제
 
-        saveDiaryEntries(diaryEntries);  //localstorage에 저장
+        saveDiaryEntries(diaryEntries);
 
         setDiaryContent('');
         setUploadImgUrl("");
         setSelectedEmojis([]);
         setDayEmoji(0);
+
         setDiaryDetailModalVisible(false);
-        setDiaryDetailChangeModal(false);
+        setDiaryDetailChangeModalVisible(false);
     }
 
-    // 다이어리 이모지 관련
+    // 다이어리 이모지 모달
     const closeEmojiModal = () => {
         setEmojiModalVisible(false);
     };
@@ -199,24 +222,36 @@ const Diary = ({selectedDate}) => {
 
     };
 
-    // 날짜 형식 바꿈 (+요일추가 해야함)
+    // 날짜 형식 바꿈
     const formattedDate = new Date(selectedDate).toLocaleDateString("ko-KR", {
         year: "numeric",
         month: "long",
-        day: "numeric"
+        day: "numeric",
+        weekday: "long"
     });
 
     // 이모지 관련
     const onClickEmojiSelect = (e) => {
         const emojiButtonId = e.target.id;
-        const emojiList = emojiDate.find(item => item.id === emojiButtonId)?.emojis || [];
-        setSelectedEmojis(emojiList);
+
+        // 최근 사용한 이모지
+        if(emojiButtonId === "recently_used"){
+            const recentEmojis = getRecentEmojis();
+            setSelectedEmojis(recentEmojis);
+        }else{
+            const emojiList = emojiDate.find(item => item.id === emojiButtonId)?.emojis || [];
+            setSelectedEmojis(emojiList);
+        }
     }
 
     const onClickDayEmoji = (e) => {
-        const emojiId = e.target.id;
-        setDayEmoji(emojiId);
+        const emojiIndex = e.target.id;
+        const selectedEmoji = selectedEmojis[emojiIndex];
+
+        setDayEmoji(selectedEmoji);
         closeEmojiModal();
+
+        saveRecentEmoji(selectedEmoji);
     }
 
     return (
@@ -230,7 +265,9 @@ const Diary = ({selectedDate}) => {
                 {dayEmoji === 0 ? (
                     <img src={diaryIcon} className="diary_button_icon"/>
                 ) : (
-                    <div>{selectedEmojis[dayEmoji]}</div>
+                    <div className={`emoji ${
+                        temporaryStorage === true ? 'temporary_storage' : ''
+                    }`}>{dayEmoji}</div>
                 )}
             </button>
 
@@ -267,7 +304,7 @@ const Diary = ({selectedDate}) => {
                                 </button>
                             ) : (
                                 <button className="day_emoji_button" onClick={onClickEmojiButton}>
-                                    {selectedEmojis[dayEmoji]}
+                                    {dayEmoji}
                                 </button>
                             )}
                         </div>
@@ -336,7 +373,7 @@ const Diary = ({selectedDate}) => {
                         </div>
                         {/*이모지*/}
                         <div className="diary_detail_modal_emoji">
-                            {selectedEmojis[dayEmoji]}
+                            {dayEmoji}
                         </div>
                         <div className="diary_detail_modal_detail">
                             <div className="diary_detail_date">{formattedDate}</div>
@@ -351,7 +388,7 @@ const Diary = ({selectedDate}) => {
                 </>
             )}
             {/*일기 내용 수정 모달*/}
-            {diaryDetailChangeModal && (
+            {diaryDetailChangeModalVisible && (
                 <>
                     <div className="diary_detail_change_modal" onClick={closeDiaryDetailChangeModal}></div>
                     <div className="diary_detail_change_modal_content">
@@ -383,7 +420,6 @@ const Diary = ({selectedDate}) => {
                             <h5 className="emoji_modal_title">이모지</h5>
                         </div>
                         <div className="emoji_modal_container">
-                            {/*map 이용해 JSON 이모지*/}
                             {selectedEmojis.map((emoji, index) => (
                                 <div key={index} className="emoji_collct" onClick={onClickDayEmoji} id={index}>
                                     {emoji}
@@ -391,8 +427,7 @@ const Diary = ({selectedDate}) => {
                             ))}️
                         </div>
                         <div className="emoji_modal_footer">
-                            {/*<button className="emoji_select_button" id="recently_used" onClick={onClickEmojiSelect}><img*/}
-                            {/*    src={recentlyUsedIcon} className="recently_used_icon"/></button>*/}
+                            <button className="emoji_select_button" id="recently_used" onClick={onClickEmojiSelect}>...</button>
                             <button className="emoji_select_button" id="face1" onClick={onClickEmojiSelect}>😃</button>
                             <button className="emoji_select_button" id="face2" onClick={onClickEmojiSelect}>🤗</button>
                             <button className="emoji_select_button" id="hand" onClick={onClickEmojiSelect}>👋</button>

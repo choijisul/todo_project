@@ -28,6 +28,17 @@
     background-color: transparent;
 }
 
+.detail_change_input{
+    /*position: absolute;*/
+    padding-bottom: 3px;
+    margin-left: 5px;
+    width: 350px;
+    border: none;
+    border-bottom: 1px solid black;
+    font-size: 1rem;
+    outline: none;
+}
+
 .todoapp_inputbox-input{
     position: absolute;
     margin-top: 10px;
@@ -45,6 +56,7 @@
 }
 
 /*list 관련*/
+
 .todoapp__item{
     list-style : none;
     display: flex;
@@ -79,8 +91,6 @@
 }
 
 .todoListinventory{
-    position: absolute;
-    margin-left: 370px;
     border: none;
     background-color: transparent;
 }
@@ -109,9 +119,8 @@
 .modal-content {   /*content*/
     z-index: 5;
     position: absolute;
-    top: 450px;
+    top: 400px;
     left: 270px;
-    margin-right: 250px;
     font-size: 1.2rem;
     width: 400px;
     background-color: white;
@@ -169,6 +178,11 @@
     font-size: 1rem;
     padding: 15px;
     display: flex;
+    overflow: auto;
+}
+
+.memo_info::-webkit-scrollbar{  /*스크롤 숨김*/
+    display: none;
 }
 
 /*메모 모달 관련*/
