@@ -23,6 +23,25 @@ const saveDiaryEntries = (entries, isTemporary = false) => {
     localStorage.setItem('temporaryStorage', JSON.stringify(isTemporary));
 };
 
+// 최근 사용한 이모지
+const getRecentEmojis = () => {
+    const recentEmojis = localStorage.getItem('recentEmojis');
+    return recentEmojis ? JSON.parse(recentEmojis) : [];
+}
+
+const saveRecentEmoji = (emoji) => {
+    let recentEmojis = getRecentEmojis();
+
+    recentEmojis = recentEmojis.filter(e => e !== emoji);
+    recentEmojis.unshift(emoji);
+
+    if(recentEmojis.length > 18){
+        recentEmojis.pop();
+    }
+
+    localStorage.setItem('recentEmojis', JSON.stringify(recentEmojis));
+}
+
 // 일기 임시저장 여부
 const isTemporarySaved = (date) => {
     const temporaryStorage = JSON.parse(localStorage.getItem('temporaryStorage')) || {};
@@ -214,14 +233,25 @@ const Diary = ({selectedDate}) => {
     // 이모지 관련
     const onClickEmojiSelect = (e) => {
         const emojiButtonId = e.target.id;
-        const emojiList = emojiDate.find(item => item.id === emojiButtonId)?.emojis || [];
-        setSelectedEmojis(emojiList);
+
+        // 최근 사용한 이모지
+        if(emojiButtonId === "recently_used"){
+            const recentEmojis = getRecentEmojis();
+            setSelectedEmojis(recentEmojis);
+        }else{
+            const emojiList = emojiDate.find(item => item.id === emojiButtonId)?.emojis || [];
+            setSelectedEmojis(emojiList);
+        }
     }
 
     const onClickDayEmoji = (e) => {
-        const emojiId = e.target.id;
-        setDayEmoji(emojiId);
+        const emojiIndex = e.target.id;
+        const selectedEmoji = selectedEmojis[emojiIndex];
+
+        setDayEmoji(selectedEmoji);
         closeEmojiModal();
+
+        saveRecentEmoji(selectedEmoji);
     }
 
     return (
@@ -237,7 +267,7 @@ const Diary = ({selectedDate}) => {
                 ) : (
                     <div className={`emoji ${
                         temporaryStorage === true ? 'temporary_storage' : ''
-                    }`}>{selectedEmojis[dayEmoji]}</div>
+                    }`}>{dayEmoji}</div>
                 )}
             </button>
 
@@ -274,7 +304,7 @@ const Diary = ({selectedDate}) => {
                                 </button>
                             ) : (
                                 <button className="day_emoji_button" onClick={onClickEmojiButton}>
-                                    {selectedEmojis[dayEmoji]}
+                                    {dayEmoji}
                                 </button>
                             )}
                         </div>
@@ -287,8 +317,7 @@ const Diary = ({selectedDate}) => {
                                 {uploadImgUrl && (
                                     <>
                                         <img src={uploadImgUrl} img="img" className="upload_img"/>
-                                        <button className="img_deleted_button" onClick={onClickImgDeletedButton}>
-                                            -
+                                        <button className="img_deleted_button" onClick={onClickImgDeletedButton}>-
                                         </button>
                                     </>
                                 )}
@@ -344,7 +373,7 @@ const Diary = ({selectedDate}) => {
                         </div>
                         {/*이모지*/}
                         <div className="diary_detail_modal_emoji">
-                            {selectedEmojis[dayEmoji]}
+                            {dayEmoji}
                         </div>
                         <div className="diary_detail_modal_detail">
                             <div className="diary_detail_date">{formattedDate}</div>
@@ -398,6 +427,7 @@ const Diary = ({selectedDate}) => {
                             ))}️
                         </div>
                         <div className="emoji_modal_footer">
+                            <button className="emoji_select_button" id="recently_used" onClick={onClickEmojiSelect}>...</button>
                             <button className="emoji_select_button" id="face1" onClick={onClickEmojiSelect}>😃</button>
                             <button className="emoji_select_button" id="face2" onClick={onClickEmojiSelect}>🤗</button>
                             <button className="emoji_select_button" id="hand" onClick={onClickEmojiSelect}>👋</button>
