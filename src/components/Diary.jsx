@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import '../styles/Diary.css';
-import {format} from "date-fns";
+import {format, isSameDay} from "date-fns";
 import emojiDate from '../data/emoji.json';  //json
 // 이미지
 import imgUploadIcon from '../assets/input_img_icon.png'
@@ -22,9 +22,15 @@ const getDiaryEntries = () => {
     return diaryEntries ? JSON.parse(diaryEntries) : {};  //JSON
 };
 
-// 일기 저장 (JSON)
-const saveDiaryEntries = (entries) => {
+// 일기 임시저장 여부
+const saveDiaryEntries = (entries, isTemporary = false) => {
     localStorage.setItem('diaryEntries', JSON.stringify(entries));
+    localStorage.setItem('temporaryStorage', JSON.stringify(isTemporary));
+};
+
+const isTemporarySaved = (date) => {
+    const temporaryStorage = JSON.parse(localStorage.getItem('temporaryStorage')) || {};
+    return temporaryStorage[date] || false;
 };
 
 const Diary = ({selectedDate}) => {
@@ -37,6 +43,7 @@ const Diary = ({selectedDate}) => {
     const [uploadImgUrl, setUploadImgUrl] = useState("");
     const [selectedEmojis, setSelectedEmojis] = useState([]);
     const [dayEmoji, setDayEmoji] = useState(0);
+    const [temporaryStorage, setTemporaryStorage] = useState(false);
 
     useEffect(() => {
         const diaryEntries = getDiaryEntries();
@@ -45,12 +52,8 @@ const Diary = ({selectedDate}) => {
 
         setDiaryContent(diaryEntry.content);
         setUploadImgUrl(diaryEntry.imageUrl);
-
-        if (diaryEntry.emoji !== null) {
-            setDayEmoji(diaryEntry.emoji);
-        } else {
-            setDayEmoji(0);
-        }
+        setDayEmoji(diaryEntry.emoji || 0);
+        setTemporaryStorage(isTemporarySaved(formattedDate));
 
         const emojiList = emojiDate.find(item => item.id === "face1")?.emojis || [];
         setSelectedEmojis(emojiList);
@@ -99,7 +102,7 @@ const Diary = ({selectedDate}) => {
                 imageUrl: uploadImgUrl,
                 emoji: dayEmoji,
             };
-            saveDiaryEntries(diaryEntries);
+            saveDiaryEntries(diaryEntries, {...temporaryStorage, [formattedDate] : true});
 
             setDiaryExitModalVisible(false);
             setDiaryModalVisible(false);
@@ -231,7 +234,9 @@ const Diary = ({selectedDate}) => {
                 {dayEmoji === 0 ? (
                     <img src={diaryIcon} className="diary_button_icon"/>
                 ) : (
-                    <div>{selectedEmojis[dayEmoji]}</div>
+                    <div className={`emoji ${
+                        temporaryStorage === true ? 'temporary_storage' : ''
+                    }`}>{selectedEmojis[dayEmoji]}</div>
                 )}
             </button>
 
@@ -392,8 +397,6 @@ const Diary = ({selectedDate}) => {
                             ))}️
                         </div>
                         <div className="emoji_modal_footer">
-                            {/*<button className="emoji_select_button" id="recently_used" onClick={onClickEmojiSelect}><img*/}
-                            {/*    src={recentlyUsedIcon} className="recently_used_icon"/></button>*/}
                             <button className="emoji_select_button" id="face1" onClick={onClickEmojiSelect}>😃</button>
                             <button className="emoji_select_button" id="face2" onClick={onClickEmojiSelect}>🤗</button>
                             <button className="emoji_select_button" id="hand" onClick={onClickEmojiSelect}>👋</button>

@@ -8,8 +8,8 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
     const [edited, setEdited] = useState(false);  //수정
     const [newText, setNewText] = useState(todoItem.text);  //
     const [memo, setMemo] = useState(todoItem.memo || ''); // memo 초기값 설정
-    const [InventoryModalVisible, setInventoryModalVisible] = useState(false);  //삭제, 수정, 메모 버튼 모달
-    const [MemoModalVisible, setMemoModalVisible] = useState(false);  //메모 작성 모달
+    const [inventoryModalVisible, setInventoryModalVisible] = useState(false);  //삭제, 수정, 메모 버튼 모달
+    const [memoModalVisible, setMemoModalVisible] = useState(false);  //메모 작성 모달
 
     const editInputRef = useRef(null);
 
@@ -151,7 +151,7 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
                 <button className="todoListinventory" onClick={onClickTitle}>...</button>
 
                 {/* 모달(삭제, 수정, 메모 버튼) */}
-                {InventoryModalVisible && (
+                {inventoryModalVisible && (
                     <>
                         <div className="modal" onClick={closeModal1}></div>
                         <div className="modal-content">
@@ -197,7 +197,7 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
                     </>
                 )}
                 {/*메모 작성 모달*/}
-                {MemoModalVisible && (
+                {memoModalVisible && (
                     <>
                         <div className="modal" onClick={onChangeMemoDelete}></div>
                         <div className="modal-content">
