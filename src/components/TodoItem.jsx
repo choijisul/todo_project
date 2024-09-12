@@ -27,14 +27,12 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
             checked: item.id === todoItem.id ? !item.checked : item.checked,
         }));
         setTodoList(nextTodoList);
-        window.localStorage.setItem("todoList", JSON.stringify(nextTodoList));
     };
 
     // list 삭제
     const onClickDeleteButton = () => {
         const nextTodoList = todoList.filter((item) => item.id !== todoItem.id);
         setTodoList(nextTodoList);
-        window.localStorage.setItem("todoList", JSON.stringify(nextTodoList));
         setInventoryModalVisible(false);
     };
 
@@ -56,7 +54,6 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
             memo: item.id === todoItem.id ? memo : item.memo,
         }));
         setTodoList(nextTodoList);
-        window.localStorage.setItem("todoList", JSON.stringify(nextTodoList));
         setMemoModalVisible(false);
     };
 
@@ -74,7 +71,6 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
         }));
         setTodoList(nextTodoList);
         setMemo('');
-        window.localStorage.setItem("todoList", JSON.stringify(nextTodoList));
         setMemoModalVisible(false);
     }
 
@@ -85,7 +81,6 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
             text: item.id === todoItem.id ? newText : item.text,
         }));
         setTodoList(nextTodoList);
-        window.localStorage.setItem("todoList", JSON.stringify(nextTodoList));
         setEdited(false); //수정 모드 해제
     };
 

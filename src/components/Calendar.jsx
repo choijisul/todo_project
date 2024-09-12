@@ -20,16 +20,15 @@ import todoCheckIcon from '../assets/calendar_todo_check.png'
 import calendarTodo from '../assets/calendar_todo.png'
 
 // header
-const RenderHeader = ({currentMonth, prevMonth, nextMonth}) => {
+const RenderHeader = ({currentMonth, prevMonth, nextMonth, todoMap}) => {
     // 한 달 완료된 todo
     const monthTodoFinishCheck = () => {
-        const todoList = JSON.parse(localStorage.getItem('todoList')) || [];
         let completedDaysCount = 0;
 
         // 한 달 날짜별 비교
         for (let day = startOfMonth(new Date(currentMonth)); day <= endOfMonth(new Date(currentMonth)); day = addDays(day, 1)) {
             const formattedDay = format(day, 'yyyyMMdd');
-            const dayTodos = todoList.filter(item => item.day === formattedDay && item.deleted === false);
+            const dayTodos = todoMap[formattedDay] || [];
             if (dayTodos.length === 0) continue;
 
             // 한 달에 완료된 todo count
@@ -118,7 +117,7 @@ const RenderDays = () => {
     return <div className="days row">{days}</div>;
 };
 
-const RenderCells = ({currentMonth, selectedDate, onDateClick}) => {
+const RenderCells = ({currentMonth, selectedDate, onDateClick, todoMap}) => {
     const monthStart = startOfMonth(currentMonth);
     const monthEnd = endOfMonth(monthStart);
     const startDate = startOfWeek(monthStart, {weekStartsOn: 1});
@@ -131,8 +130,8 @@ const RenderCells = ({currentMonth, selectedDate, onDateClick}) => {
 
     // 날짜별 남은 todo
     const todoListRemainderCheck = (day) => {
-        const todoList = JSON.parse(localStorage.getItem('todoList')) || [];
         const formattedDay = format(day, 'yyyyMMdd');
+        const todoList = todoMap[formattedDay] || [];
 
         // 'checked'가 false인 항목의 개수 계산
         const uncheckedTodos = todoList.filter(item =>
@@ -217,7 +216,7 @@ RenderCells.propTypes = {
     onDateClick: PropTypes.func.isRequired,
 };
 
-export const Calendar = ({onSelectedDateChange}) => {
+export const Calendar = ({onSelectedDateChange, todoMap}) => {
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(new Date());
 
@@ -242,12 +241,14 @@ export const Calendar = ({onSelectedDateChange}) => {
                     currentMonth={currentMonth}
                     prevMonth={prevMonth}
                     nextMonth={nextMonth}
+                    todoMap={todoMap}
                 />
                 <RenderDays/>
                 <RenderCells
                     currentMonth={currentMonth}
                     selectedDate={selectedDate}
                     onDateClick={onDateClick}
+                    todoMap={todoMap}
                 />
             </div>
         </div>

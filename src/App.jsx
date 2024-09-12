@@ -6,6 +6,9 @@ import {useState} from "react";
 
 function App() {
     const [selectedDate, setSelectedDate] = useState(null);  //calendar -> todo
+    let todoMapJson = window.localStorage.getItem("todoMap");
+    const [todoMap, setTodoMap] = useState(JSON.parse(todoMapJson));
+
     const onSelectedDateChange = (day) => {  //calendar 바뀐 날짜 받기 위함.
         setSelectedDate(day);
     };
@@ -13,10 +16,10 @@ function App() {
         <div className='app'>
             <div className="calendar">
                 <Diary selectedDate={selectedDate}/>
-                <Calendar onSelectedDateChange={onSelectedDateChange}/>
+                <Calendar onSelectedDateChange={onSelectedDateChange} todoMap={todoMap}/>
             </div>
             <div className="todo">
-                <Todo selectedDate={selectedDate}/>
+                <Todo selectedDate={selectedDate} todoMap={todoMap} setTodoMap={setTodoMap}/>
             </div>
         </div>
     )
