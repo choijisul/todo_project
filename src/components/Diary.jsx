@@ -5,6 +5,7 @@ import emojiDate from '../data/emoji.json';  //json
 // 이미지
 import imgUploadIcon from '../assets/input_img_icon.png'
 import diaryIcon from '../assets/diary_icon.png'
+import recentlyUsedIcon from '../assets/recently_used_icon.png'
 
 // 날짜 형식 변환
 const formatDate = (date) => {
@@ -427,7 +428,7 @@ const Diary = ({selectedDate}) => {
                             ))}️
                         </div>
                         <div className="emoji_modal_footer">
-                            <button className="emoji_select_button" id="recently_used" onClick={onClickEmojiSelect}>...</button>
+                            <button className="emoji_select_button" id="recently_used" onClick={onClickEmojiSelect}><img src={recentlyUsedIcon} className="recently_icon"/></button>
                             <button className="emoji_select_button" id="face1" onClick={onClickEmojiSelect}>😃</button>
                             <button className="emoji_select_button" id="face2" onClick={onClickEmojiSelect}>🤗</button>
                             <button className="emoji_select_button" id="hand" onClick={onClickEmojiSelect}>👋</button>
