@@ -20,14 +20,14 @@ import todoCheckIcon from '../assets/calendar_todo_check.png'
 import calendarTodo from '../assets/calendar_todo.png'
 
 // header
-const RenderHeader = ({currentMonth, prevMonth, nextMonth, todoMap}) => {
+const CalendarHeader = ({currentMonth, prevMonth, nextMonth, todoMap}) => {
     // 한 달 완료된 todo
     const monthTodoFinishCheck = () => {
         let completedDaysCount = 0;
 
         // 한 달 날짜별 비교
-        for (let day = startOfMonth(new Date(currentMonth)); day <= endOfMonth(new Date(currentMonth)); day = addDays(day, 1)) {
-            const formattedDay = format(day, 'yyyyMMdd');
+        for (let date = startOfMonth(new Date(currentMonth)); date <= endOfMonth(new Date(currentMonth)); date = addDays(date, 1)) {
+            const formattedDay = format(date, 'yyyyMMdd');
             const dayTodos = todoMap[formattedDay] || [];
             if (dayTodos.length === 0) continue;
 
@@ -95,14 +95,14 @@ const RenderHeader = ({currentMonth, prevMonth, nextMonth, todoMap}) => {
 };
 
 
-RenderHeader.propTypes = {
+CalendarHeader.propTypes = {
     currentMonth: PropTypes.instanceOf(Date).isRequired,
     prevMonth: PropTypes.func.isRequired,
     nextMonth: PropTypes.func.isRequired,
 };
 
 // 요일
-const RenderDays = () => {
+const CalendarDays = () => {
     const days = [];
     const date = ['월', '화', '수', '목', '금', '토', '일'];
 
@@ -117,7 +117,7 @@ const RenderDays = () => {
     return <div className="days row">{days}</div>;
 };
 
-const RenderCells = ({currentMonth, selectedDate, onDateClick, todoMap}) => {
+const CalendarCells = ({currentMonth, selectedDate, onDateClick, todoMap}) => {
     const monthStart = startOfMonth(currentMonth);
     const monthEnd = endOfMonth(monthStart);
     const startDate = startOfWeek(monthStart, {weekStartsOn: 1});
@@ -129,18 +129,18 @@ const RenderCells = ({currentMonth, selectedDate, onDateClick, todoMap}) => {
     let formattedDate = '';
 
     // 날짜별 남은 todo
-    const todoListRemainderCheck = (day) => {
-        const formattedDay = format(day, 'yyyyMMdd');
-        const todoList = todoMap[formattedDay] || [];
+    const todoListRemainderCheck = (date) => {
+        const formattedDate = format(date, 'yyyyMMdd');
+        const todoList = todoMap[formattedDate] || [];
 
         // 'checked'가 false인 항목의 개수 계산
         const uncheckedTodos = todoList.filter(item =>
-            item.day === formattedDay && item.checked === false && item.deleted === false
+            item.day === formattedDate && item.checked === false && item.deleted === false
         );
 
         // todo 다 한 경우
         const todosLength = todoList.filter(item =>
-            item.day === formattedDay && item.checked === true && item.deleted === false
+            item.day === formattedDate && item.checked === true && item.deleted === false
         )
 
         if (uncheckedTodos.length > 0) {
@@ -210,7 +210,7 @@ const RenderCells = ({currentMonth, selectedDate, onDateClick, todoMap}) => {
 };
 
 
-RenderCells.propTypes = {
+CalendarCells.propTypes = {
     currentMonth: PropTypes.instanceOf(Date).isRequired,
     selectedDate: PropTypes.instanceOf(Date).isRequired,
     onDateClick: PropTypes.func.isRequired,
@@ -234,17 +234,18 @@ export const Calendar = ({onSelectedDateChange, todoMap}) => {
         setSelectedDate(day);
     };
 
+
     return (
         <div>
             <div className="calendar">
-                <RenderHeader
+                <CalendarHeader
                     currentMonth={currentMonth}
                     prevMonth={prevMonth}
                     nextMonth={nextMonth}
                     todoMap={todoMap}
                 />
-                <RenderDays/>
-                <RenderCells
+                <CalendarDays/>
+                <CalendarCells
                     currentMonth={currentMonth}
                     selectedDate={selectedDate}
                     onDateClick={onDateClick}

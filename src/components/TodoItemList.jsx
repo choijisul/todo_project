@@ -12,7 +12,7 @@ const ToDoItemList = ({todoList, dateString, setTodoList, checkedList}) => {
 
                         if (checkedList !== todoItem.checked) return null;
 
-                        if(dateString !== todoItem.day) return null;  //같은 날짜가 아니면 안보이게
+                        if(dateString !== todoItem.day) return <></>;  //같은 날짜가 아니면 안보이게
 
                     return (
                         <ToDoItem

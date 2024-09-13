@@ -59,7 +59,7 @@ const Diary = ({selectedDate}) => {
     const [diaryContent, setDiaryContent] = useState('');
     const [uploadImgUrl, setUploadImgUrl] = useState("");
     const [selectedEmojis, setSelectedEmojis] = useState([]);
-    const [dayEmoji, setDayEmoji] = useState(0);
+    const [dateEmoji, setDateEmoji] = useState(0);
     const [temporaryStorage, setTemporaryStorage] = useState(false);
 
     useEffect(() => {
@@ -69,7 +69,7 @@ const Diary = ({selectedDate}) => {
 
         setDiaryContent(diaryEntry.content);
         setUploadImgUrl(diaryEntry.imageUrl);
-        setDayEmoji(diaryEntry.emoji || 0);
+        setDateEmoji(diaryEntry.emoji || 0);
         setTemporaryStorage(isTemporarySaved(formattedDate));
 
         const emojiList = emojiDate.find(item => item.id === "face1")?.emojis || [];  //옵셔널 체이닝
@@ -82,7 +82,7 @@ const Diary = ({selectedDate}) => {
         const formattedToday = format(today, 'yyyyMMdd');
         const formattedSelectDay = format(selectedDate, 'yyyyMMdd');
         if (Number(formattedSelectDay) <= Number(formattedToday)) {
-            if (dayEmoji === 0) {
+            if (dateEmoji === 0) {
                 setDiaryModalVisible(true);
             } else {
                 setDiaryDetailModalVisible(true);
@@ -109,7 +109,7 @@ const Diary = ({selectedDate}) => {
     }
 
     const onClickTemporaryStorageButton = () => {
-        if (dayEmoji === 0) {
+        if (dateEmoji === 0) {
             alert("이모지를 선택해 주세요")
         } else {
             const diaryEntries = getDiaryEntries();
@@ -118,7 +118,7 @@ const Diary = ({selectedDate}) => {
             diaryEntries[formattedDate] = {
                 content: diaryContent,
                 imageUrl: uploadImgUrl,
-                emoji: dayEmoji,
+                emoji: dateEmoji,
             };
             saveDiaryEntries(diaryEntries, {...temporaryStorage, [formattedDate] : true});
 
@@ -158,7 +158,7 @@ const Diary = ({selectedDate}) => {
         setDiaryContent('');
         setUploadImgUrl("");
         setSelectedEmojis([]);
-        setDayEmoji(0);
+        setDateEmoji(0);
 
         setDiaryDetailModalVisible(false);
         setDiaryDetailChangeModalVisible(false);
@@ -207,10 +207,10 @@ const Diary = ({selectedDate}) => {
         diaryEntries[formattedDate] = {
             content: diaryContent,
             imageUrl: uploadImgUrl,
-            emoji: dayEmoji,
+            emoji: dateEmoji,
         };
 
-        if (dayEmoji !== 0) {
+        if (dateEmoji !== 0) {
             saveDiaryEntries(diaryEntries);
             setDiaryModalVisible(false);
         } else {
@@ -249,7 +249,7 @@ const Diary = ({selectedDate}) => {
         const emojiIndex = e.target.id;
         const selectedEmoji = selectedEmojis[emojiIndex];
 
-        setDayEmoji(selectedEmoji);
+        setDateEmoji(selectedEmoji);
         closeEmojiModal();
 
         saveRecentEmoji(selectedEmoji);
@@ -263,12 +263,12 @@ const Diary = ({selectedDate}) => {
                 onClick={onClickDiaryButton}
                 className="diary_button"
             >
-                {dayEmoji === 0 ? (
+                {dateEmoji === 0 ? (
                     <img src={diaryIcon} className="diary_button_icon"/>
                 ) : (
                     <div className={`emoji ${
                         temporaryStorage === true ? 'temporary_storage' : ''
-                    }`}>{dayEmoji}</div>
+                    }`}>{dateEmoji}</div>
                 )}
             </button>
 
@@ -296,7 +296,7 @@ const Diary = ({selectedDate}) => {
                         </div>
                         {/*이모지*/}
                         <div className="diary_modal_emoji">
-                            {dayEmoji === 0 ? (
+                            {dateEmoji === 0 ? (
                                 <button
                                     className="emoji_button"
                                     onClick={onClickEmojiButton}
@@ -305,7 +305,7 @@ const Diary = ({selectedDate}) => {
                                 </button>
                             ) : (
                                 <button className="day_emoji_button" onClick={onClickEmojiButton}>
-                                    {dayEmoji}
+                                    {dateEmoji}
                                 </button>
                             )}
                         </div>
@@ -374,7 +374,7 @@ const Diary = ({selectedDate}) => {
                         </div>
                         {/*이모지*/}
                         <div className="diary_detail_modal_emoji">
-                            {dayEmoji}
+                            {dateEmoji}
                         </div>
                         <div className="diary_detail_modal_detail">
                             <div className="diary_detail_date">{formattedDate}</div>

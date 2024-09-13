@@ -5,12 +5,12 @@ import './App.css'
 import {useState} from "react";
 
 function App() {
-    const [selectedDate, setSelectedDate] = useState(null);  //calendar -> todo
+    const [selectedDate, setSelectedDate] = useState(null);  //undefined 에러 발생..
     let todoMapJson = window.localStorage.getItem("todoMap");
     const [todoMap, setTodoMap] = useState(JSON.parse(todoMapJson));
 
-    const onSelectedDateChange = (day) => {  //calendar 바뀐 날짜 받기 위함.
-        setSelectedDate(day);
+    const onSelectedDateChange = (date) => {  //calendar 바뀐 날짜 받기 위함.
+        setSelectedDate(date);
     };
     return (
         <div className='app'>

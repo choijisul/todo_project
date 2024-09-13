@@ -7,7 +7,7 @@ import '../styles/Todo.css'
 const Todo = ({selectedDate, todoMap, setTodoMap}) => {
     if(selectedDate === null){  //선택한 날짜 없으면 안그림.
         return (
-            <div></div>
+            <></>
         )
     }
 

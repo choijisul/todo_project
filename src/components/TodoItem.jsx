@@ -22,10 +22,10 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
 
     // 체크박스 상태
     const onChangeCheckbox = () => {
-        const nextTodoList = todoList.map((item) => ({
+        const nextTodoList = todoList.map((item) => item.id !== todoItem.id ? item : {
             ...item,
-            checked: item.id === todoItem.id ? !item.checked : item.checked,
-        }));
+            checked: !item.checked,
+        });
         setTodoList(nextTodoList);
     };
 
@@ -64,7 +64,6 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
 
     // 메모 삭제
     const onChangeMemoDelete = () => {
-        console.log('tkrwp');
         const nextTodoList = todoList.map((item) => ({
             ...item,
             memo: item.id === todoItem.id ? '' : item.memo,
