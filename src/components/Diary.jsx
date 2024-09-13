@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import '../styles/Diary.css';
-import {format} from "date-fns";
+import {format, isBefore} from "date-fns";
 import emojiDate from '../data/emoji.json';  //json
 // 이미지
 import imgUploadIcon from '../assets/input_img_icon.png'
@@ -63,6 +63,7 @@ const Diary = ({selectedDate}) => {
     const [temporaryStorage, setTemporaryStorage] = useState(false);
 
     useEffect(() => {
+        if(!selectedDate) return;
         const diaryEntries = getDiaryEntries();
         const formattedDate = formatDate(selectedDate);
         const diaryEntry = diaryEntries[formattedDate] || {content: '', imageUrl: '', emoji: 0};
@@ -81,7 +82,7 @@ const Diary = ({selectedDate}) => {
         let today = new Date();
         const formattedToday = format(today, 'yyyyMMdd');
         const formattedSelectDay = format(selectedDate, 'yyyyMMdd');
-        if (Number(formattedSelectDay) <= Number(formattedToday)) {
+        if (isBefore(selectedDate, today) || formattedSelectDay === formattedToday) {
             if (dateEmoji === 0) {
                 setDiaryModalVisible(true);
             } else {

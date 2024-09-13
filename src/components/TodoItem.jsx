@@ -1,6 +1,8 @@
 import {useState, useRef, useEffect} from 'react';
 import * as PropTypes from "prop-types";
 import '../styles/Todo.css';
+import InventoryModal from './InventoryModal.jsx';
+import MemoModal from "./MemoModal.jsx";
 // 이미지
 import memoIcon from '../assets/memo_icon.png';
 
@@ -22,11 +24,7 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
 
     // 체크박스 상태
     const onChangeCheckbox = () => {
-        const nextTodoList = todoList.map((item) => item.id !== todoItem.id ? item : {
-            ...item,
-            checked: !item.checked,
-        });
-        setTodoList(nextTodoList);
+        setTodoItem();
     };
 
     // list 삭제
@@ -49,13 +47,17 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
     }
 
     const memoInput = () => {
+        setTodoItem();
+        setMemoModalVisible(false);
+    };
+
+    const setTodoItem = () => {
         const nextTodoList = todoList.map((item) => ({
             ...item,
             memo: item.id === todoItem.id ? memo : item.memo,
         }));
         setTodoList(nextTodoList);
-        setMemoModalVisible(false);
-    };
+    }
 
     // 메모 입력 상태
     const onChangeMemoInput = (e) => {
@@ -143,86 +145,25 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
                 )}
                 <button className="todoListinventory" onClick={onClickTitle}>...</button>
 
-                {/* 삭제, 수정, 메모 모달 */}
+                {/* 삭제, 수정, 메모 모달 컴포넌트*/}
                 {inventoryModalVisible && (
-                    <>
-                        <div className="modal" onClick={closeInventoryModal}></div>
-                        <div className="modal-content">
-                            {/* 수정 버튼 */}
-                            <div className="modal-content-head">
-                                <div className="modal-title1">{newText}</div>
-                                <button type="button" className="modal_close_button" onClick={closeInventoryModal}>x
-                                </button>
-                            </div>
-                            <button
-                                type="button"
-                                className="todoapp__item-edit-btn"
-                                onClick={onClickEditButton}
-                            >
-                                수정
-                            </button>
-                            {/* 삭제 버튼 */}
-                            <button
-                                type="button"
-                                className="todoapp__item-delete-btn"
-                                onClick={onClickDeleteButton}
-                            >
-                                삭제
-                            </button>
-                            {/* 메모 입력 */}
-                            <div className="modal-memo">
-                                <button
-                                    type="button"
-                                    className="todoapp__item-memo-btn"
-                                    onClick={onClickMemoButton}
-                                >
-                                    메모
-                                </button>
-                                <div>
-                                    {
-                                        memo !== '' ?
-                                            <div className="memo_info" onClick={onClickMemoButton}
-                                                 style={{whiteSpace: 'pre-wrap'}}>
-                                                {memo}
-                                            </div> : null
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                    </>
+                    <InventoryModal
+                        newText={newText}
+                        closeInventoryModal={closeInventoryModal}
+                        onClickEditButton={onClickEditButton}
+                        onClickDeleteButton={onClickDeleteButton}
+                        onClickMemoButton={onClickMemoButton}
+                        memo={memo}
+                    />
                 )}
-                {/*메모 작성 모달*/}
+                {/*메모 작성 모달 컴포넌트*/}
                 {memoModalVisible && (
-                    <>
-                        <div className="modal" onClick={onChangeMemoDelete}></div>
-                        <div className="modal-content">
-                            <div className="modal-content-head">
-                                <button
-                                    type="button"
-                                    onClick={onChangeMemoDelete}
-                                    className="modal_memo_delete_button"
-                                >
-                                    삭제
-                                </button>
-                                {newText}
-                                <button
-                                    type="button"
-                                    onClick={closeMemoModal}
-                                    className="modal_close_button"
-                                >
-                                    완료
-                                </button>
-                            </div>
-                            <textarea
-                                type="text"
-                                value={memo}
-                                className="todoapp__item-memo-textarea"
-                                onChange={onChangeMemoInput}
-                                onBlur={memoInput} // 포커스 해제 저장
-                                style={{whiteSpace: 'pre-wrap'}}
-                            />
-                        </div>
-                    </>
+                    <MemoModal
+                        newText={newText}
+                        memo={memo}
+                        onChangeMemoInput={onChangeMemoInput}
+                        onChangeMemoDelete={onChangeMemoDelete}
+                        closeMemoModal={closeMemoModal}/>
                 )}
             </li>
         </div>
