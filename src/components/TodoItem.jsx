@@ -6,7 +6,8 @@ import MemoModal from "./MemoModal.jsx";
 // 이미지
 import memoIcon from '../assets/memo_icon.png';
 
-const TodoItem = ({todoItem, onTodoItemChanged, onTodoItemDeleted}) => {
+const RawTodoItem = ({todoItem, onTodoItemChanged, onTodoItemDeleted}) => {
+    console.log("Greeting was rendered at", todoItem.id, new Date().toLocaleTimeString());
     const [inventoryModalVisible, setInventoryModalVisible] = useState(false);
     const [memoModalVisible, setMemoModalVisible] = useState(false);
 
@@ -171,26 +172,32 @@ const TodoItem = ({todoItem, onTodoItemChanged, onTodoItemDeleted}) => {
     );
 };
 
-TodoItem.propTypes = {
+RawTodoItem.propTypes = {
     todoItem: PropTypes.shape({
         id: PropTypes.number,
+        day: PropTypes.string,
         text: PropTypes.string.isRequired,
-        checked: PropTypes.bool.isRequired,
         memo: PropTypes.string,
+        checked: PropTypes.bool.isRequired,
+        deleted: PropTypes.bool.isRequired,
     }),
     onTodoItemChanged: PropTypes.func.isRequired,
     onTodoItemDeleted: PropTypes.func.isRequired,
 };
 
-const areEqual = (prevProps, nextProps) => {
-    return (
-        prevProps.todoItem.id === nextProps.todoItem.id &&
-        prevProps.todoItem.checked === nextProps.todoItem.checked &&
-        prevProps.todoItem.text === nextProps.todoItem.text &&
-        prevProps.todoItem.memo === nextProps.todoItem.memo &&
-        prevProps.todoList === nextProps.todoList
-    );
-};
+function todoItemPropsAreEqual(prevProps, nextProps) {
+    const prevTodoItem = prevProps.todoItem;
+    const nextTodoItem = nextProps.todoItem;
+    // console.log(prevTodoItem, " ============= ", nextTodoItem, "=========");
+    let b = prevTodoItem.id === nextTodoItem.id &&
+        prevTodoItem.day === nextTodoItem.day &&
+        prevTodoItem.text === nextTodoItem.text &&
+        prevTodoItem.memo === nextTodoItem.memo &&
+        prevTodoItem.checked === nextTodoItem.checked &&
+        prevTodoItem.deleted === nextTodoItem.deleted;
+    // console.log(prevTodoItem, " ============= ", nextTodoItem, "=========", b);
+    return b;  //b로 하면 에러
+}
 
-export default React.memo(TodoItem, areEqual);
-// export default TodoItem;
+const TodoItem = React.memo(RawTodoItem, todoItemPropsAreEqual);
+export default TodoItem;
