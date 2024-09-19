@@ -11,9 +11,13 @@ const EmojiModal = ({
                     }) => {
     if (!visible) return null;
 
+    const closeEmojiModal = () => {
+        onClose(false);
+    };
+
     return (
         <>
-            <div className="emoji_modal" onClick={onClose}></div>
+            <div className="emoji_modal" onClick={closeEmojiModal}></div>
             <div className="emoji_modal-content">
                 <div className="emoji_modal_content-head">
                     <h5 className="emoji_modal_title">이모지</h5>

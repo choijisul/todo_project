@@ -12,14 +12,18 @@ const DiaryDetailModal = ({
                           }) => {
     if (!visible) return null;
 
+    const closeDiaryDetailModal = () => {
+        onClose(false);
+    };
+
     return (
         <>
-            <div className="diary_detail_modal" onClick={onClose}></div>
+            <div className="diary_detail_modal" onClick={closeDiaryDetailModal}></div>
             <div className="diary_detail_modal-content">
                 <div className="diary_detail_modal_content-head">
                     <button
                         type="button"
-                        onClick={onClose}
+                        onClick={closeDiaryDetailModal}
                         className="diary_detail_close_button"
                     >
                         x

@@ -87,10 +87,6 @@ const Diary = ({ selectedDate }) => {
         }
     };
 
-    const onClickCloseDiaryModal = () => {
-        setDiaryExitModalVisible(true);
-    };
-
     const closeDiaryExitModal = () => {
         setDiaryExitModalVisible(false);
     };
@@ -120,16 +116,8 @@ const Diary = ({ selectedDate }) => {
         }
     };
 
-    const closeDiaryDetailModal = () => {
-        setDiaryDetailModalVisible(false);
-    };
-
     const onClickDiaryDetailButton = () => {
         setDiaryDetailChangeModalVisible(true);
-    };
-
-    const closeDiaryDetailChangeModal = () => {
-        setDiaryDetailChangeModalVisible(false);
     };
 
     const onClickDiaryDetailChangeButton = () => {
@@ -261,7 +249,7 @@ const Diary = ({ selectedDate }) => {
             </button>
             <DiaryModal
                 visible={diaryModalVisible}
-                onClose={onClickCloseDiaryModal}
+                onClose={setDiaryExitModalVisible}
                 onSave={saveDiaryContent}
                 uploadImgUrl={uploadImgUrl}
                 onClickImgDeletedButton={onClickImgDeletedButton}
@@ -274,7 +262,7 @@ const Diary = ({ selectedDate }) => {
             />
             <DiaryDetailModal
                 visible={diaryDetailModalVisible}
-                onClose={closeDiaryDetailModal}
+                onClose={setDiaryDetailModalVisible}
                 uploadImgUrl={uploadImgUrl}
                 diaryContent={diaryContent}
                 formattedDate={formattedDate}
@@ -283,7 +271,7 @@ const Diary = ({ selectedDate }) => {
             />
             <DiaryDetailChangeModal
                 visible={diaryDetailChangeModalVisible}
-                onClose={closeDiaryDetailChangeModal}
+                onClose={setDiaryDetailChangeModalVisible}
                 onClickDiaryDetailChangeButton={onClickDiaryDetailChangeButton}
                 onClickDiaryDetailDeleteButton={onClickDiaryDetailDeleteButton}
             />
@@ -295,7 +283,7 @@ const Diary = ({ selectedDate }) => {
             />
             <EmojiModal
                 visible={emojiModalVisible}
-                onClose={closeEmojiModal}
+                onClose={setEmojiModalVisible}
                 selectedEmojis={selectedEmojis}
                 onClickEmojiSelect={onClickEmojiSelect}
                 onClickDayEmoji={onClickDayEmoji}
