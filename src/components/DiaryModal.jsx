@@ -22,6 +22,10 @@ const DiaryModal = ({
         onClose(true);
     };
 
+    const openEmojiModal = () => {
+        onClickEmojiButton(true);
+    };
+
     return (
         <div className="diary_modal">
             <div className="diary_modal-content">
@@ -46,12 +50,12 @@ const DiaryModal = ({
                     {dayEmoji === 0 ? (
                         <button
                             className="emoji_button"
-                            onClick={onClickEmojiButton}
+                            onClick={openEmojiModal}
                         >
                             <img src={diaryIcon} className="diary_button_icon" alt="Add Emoji"/>
                         </button>
                     ) : (
-                        <button className="day_emoji_button" onClick={onClickEmojiButton}>
+                        <button className="day_emoji_button" onClick={openEmojiModal}>
                             {dayEmoji}
                         </button>
                     )}

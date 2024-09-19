@@ -16,6 +16,10 @@ const DiaryDetailModal = ({
         onClose(false);
     };
 
+    const openDiaryDetailModal = () => {
+        onClickDiaryDetailButton(true);
+    };
+
     return (
         <>
             <div className="diary_detail_modal" onClick={closeDiaryDetailModal}></div>
@@ -31,7 +35,7 @@ const DiaryDetailModal = ({
                     <h3 className="diary_modal_title">일기</h3>
                     <button
                         type="button"
-                        onClick={onClickDiaryDetailButton}
+                        onClick={openDiaryDetailModal}
                         className="diary_detail_change_button"
                     >
                         ...

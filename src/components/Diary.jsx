@@ -87,10 +87,6 @@ const Diary = ({ selectedDate }) => {
         }
     };
 
-    const closeDiaryExitModal = () => {
-        setDiaryExitModalVisible(false);
-    };
-
     const onClickDiaryExitButton = () => {
         setDiaryModalVisible(false);
         setDiaryExitModalVisible(false);
@@ -114,10 +110,6 @@ const Diary = ({ selectedDate }) => {
             setDiaryExitModalVisible(false);
             setDiaryModalVisible(false);
         }
-    };
-
-    const onClickDiaryDetailButton = () => {
-        setDiaryDetailChangeModalVisible(true);
     };
 
     const onClickDiaryDetailChangeButton = () => {
@@ -145,10 +137,6 @@ const Diary = ({ selectedDate }) => {
 
     const closeEmojiModal = () => {
         setEmojiModalVisible(false);
-    };
-
-    const onClickEmojiButton = () => {
-        setEmojiModalVisible(true);
     };
 
     const onClickImgDeletedButton = () => {
@@ -256,7 +244,7 @@ const Diary = ({ selectedDate }) => {
                 diaryContent={diaryContent}
                 onChangeDiaryContent={handleDiaryContentChange}
                 formattedDate={formattedDate}
-                onClickEmojiButton={onClickEmojiButton}
+                onClickEmojiButton={setEmojiModalVisible}
                 dayEmoji={dayEmoji}
                 onImageUpload={handleImageUpload}
             />
@@ -267,7 +255,7 @@ const Diary = ({ selectedDate }) => {
                 diaryContent={diaryContent}
                 formattedDate={formattedDate}
                 dayEmoji={dayEmoji}
-                onClickDiaryDetailButton={onClickDiaryDetailButton}
+                onClickDiaryDetailButton={setDiaryDetailChangeModalVisible}
             />
             <DiaryDetailChangeModal
                 visible={diaryDetailChangeModalVisible}
@@ -277,7 +265,7 @@ const Diary = ({ selectedDate }) => {
             />
             <DiaryExitModal
                 visible={diaryExitModalVisible}
-                onClose={closeDiaryExitModal}
+                onClose={setDiaryExitModalVisible}
                 onClickDiaryExitButton={onClickDiaryExitButton}
                 onClickTemporaryStorageButton={onClickTemporaryStorageButton}
             />
