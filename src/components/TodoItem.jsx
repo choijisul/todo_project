@@ -24,7 +24,11 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
 
     // 체크박스 상태
     const onChangeCheckbox = () => {
-        setTodoItem();
+        const nextTodoList = todoList.map((item) => ({
+            ...item,
+            checked: item.id === todoItem.id ? !item.checked : item.checked,
+        }));
+        setTodoList(nextTodoList);
     };
 
     // list 삭제
