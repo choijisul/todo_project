@@ -24,21 +24,6 @@ const saveDiaryEntries = (entries, isTemporary = false) => {
     localStorage.setItem('temporaryStorage', JSON.stringify(isTemporary));
 };
 
-const getRecentEmojis = () => {
-    const recentEmojis = localStorage.getItem('recentEmojis');
-    return recentEmojis ? JSON.parse(recentEmojis) : [];
-};
-
-const saveRecentEmoji = (emoji) => {
-    let recentEmojis = getRecentEmojis();
-    recentEmojis = recentEmojis.filter(e => e !== emoji);
-    recentEmojis.unshift(emoji);
-    if (recentEmojis.length > 18) {
-        recentEmojis.pop();
-    }
-    localStorage.setItem('recentEmojis', JSON.stringify(recentEmojis));
-};
-
 const isTemporarySaved = (date) => {
     const temporaryStorage = JSON.parse(localStorage.getItem('temporaryStorage')) || {};
     return temporaryStorage[date] || false;
@@ -197,28 +182,6 @@ const Diary = ({ selectedDate }) => {
         weekday: "long"
     });
 
-    const onClickEmojiSelect = (e) => {
-        const emojiButtonId = e.target.id;
-
-        if (emojiButtonId === "recently_used") {
-            const recentEmojis = getRecentEmojis();
-            setSelectedEmojis(recentEmojis);
-        } else {
-            const emojiList = emojiDate.find(item => item.id === emojiButtonId)?.emojis || [];
-            setSelectedEmojis(emojiList);
-        }
-    };
-
-    const onClickDayEmoji = (e) => {
-        const emojiIndex = e.target.id;
-        const selectedEmoji = selectedEmojis[emojiIndex];
-
-        setDayEmoji(selectedEmoji);
-        closeEmojiModal();
-
-        saveRecentEmoji(selectedEmoji);
-    };
-
     return (
         <div className="calendar-header">
             프로필
@@ -273,8 +236,8 @@ const Diary = ({ selectedDate }) => {
                 visible={emojiModalVisible}
                 onClose={setEmojiModalVisible}
                 selectedEmojis={selectedEmojis}
-                onClickEmojiSelect={onClickEmojiSelect}
-                onClickDayEmoji={onClickDayEmoji}
+                setSelectedEmojis={setSelectedEmojis}
+                setDayEmoji={setDayEmoji}
             />
         </div>
     );

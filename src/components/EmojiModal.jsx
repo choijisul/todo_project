@@ -1,18 +1,57 @@
 import React from 'react';
 import '../styles/Diary.css';
 import recentlyUsedIcon from '../assets/recently_used_icon.png';
+import emojiDate from "../data/emoji.json";
 
 const EmojiModal = ({
                         visible,
                         onClose,
                         selectedEmojis,
-                        onClickEmojiSelect,
-                        onClickDayEmoji
+                        setSelectedEmojis,
+                        setDayEmoji,
+                        // getRecentEmojis,
                     }) => {
     if (!visible) return null;
 
     const closeEmojiModal = () => {
         onClose(false);
+    };
+
+    const getRecentEmojis = () => {
+        const recentEmojis = localStorage.getItem('recentEmojis');
+        return recentEmojis ? JSON.parse(recentEmojis) : [];
+    };
+
+    const onClickEmojiSelect = (e) => {
+        const emojiButtonId = e.target.id;
+
+        if (emojiButtonId === "recently_used") {
+            const recentEmojis = getRecentEmojis();
+            setSelectedEmojis(recentEmojis);
+        } else {
+            const emojiList = emojiDate.find(item => item.id === emojiButtonId)?.emojis || [];
+            setSelectedEmojis(emojiList);
+        }
+    };
+
+    const saveRecentEmoji = (emoji) => {
+        let recentEmojis = getRecentEmojis();
+        recentEmojis = recentEmojis.filter(e => e !== emoji);
+        recentEmojis.unshift(emoji);
+        if (recentEmojis.length > 18) {
+            recentEmojis.pop();
+        }
+        localStorage.setItem('recentEmojis', JSON.stringify(recentEmojis));
+    };
+
+    const onClickDayEmoji = (e) => {
+        const emojiIndex = e.target.id;
+        const selectedEmoji = selectedEmojis[emojiIndex];
+
+        setDayEmoji(selectedEmoji);
+        closeEmojiModal();
+
+        saveRecentEmoji(selectedEmoji);
     };
 
     return (
