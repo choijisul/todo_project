@@ -1,4 +1,4 @@
-import {useState, useRef, useEffect} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import * as PropTypes from "prop-types";
 import '../styles/Todo.css';
 import InventoryModal from './InventoryModal.jsx';
@@ -6,7 +6,7 @@ import MemoModal from "./MemoModal.jsx";
 // 이미지
 import memoIcon from '../assets/memo_icon.png';
 
-const ToDoItem = ({todoItem, todoList, setTodoList}) => {
+const TodoItem = ({todoItem, onTodoItemChanged, onTodoItemDeleted}) => {
     const [inventoryModalVisible, setInventoryModalVisible] = useState(false);
     const [memoModalVisible, setMemoModalVisible] = useState(false);
 
@@ -22,19 +22,23 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
         }
     }, [edited]);
 
+    const setTodoItem = (newItem) => {
+        // 함수로 줘서 에러 -> 배열로 바꿈. (로직 바꿈)
+        const newTodoItem = newItem(todoItem)
+        onTodoItemChanged(newTodoItem);
+    }
+
     // 체크박스 상태
     const onChangeCheckbox = () => {
-        const nextTodoList = todoList.map((item) => ({
-            ...item,
-            checked: item.id === todoItem.id ? !item.checked : item.checked,
-        }));
-        setTodoList(nextTodoList);
+        setTodoItem(prevItem => ({
+            ...prevItem,
+            checked: !prevItem.checked,
+        }))
     };
 
     // list 삭제
     const onClickDeleteButton = () => {
-        const nextTodoList = todoList.filter((item) => item.id !== todoItem.id);
-        setTodoList(nextTodoList);
+        onTodoItemDeleted(todoItem.id);
         setInventoryModalVisible(false);
     };
 
@@ -51,17 +55,12 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
     }
 
     const memoInput = () => {
-        setTodoItem();
+        setTodoItem(prevItem => ({
+            ...prevItem,
+            memo: memo,
+        }))
         setMemoModalVisible(false);
     };
-
-    const setTodoItem = () => {
-        const nextTodoList = todoList.map((item) => ({
-            ...item,
-            memo: item.id === todoItem.id ? memo : item.memo,
-        }));
-        setTodoList(nextTodoList);
-    }
 
     // 메모 입력 상태
     const onChangeMemoInput = (e) => {
@@ -70,22 +69,20 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
 
     // 메모 삭제
     const onChangeMemoDelete = () => {
-        const nextTodoList = todoList.map((item) => ({
-            ...item,
-            memo: item.id === todoItem.id ? '' : item.memo,
-        }));
-        setTodoList(nextTodoList);
+        setTodoItem( prevItem => ({
+            ...prevItem,
+            memo: '',
+        }))
         setMemo('');
         setMemoModalVisible(false);
     }
 
     // 제목 수정 완료
     const onClickSubmitButton = () => {
-        const nextTodoList = todoList.map((item) => ({
-            ...item,
-            text: item.id === todoItem.id ? newText : item.text,
-        }));
-        setTodoList(nextTodoList);
+        setTodoItem(prevItem => ({
+            ...prevItem,
+            text: newText,
+        }))
         setEdited(false); //수정 모드 해제
     };
 
@@ -174,22 +171,26 @@ const ToDoItem = ({todoItem, todoList, setTodoList}) => {
     );
 };
 
-ToDoItem.propTypes = {
+TodoItem.propTypes = {
     todoItem: PropTypes.shape({
         id: PropTypes.number,
         text: PropTypes.string.isRequired,
         checked: PropTypes.bool.isRequired,
         memo: PropTypes.string,
     }),
-    todoList: PropTypes.arrayOf(
-        PropTypes.shape({
-            id: PropTypes.number.isRequired,
-            text: PropTypes.string.isRequired,
-            checked: PropTypes.bool.isRequired,
-            memo: PropTypes.string,
-        })
-    ),
-    setTodoList: PropTypes.func.isRequired,
+    onTodoItemChanged: PropTypes.func.isRequired,
+    onTodoItemDeleted: PropTypes.func.isRequired,
 };
 
-export default ToDoItem;
+const areEqual = (prevProps, nextProps) => {
+    return (
+        prevProps.todoItem.id === nextProps.todoItem.id &&
+        prevProps.todoItem.checked === nextProps.todoItem.checked &&
+        prevProps.todoItem.text === nextProps.todoItem.text &&
+        prevProps.todoItem.memo === nextProps.todoItem.memo &&
+        prevProps.todoList === nextProps.todoList
+    );
+};
+
+export default React.memo(TodoItem, areEqual);
+// export default TodoItem;

@@ -1,6 +1,7 @@
 import {} from 'react';
 import PropTypes from 'prop-types';
 import ToDoItem from './ToDoItem';
+import todo from "./Todo.jsx";
 
 const ToDoItemList = ({todoList, dateString, setTodoList, checkedList}) => {
     return (
@@ -18,8 +19,18 @@ const ToDoItemList = ({todoList, dateString, setTodoList, checkedList}) => {
                         <ToDoItem
                             key={todoItem.id}
                             todoItem={todoItem}
-                            todoList={todoList}
-                            setTodoList={setTodoList}
+                            onTodoItemChanged={(newTodoItem) => {
+                                console.log(".", newTodoItem);
+                                const newTodoList = todoList.map((i) => {
+                                    return i.id === newTodoItem.id ? newTodoItem : i;
+                                });
+                                setTodoList(newTodoList);
+                            }}
+                            onTodoItemDeleted={(deletedId) => {
+                                console.log("!", deletedId);
+                                const newTodoList = todoList.filter((item) => item.id !== deletedId);
+                                setTodoList(newTodoList);
+                            }}
                         />
                     )
                 })}
