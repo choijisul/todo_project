@@ -2,8 +2,6 @@ import React from 'react';
 import '../styles/Diary.css';
 import recentlyUsedIcon from '../assets/recently_used_icon.png';
 
-// EmojiModal.js
-
 const EmojiModal = ({
                         visible,
                         onClose,

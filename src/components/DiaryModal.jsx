@@ -3,8 +3,6 @@ import '../styles/Diary.css';
 import imgUploadIcon from '../assets/input_img_icon.png';
 import diaryIcon from '../assets/diary_icon.png';
 
-// DiaryModal.js
-
 const DiaryModal = ({
                         visible,
                         onClose,
