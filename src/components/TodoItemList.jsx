@@ -1,13 +1,11 @@
 import {useCallback} from 'react';
 import PropTypes from 'prop-types';
 import ToDoItem from './ToDoItem';
-import {format} from "date-fns";
 
 const ToDoItemList = ({todoList, dateString, setTodoList, checkedList}) => {
     const onTodoItemChanged = useCallback((newTodoItem) => {
         setTodoList(prev => {
             const newTodoList = prev.map((i) =>
-                // i.id === newTodoItem.id ? newTodoItem : i
                 i.id === newTodoItem.id && i.day === newTodoItem.day ? newTodoItem : i
             );
             return newTodoList;
@@ -16,7 +14,6 @@ const ToDoItemList = ({todoList, dateString, setTodoList, checkedList}) => {
 
     const onTodoItemDeleted = useCallback((deletedId, deletedDay) => {
         setTodoList(prev => {
-            // const newTodoList = prev.filter((item) => item.id !== deletedId);
             const newTodoList = prev.filter((item) => item.id !== deletedId || item.day !== deletedDay);
             return newTodoList
         });

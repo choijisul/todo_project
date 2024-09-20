@@ -41,10 +41,6 @@ const RawTodoItem = ({todoItem, onTodoItemChanged, onTodoItemDeleted}) => {
                 checked: newCheckedState,
             }
         })
-        // setTodoItem(prevItem => ({
-        //     ...prevItem,
-        //     checked: !prevItem.checked,
-        // }))
     };
 
     // list 삭제
@@ -194,13 +190,6 @@ RawTodoItem.propTypes = {
     onTodoItemChanged: PropTypes.func.isRequired,
     onTodoItemDeleted: PropTypes.func.isRequired,
 };
-
-// const TodoItem = React.memo(RawTodoItem, (prevProps, nextProps) => {
-//     return prevProps.todoItem.checked === nextProps.todoItem.checked &&
-//         prevProps.todoItem.text === nextProps.todoItem.text &&
-//         prevProps.todoItem.memo === nextProps.todoItem.memo;
-// })
-// export default TodoItem;
 
 const TodoItem = React.memo(RawTodoItem);
 export default  TodoItem;
