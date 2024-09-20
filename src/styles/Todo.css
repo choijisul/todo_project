@@ -1,0 +1,212 @@
+.hompage_container{
+    width: 430px;
+}
+
+/*todo input(추가) 관련*/
+.todoapp_inputbox{
+    margin-left: 40px;
+}
+
+.todoapp_inputbox-add-btn{
+    margin-left: 0px;
+    width: 140px;
+    padding: 8px 0;
+    border: none;
+    border-radius: 15px;
+    font-weight: bold;
+}
+
+.todoapp__item_input{
+    margin-top: 10px;
+}
+
+.todoListinventory-input{
+    position: absolute;
+    margin-top: 15px;
+    margin-left: 330px;
+    border: none;
+    background-color: transparent;
+}
+
+.detail_change_input{
+    /*position: absolute;*/
+    padding-bottom: 3px;
+    margin-left: 5px;
+    width: 350px;
+    border: none;
+    border-bottom: 1px solid black;
+    font-size: 1rem;
+    outline: none;
+}
+
+.todoapp_inputbox-input{
+    position: absolute;
+    margin-top: 10px;
+    padding-bottom: 10px;
+    width: 320px;
+    border: none;
+    border-bottom: 1px solid black;
+    font-size: 1rem;
+}
+
+.todoapp_inputbox-input:focus{
+    border: none;
+    outline: none;
+    border-bottom: 1px solid black;
+}
+
+/*list 관련*/
+
+.todoapp__item{
+    list-style : none;
+    display: flex;
+    margin: 10px 0;
+    /*align-items: center;*/
+}
+
+.todoapp__item-checkbox{
+    /*기본 스타일 x*/
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    border: none;
+    background-image: url("../assets/calendar_todo.png");
+    cursor: pointer;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.todoapp__item-checkbox:checked {
+    background-image: url("../assets/todo_list_check.png");
+}
+
+.todoapp__item-ctx{
+    margin-top: 5px;
+    width: 350px;
+    font-size: 1.3rem;
+}
+
+.todoListinventory{
+    border: none;
+    background-color: transparent;
+}
+
+.check_memo{
+    font-size: 0.9rem;
+}
+
+.memo_icon{
+    margin: 8px 5px -4px 0;
+    width: 17px;
+}
+
+/*수정, 삭제, 추가 모달 관련*/
+.modal {   /*배경*/
+    z-index: 4;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 1000px;
+    height: 100%;
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {   /*content*/
+    z-index: 5;
+    position: absolute;
+    top: 400px;
+    left: 270px;
+    font-size: 1.2rem;
+    width: 400px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.modal-content-head{
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.modal_close_button{
+    margin-left: 360px;
+    position: absolute;
+}
+
+.todoapp__item-edit-btn,
+.todoapp__item-delete-btn{
+    width: 48%;
+    height: 70px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.2rem;
+}
+
+.todoapp__item-edit-btn{
+    margin-right: 3px;
+}
+
+.todoapp__item-delete-btn{
+    margin-left: 3px;
+}
+.modal-memo{
+    padding: 20px 5px;
+}
+
+.todoapp__item-memo-btn{
+    width: 100%;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    border: none;
+    background-color: transparent;
+    font-size: 1.1rem;
+}
+
+.memo_info{
+    height: 120px;
+    background-color: #FFFCE4;
+    border: 1px solid #cdcdcd;
+    border-radius: 10px;
+    font-size: 1rem;
+    padding: 15px;
+    display: flex;
+    overflow: auto;
+}
+
+.memo_info::-webkit-scrollbar{  /*스크롤 숨김*/
+    display: none;
+}
+
+/*메모 모달 관련*/
+.modal_memo_delete_button,
+.modal_close_button{
+    border: none;
+    background-color: transparent;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.modal_memo_delete_button{
+    margin-right: 360px;
+    position: absolute;
+}
+
+.todoapp__item-memo-textarea{
+    width: 91.5%;
+    height: 120px;
+    background-color: #FFFCE4;
+    border: 1px solid #cdcdcd;
+    border-radius: 10px;
+    font-size: 1rem;
+    padding: 15px;
+    display: flex;
+}
+

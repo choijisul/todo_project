@@ -1,0 +1,107 @@
+/*calendar*/
+.calendar{
+    width: 470px;
+    height: 450px;
+    background-color: #ffffff;
+}
+
+/*header*/
+.header.row{
+    display: flex;
+    margin-bottom: 15px;
+}
+
+/*년 월*/
+.text{
+    font-weight: bold;
+}
+
+.text.year{
+    margin: 0 10px 0 0;
+}
+
+.todo_head_icon,
+.diary_head_icon{
+    margin-right: 3px;
+    margin-left: 5px;
+    width: 20px;
+    height: 20px;
+    /*margin-top: -2px;*/
+    background-color: transparent;
+}
+
+.month_finish_todo,
+.month_write_diary{
+    margin-left: 10px;
+    display: flex;
+}
+
+/*체크 관련*/
+.todo_check_icon,
+.diary_check_icon{
+    width: 85%;
+}
+
+/*넘어가는 버튼*/
+.button.next_month{
+    display: flex;
+    justify-content: space-between;
+    margin-left: 220px;
+    width: 50px;
+}
+
+/*day*/
+.col{
+    display: inline-block;
+    padding: 10px 15px 0 0;
+    width: 50px;
+    text-align: center;
+    font-size: 0.85rem;
+}
+
+.finishTodoListNum{
+    margin-left: 10px;
+    width: 30px;
+    height: 30px;
+}
+
+.day{
+    margin-top: 10px;
+}
+
+.day.selected{  /*위 아래가 서로 margin 이 달라지는 현상...*/
+    color: white;
+    margin: 0px 12px;
+    padding: 3px 0;
+    border-radius: 20px;
+    background-color: black;
+}
+
+.day.valid{
+    padding-bottom: 3px;
+}
+
+.finishTodoListNum{
+    margin-bottom: 7px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.calendar_todo_icon{
+    position: absolute;
+    z-index: 1;
+}
+
+.calendar_check_icon{
+    position: relative;
+    z-index: 2;
+}
+
+.unchecked_todo_num{
+    color: white;
+    font-size: 0.9rem;
+    font-weight: bold;
+    z-index: 3;
+}
+
