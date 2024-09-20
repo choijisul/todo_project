@@ -7,7 +7,7 @@ import {useState} from "react";
 
 function App() {
     const [selectedDate, setSelectedDate] = useState(undefined);  //undefined 에러 발생..
-    console.log(selectedDate);
+    // console.log(selectedDate);
     let todoMapJson = window.localStorage.getItem("todoMap");
     const [todoMap, setTodoMap] = useState(JSON.parse(todoMapJson));
 

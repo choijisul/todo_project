@@ -31,10 +31,20 @@ const RawTodoItem = ({todoItem, onTodoItemChanged, onTodoItemDeleted}) => {
 
     // 체크박스 상태
     const onChangeCheckbox = () => {
-        setTodoItem(prevItem => ({
-            ...prevItem,
-            checked: !prevItem.checked,
-        }))
+        const newCheckedState = !todoItem.checked;
+        setTodoItem(prevItem => {
+            if(prevItem.checked === newCheckedState){
+                return prevItem;
+            }
+            return {
+                ...prevItem,
+                checked: newCheckedState,
+            }
+        })
+        // setTodoItem(prevItem => ({
+        //     ...prevItem,
+        //     checked: !prevItem.checked,
+        // }))
     };
 
     // list 삭제
@@ -185,19 +195,12 @@ RawTodoItem.propTypes = {
     onTodoItemDeleted: PropTypes.func.isRequired,
 };
 
-function todoItemPropsAreEqual(prevProps, nextProps) {
-    const prevTodoItem = prevProps.todoItem;
-    const nextTodoItem = nextProps.todoItem;
-    // console.log(prevTodoItem, " ============= ", nextTodoItem, "=========");
-    let b = prevTodoItem.id === nextTodoItem.id &&
-        prevTodoItem.day === nextTodoItem.day &&
-        prevTodoItem.text === nextTodoItem.text &&
-        prevTodoItem.memo === nextTodoItem.memo &&
-        prevTodoItem.checked === nextTodoItem.checked &&
-        prevTodoItem.deleted === nextTodoItem.deleted;
-    // console.log(prevTodoItem, " ============= ", nextTodoItem, "=========", b);
-    return b;  //b로 하면 에러
-}
+// const TodoItem = React.memo(RawTodoItem, (prevProps, nextProps) => {
+//     return prevProps.todoItem.checked === nextProps.todoItem.checked &&
+//         prevProps.todoItem.text === nextProps.todoItem.text &&
+//         prevProps.todoItem.memo === nextProps.todoItem.memo;
+// })
+// export default TodoItem;
 
-const TodoItem = React.memo(RawTodoItem, todoItemPropsAreEqual);
-export default TodoItem;
+const TodoItem = React.memo(RawTodoItem);
+export default  TodoItem;

@@ -1,43 +1,48 @@
 import {useCallback} from 'react';
 import PropTypes from 'prop-types';
 import ToDoItem from './ToDoItem';
+import {format} from "date-fns";
 
 const ToDoItemList = ({todoList, dateString, setTodoList, checkedList}) => {
     const onTodoItemChanged = useCallback((newTodoItem) => {
-        // console.log(".................", newTodoItem);
-        const newTodoList = todoList.map((i) => {
-            return i.id === newTodoItem.id ? newTodoItem : i;
+        setTodoList(prev => {
+            const newTodoList = prev.map((i) =>
+                // i.id === newTodoItem.id ? newTodoItem : i
+                i.id === newTodoItem.id && i.day === newTodoItem.day ? newTodoItem : i
+            );
+            return newTodoList;
         });
-        // console.log("@@@@@@@@@@@@",todoList);
-        setTodoList(newTodoList);
-    }, [todoList, setTodoList]);
+    }, [dateString]);
 
-    const onTodoItemDeleted = useCallback((deletedId) => {
-        // console.log("!", deletedId);
-        const newTodoList = todoList.filter((item) => item.id !== deletedId);
-        setTodoList(newTodoList);
-    }, [todoList, setTodoList]);
+    const onTodoItemDeleted = useCallback((deletedId, deletedDay) => {
+        setTodoList(prev => {
+            // const newTodoList = prev.filter((item) => item.id !== deletedId);
+            const newTodoList = prev.filter((item) => item.id !== deletedId || item.day !== deletedDay);
+            return newTodoList
+        });
+    }, [dateString]);
+
 
     return (
         <div className="todoapp__list">
             <ul className="todoapp__list-ul">
                 {todoList &&
-                    todoList.map((todoItem, idx) => {
+                    todoList.map((todoItem) => {
                         if (todoItem.deleted) return null;
 
                         if (checkedList !== todoItem.checked) return null;
 
                         if(dateString !== todoItem.day) return <></>;  //같은 날짜가 아니면 안보이게
 
-                    return (
-                        <ToDoItem
-                            key={idx}
-                            todoItem={todoItem}
-                            onTodoItemChanged={onTodoItemChanged}
-                            onTodoItemDeleted={onTodoItemDeleted}
-                        />
-                    )
-                })}
+                        return (
+                            <ToDoItem
+                                key={todoItem.id}
+                                todoItem={todoItem}
+                                onTodoItemChanged={onTodoItemChanged}
+                                onTodoItemDeleted={onTodoItemDeleted}
+                            />
+                        )
+                    })}
             </ul>
         </div>
     )

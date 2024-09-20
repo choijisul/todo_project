@@ -21,26 +21,26 @@ const Todo = ({selectedDate, todoMap, setTodoMap}) => {
     }
 
     const onAddClick = (inputData) => {
-        const nextTodoList = todoList.concat({
-            id: todoList.length,
-            day: dateString,
-            text: inputData.text,
-            memo: '',
-            checked: false,
-            deleted: false,
+        setTodoList(prevItems => {
+            const nextTodoList = prevItems.concat({
+                id: todoList.length,
+                day: dateString,
+                text: inputData.text,
+                memo: '',
+                checked: false,
+                deleted: false,
+            });
+            return nextTodoList;
         });
-        setTodoList(nextTodoList);
     };
 
-    //TodoItem에서 수정한거 관련 에러 여기서.
-    //이 부분 console보면 배열이 아니라서 에러 발생. 예외처리 하면 그냥 빈배열 찍힘.
-    const setTodoList = (nextTodoList) => {
-        console.log("nextTodoList", nextTodoList);
-        setTodoMap((prev) => {
-            const newMap = {...prev};
+    const setTodoList = (mapper) => {
+        setTodoMap((prevItems) => {
+            const newMap = {...prevItems};
+            let nextTodoList = mapper(newMap[dateString] || []);
             newMap[dateString] = nextTodoList;
             return newMap;
-        });
+        })
     }
 
     useEffect(() => {
